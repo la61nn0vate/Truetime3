@@ -1,0 +1,227 @@
+﻿<!DOCTYPE>
+<html>
+<head>
+<title>Truetime DashBoard</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="google-signin-client_id" content="26822065412-fjdo8q0kutrh2c443l3fmlr4fikcp50b.apps.googleusercontent.com">
+    
+  
+    <!-- Tell the browser to be responsive to screen width 
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+        name="viewport">
+    <!-- Bootstrap 3.3.6 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="dist/css/angular-flash.min.css" />
+     <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+  <script src='plugins/nProgress/nprogress.js'></script>
+	<link rel='stylesheet' href='plugins/nProgress/nprogress.css'/>
+    <script src="plugins/angular/angular.js" type="text/javascript"></script>
+    <script src="https://code.angularjs.org/1.5.8/angular-route.min.js" type="text/javascript"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+	<script src="dist/js/angular-flash.min.js"></script>
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+   <script type="text/javascript">
+   function onSignIn(googleUser) {
+		  var profile = googleUser.getBasicProfile();
+		  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+		  console.log('Name: ' + profile.getName());
+		  console.log('Image URL: ' + profile.getImageUrl());
+		  console.log('Email: ' + profile.getEmail());
+		  var x=document.getElementsByClassName("admin_name");  // Find the elements
+		    for(var i = 0; i < x.length; i++){
+		    x[i].innerText=profile.getName();    // Change the content
+		    }
+		  var pic=document.getElementById("pic");
+		  var profile_pic=document.getElementById("profile_pic");
+          pic.src=profile.getImageUrl();
+          profile_pic.src=profile.getImageUrl();
+		}
+   
+   function signOut() {
+		var auth2 = gapi.auth2.getAuthInstance();
+		auth2.signOut().then(function () {
+			$("#signout").removeClass("show");
+			$("#signin").removeClass("hide");
+			$("#register_error_exist").removeClass("show");
+			$("#registered_success").removeClass("show");
+			$("#start_trial_go").remove();
+		});
+	}
+   
+   window.onload = function() {
+	
+	gapi.client.accountsApi.get().execute(function(response){
+		var email=response.email;
+		var status=response.status;
+		if (email != null)
+			{
+			$("#signout").addClass("show");
+			$("#signin").addClass("hide");
+			}
+		else if (email == null)
+		{
+		$("#signout").removeClass("show");
+		$("#signin").removeClass("hide");
+		}
+	});
+}
+	  
+
+       // This is called initially
+       function init() {
+           var apiName = 'accountsApi';
+           var apiVersion = 'v1';
+           var apiRoot = 'https://faceattendence.appspot.com/_ah/api';
+
+           //           if (window.location.hostname == 'localhost'
+           //          || window.location.hostname == '127.0.0.1'
+           //          || ((window.location.port != "") && (window.location.port > 1023))) {
+           //               // We're probably running against the DevAppServer
+           //               apiRoot = 'http://' + window.location.host + '/_ah/api';
+           //               console.log("asdq");
+           //           }
+           gapi.client.load(apiName, apiVersion, function () { console.log("as"); }, apiRoot);
+           gapi.client.load('organisationApi', apiVersion, function () { }, apiRoot);
+           gapi.client.load('employeeApi', apiVersion, function () { }, apiRoot);
+           gapi.client.load('siteApi', apiVersion, function () { }, apiRoot);
+           gapi.client.load('shiftApi', apiVersion, function () { }, apiRoot);
+           gapi.client.load('attendanceApi', apiVersion, function () { }, apiRoot);
+          
+           setTimeout(function(){
+        	   angular.bootstrap(document, ['admin']);
+             },5000);  
+             
+           
+
+       }
+
+</script>
+   
+    
+     <script src="//apis.google.com/js/client:plusone.js?onload=init"></script>
+
+  <!-- Ionicons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.1/less.min.js"></script>
+
+  
+</head>
+<body class="hold-transition skin-blue sidebar-mini" >
+    <header class="main-header">
+        <!--  Logo -->
+        <a href="" class="logo">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini"><b>T.T.</b></span>
+            <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg"><b>Truetime</b></span> </a>
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top">
+            <!-- Sidebar toggle button-->
+            <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"><span class="sr-only">
+                Toggle navigation</span> </a>
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <!-- User Account: style can be found in dropdown.less -->
+                    <li class="dropdown user user-menu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <img id="pic" class="user-image" alt="User Image">
+                        <span class="hidden-xs admin_name" ></span> </a>
+                        <ul class="dropdown-menu">
+                            <!-- User image -->
+                            <li class="user-header">
+                                <img id="profile_pic" class="img-circle" alt="User Image">
+                                <p class="admin_name">
+                                     
+                                </p>
+                                <br>
+                                
+                            </li>
+                            <!-- Menu Footer-->
+                            <li class="user-footer">
+                                <div class="pull-left">
+                                    <a href="#/profile" class="btn btn-default btn-flat">Profile</a>
+                                </div>
+                                <div class="pull-right">
+                                    <a href="../" onClick = "signOut()" class="btn btn-default btn-flat">Sign out</a>
+                                </div>
+                            </li>
+                        </ul>
+
+
+                    </li>
+                    
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <!-- Left side column. contains the logo and sidebar -->
+    <aside class="main-sidebar">
+        
+         <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+          <!-- sidebar menu: : style can be found in sidebar.less -->
+    
+            <ul class="sidebar-menu">
+                <li ><a href="#/" ><i class="fa fa-dashboard">
+                </i><span>Dashboard</span> </a></li>
+                <li><a href="#/attendance_reports" ><i class="fa fa-envelope">
+                </i><span>Attendance Reports</span> </a></li>
+                <li ><a href="#/attendance_details"><i class="fa fa-calendar">
+                </i><span>Attendance Details</span> </a></li>
+               <li ><a href="#/employee_details" ><i class="fa fa-th">
+                </i><span>Employees</span> </a></li>
+                 <li ><a href="#/site_managers"><i class="fa fa-share">
+                </i><span>Site Managers</span> </a></li>
+               <li ><a href="#/sites_details" ><i class="fa fa-edit">
+                </i><span>Sites</span> </a></li>
+                <li ><a href="#/shift_details" ><i class="fa fa-table">
+                </i><span>Shifts</span> </a></li>
+                 <li ><a href="#/organisation_details" ><i class="fa fa-files-o">
+                </i><span>Oranisation Summary</span> </a></li>
+                </ul>
+        </section>
+        
+    </aside>
+    <!--content -->
+    <div class="content-wrapper">
+      <ng-view></ng-view>
+    </div>
+    <!--/Site Managers-->
+    <!--angular-->
+    
+  
+    <!--dashboard controller-->
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.js"></script>
+    
+    <!-- jQuery 2.2.0 -->
+    <script type="text/javascript" src="plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    
+   
+   <!-- Bootstrap 3.3.6 -->
+    <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+    
+    <script type="text/javascript" src="dist/js/app.min.js"></script>
+   
+    
+   <script src="angular_stuffs/app.js" type="text/javascript"></script>
+  <script src="angular_stuffs/Script.js" type="text/javascript"></script>	
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-google-chart/0.1.0/ng-google-chart.js" type="text/javascript"></script>
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
+   <script src="http://bouil.github.io/angular-google-chart/ng-google-chart.js"></script>
+   
+                                      
+<!-- Put the signInButton to invoke the gapi.signin.render to restore the credential if stored in cookie. -->
+<span id="signInButton" style="display: none" disabled="true"></span>
+ <div class="g-signin2" data-onsuccess="onSignIn" disabled="true" hidden></div>
+   
+</body>
+</html>

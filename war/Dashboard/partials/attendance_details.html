@@ -1,0 +1,329 @@
+<!--Attendance Details-->
+        <div  data-ng-controller="attendance_details_controller" data-ng-init="get_attendance()">
+            <div class="container-fluid">
+                <section class="content-header">
+                    <h1>
+                        Attendance Details <small>Biometric Attendance System</small>
+                    </h1>
+                    <ol class="breadcrumb">
+                        <li><a href="#/"><i class="fa fa-dashboard"></i>Home</a></li>
+                        <li class="active">Attendance details</li>
+                    </ol>
+                </section>
+                <br /> 
+                <br>
+                
+                
+                 <div class="container-fluid box">
+                    <div class="panel with-nav-tabs panel">
+                        <div class="panel-heading">
+                            <ul class="nav nav-tabs nav-justified">
+                                <li class="active"><a href="#shift_tab1" data-toggle="tab">Site Wise Attendance</a></li>
+                                 <li><a href="#shift_tab2" data-toggle="tab">Shift Wise Attendance</a></li>
+                               
+                                <li><a href="#shift_tab3" data-toggle="tab">Employee Wise Attendance</a></li>
+                            </ul>
+                        </div>
+                        <div class="panel-body">
+                            <div class="tab-content">
+                                <!--Shifts details-->
+                                 <div class="tab-pane fade in active" id="shift_tab1">
+                                      <div>
+                   <div class="input-group has-feedback has-feedback-left col-md-offset-10">
+                                        <input type="text" class="form-control" placeholder="Type (eg, Name)" data-ng-model="search" />
+                                       <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                                    </div>
+                                    <br>
+                  <table class="table table-hover table-no-more table-responsive table-bordered table-striped" >
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                <a href="" data-ng-click="orderByField='S_no';reverse = !reverse">S.no.</a>
+                                               </th>
+                                                <th>
+                                                    <a href="" data-ng-click="orderByField='site_name';reverse = !reverse"> Site Name</a>
+                                                
+                                                </th>
+                                                <th>
+                                                    <a href="" data-ng-click="orderByField='site_location';reverse = !reverse">Site Location</a>
+                                                
+                                                </th>
+                                                <th>
+                                                     <a href="" data-ng-click="orderByField='no_of_emp';reverse = !reverse">Number Of Employees</a>
+                                               
+                                                </th>
+                                                <th>
+                                                     <a href="" data-ng-click="orderByField='no_of_present_today_emp';reverse = !reverse">Absent Today</a>
+                                               
+                                                </th>
+                                                <th>
+                                                     <a href="" data-ng-click="orderByField='no_of_present_today_emp';reverse = !reverse">Ontime Today</a>
+                                               
+                                                </th>
+                                                <th>
+                                                     <a href="" data-ng-click="orderByField='no_of_present_today_emp';reverse = !reverse">Late Today</a>
+                                               
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody data-ng-repeat="attendance in attendance_details_of_site | filter:search | orderBy:orderByField:reverseSort">
+                                            <tr >
+                                            <td>
+                                                 {{$index+1}}
+                                               </td>
+                                                <td>
+                                                    {{attendance.site_name}}
+                                                </td>
+                                                <td>
+                                                    {{attendance.site_location}}
+                                                </td>
+                                                <td>
+                                                    {{attendance.no_of_emp}}
+                                                </td>
+                                                <td style="color:rgb(234, 111, 105);font-weight: bold;">
+                                                   {{attendance.no_of_absent_today_emp}}
+                                                </td>
+                                                <td style="color:rgb(76, 176, 103);font-weight: bold;">
+                                                   {{attendance.no_of_present_today_emp}}
+                                                </td>
+                                                <td style="color:rgb(153,153,0);font-weight: bold;">
+                                                   {{attendance.no_of_late_today_emp}}
+                                                </td>
+                                                
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                         <ul class="pagination" ng-show="attendance_details_of_site.length > 0">
+				<li ng-class="{disabled: pagination.currentPage == 0 }"><a
+					ng-class="{disabled: pagination.currentPage == 0 }"
+					ng-click="pagination.isDisabled($event) || (pagination.currentPage = 0)">&lt&lt</a>
+				</li>
+				<li ng-class="{disabled: pagination.currentPage == 0 }"><a
+					ng-class="{disabled: pagination.currentPage == 0 }"
+					ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.currentPage - 1)">&lt</a>
+				</li>
+
+				<!-- ng-repeat creates a new scope. Need to specify the pagination.currentPage as $parent.pagination.currentPage -->
+				<li ng-repeat="page in pagination.pageArray()"
+					ng-class="{active: $parent.pagination.currentPage == page}"><a
+					ng-click="$parent.pagination.currentPage = page">{{page + 1}}</a></li>
+
+				<li
+					ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}">
+					<a
+					ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}"
+					ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.currentPage + 1)">&gt</a>
+				</li>
+				<li
+					ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}">
+					<a
+					ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}"
+					ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.numberOfPages() - 1)">&gt&gt</a>
+				</li>
+			</ul>
+                                    
+                 </div>
+               
+		</div>
+                                 <div class="tab-pane fade" id="shift_tab2">
+                                        <div>
+                   <div class="input-group has-feedback has-feedback-left col-md-offset-10">
+                                        <input type="text" class="form-control" placeholder="Type (eg, Name)" data-ng-model="search" />
+                                       <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                                    </div>
+                                    <br>
+                  <table class="table table-hover table-no-more table-responsive table-bordered table-striped" >
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                <a href="" data-ng-click="orderByField='S_no';reverse = !reverse">S.no.</a>
+                                               </th>
+                                                <th>
+                                                    <a href="" data-ng-click="orderByField='site_name';reverse = !reverse"> Shift Name</a>
+                                                
+                                                </th>
+                                                <th>
+                                                    <a href="" data-ng-click="orderByField='site_location';reverse = !reverse">Time From</a>
+                                                
+                                                </th>
+                                                <th>
+                                                    <a href="" data-ng-click="orderByField='site_location';reverse = !reverse">Time To</a>
+                                                
+                                                </th>
+                                                <th>
+                                                     <a href="" data-ng-click="orderByField='no_of_emp';reverse = !reverse">Number Of Employees</a>
+                                               
+                                                </th>
+                                                <th>
+                                                     <a href="" data-ng-click="orderByField='no_of_present_today_emp';reverse = !reverse">Absent Today</a>
+                                               
+                                                </th>
+                                                <th>
+                                                     <a href="" data-ng-click="orderByField='no_of_present_today_emp';reverse = !reverse">Ontime Today</a>
+                                               
+                                                </th>
+                                                <th>
+                                                     <a href="" data-ng-click="orderByField='no_of_present_today_emp';reverse = !reverse">Late Today</a>
+                                               
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody data-ng-repeat="attendance in attendance_details_of_shift | filter:search | orderBy:orderByField:reverseSort">
+                                            <tr >
+                                            <td>
+                                                 {{$index+1}}
+                                               </td>
+                                                <td>
+                                                    {{attendance.name}}
+                                                </td>
+                                                <td>
+                                                    {{attendance.time_from}}
+                                                </td>
+                                                 <td>
+                                                    {{attendance.time_to}}
+                                                </td>
+                                                <td>
+                                                    {{attendance.no_of_emp}}
+                                                </td>
+                                                <td style="color:rgb(234, 111, 105);font-weight: bold;">
+                                                   {{attendance.no_of_absent_today_emp}}
+                                                </td>
+                                                <td style="color:rgb(76, 176, 103);font-weight: bold;">
+                                                   {{attendance.no_of_present_today_emp}}
+                                                </td>
+                                                <td style="color:rgb(153,153,0);font-weight: bold;">
+                                                   {{attendance.no_of_late_today_emp}}
+                                                </td>
+                                                
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                         <ul class="pagination" ng-show="attendance_details_of_shift.length > 0">
+				<li ng-class="{disabled: pagination.currentPage == 0 }"><a
+					ng-class="{disabled: pagination.currentPage == 0 }"
+					ng-click="pagination.isDisabled($event) || (pagination.currentPage = 0)">&lt&lt</a>
+				</li>
+				<li ng-class="{disabled: pagination.currentPage == 0 }"><a
+					ng-class="{disabled: pagination.currentPage == 0 }"
+					ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.currentPage - 1)">&lt</a>
+				</li>
+
+				<!-- ng-repeat creates a new scope. Need to specify the pagination.currentPage as $parent.pagination.currentPage -->
+				<li ng-repeat="page in pagination.pageArray()"
+					ng-class="{active: $parent.pagination.currentPage == page}"><a
+					ng-click="$parent.pagination.currentPage = page">{{page + 1}}</a></li>
+
+				<li
+					ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}">
+					<a
+					ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}"
+					ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.currentPage + 1)">&gt</a>
+				</li>
+				<li
+					ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}">
+					<a
+					ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}"
+					ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.numberOfPages() - 1)">&gt&gt</a>
+				</li>
+			</ul>
+                                    
+                 </div>
+               
+                             
+                               </div>
+                                 <div class="tab-pane fade" id="shift_tab3">
+                                            <div>
+                   <div class="input-group has-feedback has-feedback-left col-md-offset-10">
+                                        <input type="text" class="form-control" placeholder="Type (eg, Name)" data-ng-model="search" />
+                                       <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                                    </div>
+                                    <br>
+                  <table class="table table-hover table-no-more table-responsive table-bordered table-striped" >
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                <a href="" data-ng-click="orderByField='S_no';reverse = !reverse">S.no.</a>
+                                               </th>
+                                                <th>
+                                                <a href="" data-ng-click="orderByField='S_no';reverse = !reverse">Employee Id</a>
+                                               </th>
+                                                <th>
+                                                    <a href="" data-ng-click="orderByField='site_name';reverse = !reverse"> Employee Name</a>
+                                                
+                                                </th>
+                                                <th>
+                                                    <a href="" data-ng-click="orderByField='site_location';reverse = !reverse">Email</a>
+                                                
+                                                </th>
+                                                <th>
+                                                     <a href="" data-ng-click="orderByField='no_of_emp';reverse = !reverse">Attendance</a>
+                                               
+                                                </th>
+                                                
+                                            </tr>
+                                        </thead>
+                                        <tbody data-ng-repeat="attendance in attendance_details_of_emp  | filter:search | orderBy:orderByField:reverseSort">
+                                            <tr >
+                                            <td>
+                                                 {{$index+1}}
+                                               </td>
+                                                <td>
+                                                    {{attendance.employee_id}}
+                                                </td>
+                                                <td>
+                                                    {{attendance.name}}
+                                                </td>
+                                                <td>
+                                                    {{attendance.email}}
+                                                </td>
+                                                <td>
+                                                   {{attendance.attendance_detail}}
+                                                </td>
+                                                
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                         <ul class="pagination" ng-show="attendance_details_of_emp.length > 0">
+				<li ng-class="{disabled: pagination.currentPage == 0 }"><a
+					ng-class="{disabled: pagination.currentPage == 0 }"
+					ng-click="pagination.isDisabled($event) || (pagination.currentPage = 0)">&lt&lt</a>
+				</li>
+				<li ng-class="{disabled: pagination.currentPage == 0 }"><a
+					ng-class="{disabled: pagination.currentPage == 0 }"
+					ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.currentPage - 1)">&lt</a>
+				</li>
+
+				<!-- ng-repeat creates a new scope. Need to specify the pagination.currentPage as $parent.pagination.currentPage -->
+				<li ng-repeat="page in pagination.pageArray()"
+					ng-class="{active: $parent.pagination.currentPage == page}"><a
+					ng-click="$parent.pagination.currentPage = page">{{page + 1}}</a></li>
+
+				<li
+					ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}">
+					<a
+					ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}"
+					ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.currentPage + 1)">&gt</a>
+				</li>
+				<li
+					ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}">
+					<a
+					ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}"
+					ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.numberOfPages() - 1)">&gt&gt</a>
+				</li>
+			</ul>
+                                    
+                 </div>
+               
+                               </div>      
+                               
+                               
+                               
+                                
+                            </div>
+                </div>
+                </div>
+                
+                </div>
+        </div>
+        </div>
+        <!--/Attendance Details-->

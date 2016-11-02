@@ -1,0 +1,145 @@
+      <div  data-ng-controller="dashboard_controller" data-ng-init="get_dash_data()">
+            
+            <div class="container-fluid" >
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
+                    <h1>
+                        Dashboard <small>Biometric Attendance System </small>
+                    </h1>
+                    <ol class="breadcrumb">
+                        <li><a href="#/"><i class="fa fa-dashboard"></i>Home</a></li>
+                        <li class="active">Dashboard</li>
+                    </ol>
+                </section>
+                <br />
+                <div class="row">
+                    <div class="col-lg-3 col-xs-6">
+                        <!-- small box -->
+                        <div class="small-box bg-aqua">
+                            <div class="inner">
+                                {{no_of_sites}}
+                                <p>
+                                    Sites</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-briefcase"></i>
+                            </div>
+                           <a href="#/sites_details" class="small-box-footer">
+              More info <i class="fa fa-arrow-circle-right"></i>
+            </a>
+                        </div>
+                    </div>
+                     <!-- ./col -->
+                    <div class="col-lg-3 col-xs-6">
+                        <!-- small box -->
+                        <div class="small-box bg-red">
+                            <div class="inner">
+                                 {{no_of_shifts}}
+                                <p>
+                                    Shifts
+                                </p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-gear-a"></i>
+                            </div>
+                           <a href="#/shift_details" class="small-box-footer">
+              More info <i class="fa fa-arrow-circle-right"></i>
+            </a>
+                        </div>
+                    </div>
+                  
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-xs-6">
+                        <!-- small box -->
+                        <div class="small-box bg-green">
+                            <div class="inner">
+                                {{no_of_emp}}
+                                <p> Registered Employees</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-stats-bars"></i>
+                            </div>
+                           <a href="#/employee_details" class="small-box-footer">
+              More info <i class="fa fa-arrow-circle-right"></i>
+            </a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-xs-6">
+                        <!-- small box -->
+                        <div class="small-box bg-yellow">
+                            <div class="inner">
+                                {{no_of_present}}
+                                <p>
+                                    Present Today</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-person-add"></i>
+                            </div>
+                            <a href="#/attendance_details" class="small-box-footer">
+              More info <i class="fa fa-arrow-circle-right"></i>
+            </a>
+                        </div>
+                    </div>
+                   
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-lg-6">
+                    </div>
+                    <div class="col-lg-6">
+                    </div>
+                </div>
+                <div class="row">
+                    <!-- /.col -->
+                    <div class="container-fluid col-lg-6">
+                        <div class="box box-info">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">
+                                    Today's Attendance</h3>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                </div>
+                                <!-- /.box-tools -->
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                         <div google-chart chart="chart" style="{{chart.cssStyle}}">
+</div>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                        <!-- /.box -->
+                    </div>
+                    <!-- /.col -->
+                      <div class="container-fluid col-lg-6">
+                        <div class="box box-info">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">
+                                    Yesterday's Attendance</h3>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                </div>
+                                <!-- /.box-tools -->
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <div google-chart chart="y_chart" style="{{y_chart.cssStyle}}">
+</div>
+    
+                      </div>
+                            <!-- /.box-body -->
+                        </div>
+                        <!-- /.box -->
+                    </div>
+                         </div>
+                <!-- /.row -->
+            </div>
+        </div>
+      
+                
+        

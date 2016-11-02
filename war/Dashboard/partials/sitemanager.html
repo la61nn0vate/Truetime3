@@ -1,0 +1,120 @@
+ 
+        <!--Site Managers-->
+        <div data-ng-controller="sitemanager_controller" data-ng-init="get_site_manager_details()">
+             <div class="container-fluid" >
+                <section class="content-header">
+                    <h1>
+                        Site Manager Details <small>Biometric Attendance System</small>
+                    </h1>
+                    <ol class="breadcrumb">
+                        <li><a href="#/"><i class="fa fa-dashboard"></i>Home</a></li>
+                        <li class="active">Site Manager details</li>
+                    </ol>
+                </section>
+                <br />
+                <div class="container-fluid box">
+                    <div class="panel with-nav-tabs panel">
+                        <div class="panel-heading">
+                            <ul class="nav nav-tabs nav-justified">
+                                <li class="active"><a href="#tab1" data-toggle="tab">Site Manager Details</a></li>
+                            </ul>
+                        </div>
+                        <div class="panel-body">
+                            <div class="tab-content">
+                                <!--Site Manager details-->
+                                <div class="tab-pane fade in active" id="tab1">
+                                    <div class="input-group has-feedback has-feedback-left col-md-offset-10">
+                                        <input type="text" class="form-control" placeholder="Type (eg, Name)"  data-ng-model="search_emp"/>
+                                       <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                                    </div>
+                                    <br /> 
+                                    <table class="table table-hover  table-bordered table-striped table-condensed table-no-more">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    <a href="" data-ng-click="orderByField='S_no';reverse = !reverse">S.no.</a>
+                                                </th>
+                                                <th>
+                                                    <a href="" data-ng-click="orderByField='employee_id';reverse = !reverse">Employee ID</a>
+                                                </th>
+                                                <th>
+                                                    <a href="" data-ng-click="orderByField='name';reverse = !reverse">Name</a>
+                                                </th>
+                                                <th>
+                                                    <a href="" data-ng-click="orderByField='gender';reverse = !reverse">Gender</a>
+                                                </th>
+                                                <th>
+                                                    <a href="" data-ng-click="orderByField='designation';reverse = !reverse">Designation</a>
+                                                </th>
+                                                <th>
+                                                    <a href="" data-ng-click="orderByField='mobile_number';reverse = !reverse">Mobile Number
+                                                    </a>
+                                                </th>
+                                                <th>
+                                                    <a href="" data-ng-click="orderByField='email';reverse = !reverse">Email</a>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr data-ng-repeat="emp in employees | filter:search_emp | orderBy:orderByField:reverseSort">
+                                                <td>
+                                                    {{$index+1}}
+                                                </td>
+                                                 <td>
+                                                    {{emp.employee_id}}
+                                                </td>
+                                                <td>
+                                                    {{emp.name}}
+                                                </td>
+                                                <td>
+                                                    {{emp.gender}}
+                                                </td>
+                                                <td>
+                                                    {{emp.designation}}
+                                                </td>
+                                                <td>
+                                                    {{emp.mobile_number}}
+                                                </td>
+                                                <td>
+                                                    {{emp.email}}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                       <ul class="pagination" ng-show="employees.length > 0">
+				<li ng-class="{disabled: pagination.currentPage == 0 }"><a
+					ng-class="{disabled: pagination.currentPage == 0 }"
+					ng-click="pagination.isDisabled($event) || (pagination.currentPage = 0)">&lt&lt</a>
+				</li>
+				<li ng-class="{disabled: pagination.currentPage == 0 }"><a
+					ng-class="{disabled: pagination.currentPage == 0 }"
+					ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.currentPage - 1)">&lt</a>
+				</li>
+
+				<!-- ng-repeat creates a new scope. Need to specify the pagination.currentPage as $parent.pagination.currentPage -->
+				<li ng-repeat="page in pagination.pageArray()"
+					ng-class="{active: $parent.pagination.currentPage == page}"><a
+					ng-click="$parent.pagination.currentPage = page">{{page + 1}}</a></li>
+
+				<li
+					ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}">
+					<a
+					ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}"
+					ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.currentPage + 1)">&gt</a>
+				</li>
+				<li
+					ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}">
+					<a
+					ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}"
+					ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.numberOfPages() - 1)">&gt&gt</a>
+				</li>
+			</ul>
+                                </div>
+                                <!--/Site Manager details-->
+                                                     </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+          
+        </div>
