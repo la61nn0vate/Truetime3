@@ -340,6 +340,7 @@
 													type="email" data-ng-model="u_email" value="{{u_email}}"
 													class="form-control" name="email" required
 													placeholder="Email">
+													<p ng-show="update_employee.email.$invalid && !update_employee.email.$pristine" class="help-block">Enter a valid email</p>
 											</div>
 											<p class="help-block"
 												data-ng-show="update_employee.email.$error.email">Email
@@ -369,13 +370,12 @@
 												</select>
 											</div>
 											<label for="u_ManageSite">Managing Site</label>
-											<div style="margin-bottom: 25px" class="input-group"
-												data-ng-class="{'has-error':update_employee.u_ManageSite.$invalid && !update_employee.u_ManageSite.$pristine}">
+											<div style="margin-bottom: 25px" class="input-group">
 												<span class="input-group-addon"><i
 													class="glyphicon glyphicon-gift"></i></span> <select
-													id="u_ManageSite" data-ng-model="u_ManageSite"
-													class="form-control" required name="u_ManageSite"
-													data-ng-options="site for site in u_ManageSite track by site">
+													id="u_ManageSite" data-ng-model="u_ManageSite_All"
+													class="form-control" name="u_ManageSite"
+													data-ng-options="site for site in u_ManageSite track by site" data-ng-disabled="checkDisabled()">												
 												</select>
 											</div>
 											<label for="all_site">Select Site</label>

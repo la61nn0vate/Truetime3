@@ -49,26 +49,7 @@
 			$("#registered_success").removeClass("show");
 			$("#start_trial_go").remove();
 		});
-	}
-   
-   window.onload = function() {
-	
-	gapi.client.accountsApi.get().execute(function(response){
-		var email=response.email;
-		var status=response.status;
-		if (email != null)
-			{
-			$("#signout").addClass("show");
-			$("#signin").addClass("hide");
-			}
-		else if (email == null)
-		{
-		$("#signout").removeClass("show");
-		$("#signin").removeClass("hide");
-		}
-	});
-}
-	  
+	} 
 
        // This is called initially
        function init() {

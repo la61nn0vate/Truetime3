@@ -590,6 +590,7 @@ app.controller("employee_controller",['$scope','$timeout', function ($scope,$tim
 									get_managingsite[i]=(response.items[i].site_name);
 								}
 								$scope.u_ManageSite=get_managingsite;
+								$('#u_ManageSite').attr("required", "true");
 							}
 						});
 					});	
@@ -598,8 +599,22 @@ app.controller("employee_controller",['$scope','$timeout', function ($scope,$tim
 		}
 		else if ($scope.u_SiteManager == "false")
 		{
-			$scope.u_ManageSite={};
+			$scope.u_ManageSite={ };
+			$('#u_ManageSite').removeAttr("required");
 		}
+	};
+
+
+	$scope.checkDisabled = function () {
+		if ($scope.u_SiteManager != null)
+		{
+			if (($scope.u_SiteManager).toString() == "false") {
+				return true;
+			}
+			else if (($scope.u_SiteManager).toString() == "true") {
+				return false;
+			}
+		}	
 	};
 
 	$scope.get_shift = function () {
@@ -749,14 +764,17 @@ app.controller("employee_controller",['$scope','$timeout', function ($scope,$tim
 			console.log(emp);
 			$scope.u_SiteManager=(emp.siteManager).toString();
 			if(emp.siteManager)
-			{			
-				$scope.u_ManageSite=emp.managingSite;
+			{	
 				$scope.get_managingsite();
+				$scope.u_ManageSite_All=emp.managingSite;
+				$('#u_ManageSite').attr("required", "true");
 			}			
 			else
 			{
-				$scope.u_ManageSite={};
+				$scope.u_ManageSite={ };			
+				$('#u_ManageSite').removeAttr("required");
 			}
+			$scope.checkDisabled();
 
 			emp_key=emp.websafeKey;
 
@@ -778,18 +796,18 @@ app.controller("employee_controller",['$scope','$timeout', function ($scope,$tim
 				$scope.$apply(function () {
 					if (!response.error) 
 					{
-               	       $scope.update_emp_success = true;
-               	       $scope.update_emp_error = false;
-                       $scope.get_emp_details(); 
-                       $scope.show_manage=false;
-                       $timeout(function () {
+						$scope.update_emp_success = true;
+						$scope.update_emp_error = false;
+						$scope.get_emp_details(); 
+						$scope.show_manage=false;
+						$timeout(function () {
 							$scope.update_emp_success = false;
 						}, 5000);
-	                } 
+					} 
 					else 
 					{
-					   $scope.update_emp_error = true;	
-					   $timeout(function () {
+						$scope.update_emp_error = true;	
+						$timeout(function () {
 							$scope.update_emp_error = false;
 						}, 5000);
 					}
@@ -799,27 +817,38 @@ app.controller("employee_controller",['$scope','$timeout', function ($scope,$tim
 
 		else if (($scope.u_SiteManager).toString() == "true")
 		{
-			gapi.client.employeeApi.update({'emp_key':emp_key,'employee_id':$scope.u_employee_id, 'name': $scope.u_name, 'designation': $scope.u_designation, 'gender': $scope.u_gender, 'mobile_number': $scope.u_mobile_number, 'email': $scope.u_email, 'address': $scope.u_address, 'siteManager': $scope.u_SiteManager, 'managingSite': $scope.u_ManageSite, 'shiftName': $scope.all_shift_of_site, 'siteName': $scope.all_site_of_org}).execute(function (response) {
-				$scope.$apply(function () {
-					if (!response.error) 
-					{
-               	       $scope.update_emp_success = true;
-               	       $scope.update_emp_error = false;
-                       $scope.get_emp_details(); 
-                       $scope.show_manage=false;
-                       $timeout(function () {
-							$scope.update_emp_success = false;
-						}, 5000);
-	                } 
-					else 
-					{
-					   $scope.update_emp_error = true;	
-					   $timeout(function () {
+			if ($scope.u_ManageSite_All != null)
+			{
+					gapi.client.employeeApi.update({'emp_key':emp_key,'employee_id':$scope.u_employee_id, 'name': $scope.u_name, 'designation': $scope.u_designation, 'gender': $scope.u_gender, 'mobile_number': $scope.u_mobile_number, 'email': $scope.u_email, 'address': $scope.u_address, 'siteManager': $scope.u_SiteManager, 'managingSite': $scope.u_ManageSite_All, 'shiftName': $scope.all_shift_of_site, 'siteName': $scope.all_site_of_org}).execute(function (response) {
+					$scope.$apply(function () {
+						if (!response.error) 
+						{
+							$scope.update_emp_success = true;
 							$scope.update_emp_error = false;
-						}, 5000);
-					}
+							$scope.get_emp_details(); 
+							$scope.show_manage=false;
+							$timeout(function () {
+								$scope.update_emp_success = false;
+							}, 5000);
+						} 
+						else 
+						{
+							$scope.update_emp_error = true;	
+							$timeout(function () {
+								$scope.update_emp_error = false;
+							}, 5000);
+						}
+					});
 				});
-			});
+			}
+			else if ($scope.u_ManageSite_All == null)
+			{
+				$scope.update_emp_error = true;	
+				$timeout(function () {
+					$scope.update_emp_error = false;
+				}, 5000);
+			}
+			
 		}
 
 	};
