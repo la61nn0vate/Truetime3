@@ -4943,4 +4943,8 @@ only screen and (max-width: 760px),
 		white-space: nowrap;
 	}
 	
+	.ion-ios-location:before{
+	font-size: 70px;
+	}
+	
  

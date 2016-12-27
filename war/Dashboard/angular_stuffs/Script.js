@@ -48,17 +48,17 @@ app.controller("dashboard_controller",['$scope', function ($scope) {
 
 	$scope.get_dash_data=function(){
 
-		gapi.client.organisationApi.getAdminOrganisation().execute(function (response) {
+		gapi.client.organisationApi.getAdminOrganisation({'token': sessionStorage.accessToken}).execute(function (response) {
 			$scope.$apply(function () {
 				var org_key = response.websafeKey;
 
-				gapi.client.organisationApi.getAllSites({ 'org_key': org_key }).execute(function (response) {
+				gapi.client.organisationApi.getAllSites({ 'token': sessionStorage.accessToken, 'org_key': org_key }).execute(function (response) {
 					$scope.$apply(function () {
 						$scope.no_of_sites=response.items.length;
 						if(response.items!=null)
 							for(var i=0;i<response.items.length;i++){ 
 								get_yesterday_attendance(response.items[i].websafeKey);
-								gapi.client.shiftApi.getShiftBySite({'site_key':response.items[i].websafeKey}).execute(function(resp){
+								gapi.client.shiftApi.getShiftBySite({'token': sessionStorage.accessToken, 'site_key':response.items[i].websafeKey}).execute(function(resp){
 									$scope.$apply(function () {
 										no_of_shift=no_of_shift+resp.items.length;
 										$scope.no_of_shifts=no_of_shift;
@@ -79,7 +79,7 @@ app.controller("dashboard_controller",['$scope', function ($scope) {
 										if(resp.items!=null)
 											for(var j=0;j<resp.items.length;j++)
 											{
-												gapi.client.attendanceApi.getAttendanceByShift({'shift_key':resp.items[j].websafeKey,'date':today}).execute(function(res){
+												gapi.client.attendanceApi.getAttendanceByShift({'token': sessionStorage.accessToken, 'shift_key':resp.items[j].websafeKey,'date':today}).execute(function(res){
 													$scope.$apply(function () {
 														if(!res.error)
 														{  
@@ -119,16 +119,11 @@ app.controller("dashboard_controller",['$scope', function ($scope) {
 		});
 
 
-
-
-
-
-
-		gapi.client.organisationApi.getAdminOrganisation().execute(function (response) {
+		gapi.client.organisationApi.getAdminOrganisation({'token': sessionStorage.accessToken}).execute(function (response) {
 			$scope.$apply(function () {
 				var org_key = response.websafeKey;
 
-				gapi.client.employeeApi.employeelist({'org_key':org_key}).execute(function(resp){
+				gapi.client.employeeApi.employeelist({'token': sessionStorage.accessToken, 'org_key':org_key}).execute(function(resp){
 					$scope.$apply(function () {
 						if(!resp.error)
 						{
@@ -151,7 +146,7 @@ app.controller("dashboard_controller",['$scope', function ($scope) {
 
 	var get_yesterday_attendance=function(key){
 
-		gapi.client.shiftApi.getShiftBySite({'site_key':key}).execute(function(resp){
+		gapi.client.shiftApi.getShiftBySite({'token': sessionStorage.accessToken, 'site_key':key}).execute(function(resp){
 			$scope.$apply(function () {
 
 				var today = new Date();
@@ -169,7 +164,7 @@ app.controller("dashboard_controller",['$scope', function ($scope) {
 				today = yyyy+'-'+mm+'-'+dd;
 				for(var j=0;j<resp.items.length;j++)
 				{
-					gapi.client.attendanceApi.getAttendanceByShift({'shift_key':resp.items[j].websafeKey,'date':today}).execute(function(res){
+					gapi.client.attendanceApi.getAttendanceByShift({'token': sessionStorage.accessToken, 'shift_key':resp.items[j].websafeKey,'date':today}).execute(function(res){
 						$scope.$apply(function () {
 							if(!res.error)
 							{  
@@ -330,14 +325,14 @@ app.controller("organisation_controller",['$parse','$scope', function ($parse,$s
 
 		$scope.update_org=true;
 
-		gapi.client.organisationApi.getAdminOrganisation().execute(function(response){
+		gapi.client.organisationApi.getAdminOrganisation({'token': sessionStorage.accessToken}).execute(function(response){
 			$scope.$apply(function () {
 				if(!response.error)
 				{
 					var org_key=response.websafeKey;
 
 
-					gapi.client.organisationApi.getAllSites({'org_key':org_key}).execute(function(response){
+					gapi.client.organisationApi.getAllSites({'token': sessionStorage.accessToken, 'org_key':org_key}).execute(function(response){
 						$scope.$apply(function () {
 							var data=[];
 							if(!response.error)
@@ -355,7 +350,7 @@ app.controller("organisation_controller",['$parse','$scope', function ($parse,$s
 		});
 
 
-		gapi.client.organisationApi.getAdminOrganisation().execute(function (response) {
+		gapi.client.organisationApi.getAdminOrganisation({'token': sessionStorage.accessToken}).execute(function (response) {
 			$scope.$apply(function () {
 				if (!response.error) {
 					$scope.org_name = response.name;
@@ -377,12 +372,12 @@ app.controller("organisation_controller",['$parse','$scope', function ($parse,$s
 
 	$scope.update_org_details=function(){
 
-		gapi.client.organisationApi.getAdminOrganisation().execute(function (response) {
+		gapi.client.organisationApi.getAdminOrganisation({'token': sessionStorage.accessToken}).execute(function (response) {
 			if(!response.error)
 			{  
 				var number_sites=response.numberOfSites;
 				var org_key=response.websafeKey;
-				gapi.client.organisationApi.update({'org_key':org_key,'name':$scope.org_name,'location':$scope.location,'numberOfSites':$scope.numberOfsites}).execute(function(response){
+				gapi.client.organisationApi.update({'token': sessionStorage.accessToken, 'org_key':org_key,'name':$scope.org_name,'location':$scope.location,'numberOfSites':$scope.numberOfsites}).execute(function(response){
 					$scope.$apply(function () {
 						if (!response.error) {
 
@@ -426,13 +421,13 @@ app.controller("organisation_controller",['$parse','$scope', function ($parse,$s
 	$scope.addsite=function(){
 
 		if($scope.left_site>0){
-			gapi.client.organisationApi.getAdminOrganisation().execute(function (response) { //getting org_key from getAdminOrganisation() method of organisationApi
+			gapi.client.organisationApi.getAdminOrganisation({'token': sessionStorage.accessToken}).execute(function (response) { //getting org_key from getAdminOrganisation() method of organisationApi
 				var org_key = response.websafeKey;
 				var num_of_site = response.numberOfSites;
 
 				$scope.$apply(function () {
 					if (!response.error) {  //Adding Site to the datastore
-						gapi.client.siteApi.insert({ 'org_key': org_key, 'site_name': $scope.site_name, 'managerEmail': $scope.managerEmail, 'number_of_shifts': $scope.number_of_shifts, 'site_location': $scope.site_location, 'address': $scope.address, 'cityOrTown': $scope.cityOrTown }).execute(function (resp) {
+						gapi.client.siteApi.insert({ 'token': sessionStorage.accessToken, 'org_key': org_key, 'site_name': $scope.site_name, 'managerEmail': $scope.managerEmail, 'number_of_shifts': $scope.number_of_shifts, 'site_location': $scope.site_location, 'address': $scope.address, 'cityOrTown': $scope.cityOrTown }).execute(function (resp) {
 							$scope.$apply(function () {
 								if (!resp.error) {
 									$scope.left_site=$scope.left_site-1;
@@ -457,7 +452,7 @@ app.controller("organisation_controller",['$parse','$scope', function ($parse,$s
 
 										console.log(time_t);
 
-										gapi.client.shiftApi.insert({ 'site_key': site_key, 'name': shift_name, 'time_from': time_f, 'time_to': time_t }).execute(function (res) {
+										gapi.client.shiftApi.insert({'token': sessionStorage.accessToken, 'site_key': site_key, 'name': shift_name, 'time_from': time_f, 'time_to': time_t }).execute(function (res) {
 											$scope.$apply(function () {
 												if(!res.error)
 												{
@@ -510,7 +505,7 @@ app.controller("organisation_controller",['$parse','$scope', function ($parse,$s
 	$scope.del_site=function(index,key){
 
 
-		gapi.client.siteApi.remove({'site_key':key}).execute(function(resp){
+		gapi.client.siteApi.remove({'token': sessionStorage.accessToken, 'site_key':key}).execute(function(resp){
 			$scope.$apply(function () {
 				if(!resp.error)
 				{
@@ -535,11 +530,11 @@ app.controller("employee_controller",['$scope','$timeout', function ($scope,$tim
 
 	$scope.get_emp_details = function () {
 		$scope.show_manage=true;
-		gapi.client.organisationApi.getAdminOrganisation().execute(function (response) {
+		gapi.client.organisationApi.getAdminOrganisation({'token': sessionStorage.accessToken}).execute(function (response) {
 			$scope.$apply(function () {
 				org_key = response.websafeKey;
 
-				gapi.client.organisationApi.getAllSites({ 'org_key': org_key }).execute(function (response) {
+				gapi.client.organisationApi.getAllSites({'token': sessionStorage.accessToken, 'org_key': org_key }).execute(function (response) {
 					$scope.$apply(function () {
 						data=response.items;
 						var get_site=[];
@@ -554,11 +549,11 @@ app.controller("employee_controller",['$scope','$timeout', function ($scope,$tim
 			});
 		});
 
-		gapi.client.organisationApi.getAdminOrganisation().execute(function (response) {
+		gapi.client.organisationApi.getAdminOrganisation({'token': sessionStorage.accessToken}).execute(function (response) {
 			$scope.$apply(function () {
 				var orgkey = response.websafeKey;
 
-				gapi.client.employeeApi.employeelist({'org_key':orgkey}).execute(function (response) {
+				gapi.client.employeeApi.employeelist({'token': sessionStorage.accessToken, 'org_key':orgkey}).execute(function (response) {
 					$scope.$apply(function () {
 						if (!response.error) {
 							if(response.items!=null)
@@ -577,11 +572,11 @@ app.controller("employee_controller",['$scope','$timeout', function ($scope,$tim
 
 		if ($scope.u_SiteManager == "true")
 		{
-			gapi.client.organisationApi.getAdminOrganisation().execute(function (response) {
+			gapi.client.organisationApi.getAdminOrganisation({'token': sessionStorage.accessToken}).execute(function (response) {
 				$scope.$apply(function () {
 					var orgkey = response.websafeKey;
 
-					gapi.client.organisationApi.getAllSites({ 'org_key': orgkey}).execute(function (response){
+					gapi.client.organisationApi.getAllSites({'token': sessionStorage.accessToken, 'org_key': orgkey}).execute(function (response){
 						$scope.$apply(function () {
 							data=response.items;
 							var get_managingsite=[];
@@ -629,7 +624,7 @@ app.controller("employee_controller",['$scope','$timeout', function ($scope,$tim
 			}
 
 		}
-		gapi.client.shiftApi.getShiftBySite({ 'site_key': site_websafekey}).execute(function (response) {
+		gapi.client.shiftApi.getShiftBySite({'token': sessionStorage.accessToken, 'site_key': site_websafekey}).execute(function (response) {
 			$scope.$apply(function () {
 				var get_shift=[];
 
@@ -681,7 +676,7 @@ app.controller("employee_controller",['$scope','$timeout', function ($scope,$tim
 	$scope.addemployee = function () {
 
 
-		gapi.client.shiftApi.getShiftBySite({ 'site_key': site_websafekey}).execute(function (response) {
+		gapi.client.shiftApi.getShiftBySite({'token': sessionStorage.accessToken, 'site_key': site_websafekey}).execute(function (response) {
 			var i=0;
 			var shift_websafekey="";
 			var key;
@@ -694,15 +689,12 @@ app.controller("employee_controller",['$scope','$timeout', function ($scope,$tim
 				}
 
 			}
-			gapi.client.employeeApi.insertEmployeeDemographic({'shift_ws_key':shift_websafekey,'employee_id':$scope.employee_id,  'name': $scope.name, 'designation': $scope.designation, 'gender': $scope.gender, 'mobile_number': $scope.mobile_number, 'email': $scope.email, 'address': $scope.address, 'siteManager': $scope.siteManager }).execute(function (response) {
+			gapi.client.employeeApi.insertEmployeeDemographic({'token': sessionStorage.accessToken, 'shift_ws_key':shift_websafekey,'employee_id':$scope.employee_id,  'name': $scope.name, 'designation': $scope.designation, 'gender': $scope.gender, 'mobile_number': $scope.mobile_number, 'email': $scope.email, 'address': $scope.address, 'siteManager': $scope.siteManager }).execute(function (response) {
 				$scope.$apply(function () {
 					if (!response.error) {
+						$scope.add_emp_error = false;
+						$scope.add_emp_success = true;						
 
-						$scope.add_emp_success = "true";
-						$timeout(function () {
-							$scope.add_emp_success = "false";
-						}, 5000);
-						$scope.get_emp_details();
 						$scope.employee_id=" ";
 						$scope.name=" ";
 						$scope.designation=" ";
@@ -714,30 +706,49 @@ app.controller("employee_controller",['$scope','$timeout', function ($scope,$tim
 						$scope.all_site_of_org="Select Site";
 						$scope.all_shift_of_site="Select Shift";
 						$scope.get_emp_details(); 
-					} else {
-						$scope.add_emp_error = "true";
+						$scope.add_employee.$invalid=true;
+
+						$scope.get_emp_details();
 						$timeout(function () {
-							$scope.add_emp_error = "false";
+							$scope.add_emp_success = false;
+						}, 5000);
+					} else {
+						$scope.add_emp_success = false;
+						$scope.add_emp_error = true;
+						$timeout(function () {
+							$scope.add_emp_error = false;
 						}, 5000);
 					}
 				});
 			});
 		});
-
-
-
-
-
 	};
 
 	$scope.del_emp=function(index,key){
+		swal({
+			  title: "Are you sure?",
+			  text: "You will not be able to recover!",
+			  type: "warning",
+			  showCancelButton: true,
+			  confirmButtonColor: "#DD6B55",
+			  confirmButtonText: "Yes, delete it!",
+			  closeOnConfirm: false
+			},
+			function(){
+				$scope.del_employee(index,key);
+				swal("Deleted!", "Employee data has been deleted.", "success");
+			});
+	}
 
-
-		gapi.client.employeeApi.remove({'emp_key':key}).execute(function(resp){
+	$scope.del_employee=function(index,key){
+		gapi.client.employeeApi.remove({'token': sessionStorage.accessToken, 'emp_key':key}).execute(function(resp){
 			$scope.$apply(function () {
 				if(!resp.error)
 				{
-					$scope.del_success="true";
+					$scope.del_success=true;
+					$timeout(function () {
+						$scope.del_success = false;
+					}, 5000);
 					$scope.employees.splice(index,1);
 				}
 			});
@@ -792,24 +803,28 @@ app.controller("employee_controller",['$scope','$timeout', function ($scope,$tim
 
 		if (($scope.u_SiteManager).toString() == "false")
 		{
-			gapi.client.employeeApi.update({'emp_key':emp_key,'employee_id':$scope.u_employee_id, 'name': $scope.u_name, 'designation': $scope.u_designation, 'gender': $scope.u_gender, 'mobile_number': $scope.u_mobile_number, 'email': $scope.u_email, 'address': $scope.u_address, 'siteManager': $scope.u_SiteManager, 'shiftName': $scope.all_shift_of_site, 'siteName': $scope.all_site_of_org}).execute(function (response) {
+			gapi.client.employeeApi.update({'token': sessionStorage.accessToken, 'emp_key':emp_key,'employee_id':$scope.u_employee_id, 'name': $scope.u_name, 'designation': $scope.u_designation, 'gender': $scope.u_gender, 'mobile_number': $scope.u_mobile_number, 'email': $scope.u_email, 'address': $scope.u_address, 'siteManager': $scope.u_SiteManager, 'shiftName': $scope.all_shift_of_site, 'siteName': $scope.all_site_of_org}).execute(function (response) {
 				$scope.$apply(function () {
 					if (!response.error) 
 					{
-						$scope.update_emp_success = true;
-						$scope.update_emp_error = false;
 						$scope.get_emp_details(); 
 						$scope.show_manage=false;
-						$timeout(function () {
-							$scope.update_emp_success = false;
-						}, 5000);
+						
+						swal({
+							  title: "Employee Updated Successfully",
+							  type: "success",
+							  timer: 3000,
+							  showConfirmButton: false
+							});
 					} 
 					else 
 					{
-						$scope.update_emp_error = true;	
-						$timeout(function () {
-							$scope.update_emp_error = false;
-						}, 5000);
+						swal({
+							  title: "Employee Not Updated",
+							  type: "error",
+							  timer: 3000,
+							  showConfirmButton: false
+							});
 					}
 				});
 			});
@@ -819,36 +834,41 @@ app.controller("employee_controller",['$scope','$timeout', function ($scope,$tim
 		{
 			if ($scope.u_ManageSite_All != null)
 			{
-					gapi.client.employeeApi.update({'emp_key':emp_key,'employee_id':$scope.u_employee_id, 'name': $scope.u_name, 'designation': $scope.u_designation, 'gender': $scope.u_gender, 'mobile_number': $scope.u_mobile_number, 'email': $scope.u_email, 'address': $scope.u_address, 'siteManager': $scope.u_SiteManager, 'managingSite': $scope.u_ManageSite_All, 'shiftName': $scope.all_shift_of_site, 'siteName': $scope.all_site_of_org}).execute(function (response) {
+				gapi.client.employeeApi.update({'token': sessionStorage.accessToken, 'emp_key':emp_key,'employee_id':$scope.u_employee_id, 'name': $scope.u_name, 'designation': $scope.u_designation, 'gender': $scope.u_gender, 'mobile_number': $scope.u_mobile_number, 'email': $scope.u_email, 'address': $scope.u_address, 'siteManager': $scope.u_SiteManager, 'managingSite': $scope.u_ManageSite_All, 'shiftName': $scope.all_shift_of_site, 'siteName': $scope.all_site_of_org}).execute(function (response) {
 					$scope.$apply(function () {
 						if (!response.error) 
 						{
-							$scope.update_emp_success = true;
-							$scope.update_emp_error = false;
 							$scope.get_emp_details(); 
-							$scope.show_manage=false;
-							$timeout(function () {
-								$scope.update_emp_success = false;
-							}, 5000);
+							scope.show_manage=false;
+							swal({
+								  title: "Employee Updated Successfully",
+								  type: "success",
+								  timer: 3000,
+								  showConfirmButton: false
+								});
 						} 
 						else 
 						{
-							$scope.update_emp_error = true;	
-							$timeout(function () {
-								$scope.update_emp_error = false;
-							}, 5000);
+							swal({
+								  title: "Employee Not Updated",
+								  type: "error",
+								  timer: 3000,
+								  showConfirmButton: false
+								});
 						}
 					});
 				});
 			}
 			else if ($scope.u_ManageSite_All == null)
 			{
-				$scope.update_emp_error = true;	
-				$timeout(function () {
-					$scope.update_emp_error = false;
-				}, 5000);
+				swal({
+					  title: "Employee Not Updated",
+					  type: "error",
+					  timer: 3000,
+					  showConfirmButton: false
+					});
 			}
-			
+
 		}
 
 	};
@@ -863,14 +883,14 @@ app.controller("site_controller",['$scope','$timeout', function ($scope,$timeout
 
 		$scope.show_manage=true;
 		$scope.show_sites=true;
-		gapi.client.organisationApi.getAdminOrganisation().execute(function(response){
+		gapi.client.organisationApi.getAdminOrganisation({'token': sessionStorage.accessToken}).execute(function(response){
 			$scope.$apply(function () {
 				if(!response.error)
 				{
 					var org_key=response.websafeKey;
 
 
-					gapi.client.organisationApi.getAllSites({'org_key':org_key}).execute(function(response){
+					gapi.client.organisationApi.getAllSites({'token': sessionStorage.accessToken, 'org_key':org_key}).execute(function(response){
 						$scope.$apply(function () {
 							var data=[];
 							if(!response.error)
@@ -891,12 +911,12 @@ app.controller("site_controller",['$scope','$timeout', function ($scope,$timeout
 
 	$scope.update_org_details=function(){
 
-		gapi.client.organisationApi.getAdminOrganisation().execute(function (response) {
+		gapi.client.organisationApi.getAdminOrganisation({'token': sessionStorage.accessToken}).execute(function (response) {
 			if(!response.error)
 			{  
 				var number_sites=response.numberOfSites-1;
 				var org_key=response.websafeKey;
-				gapi.client.organisationApi.update({'org_key':org_key,'name':response.org_name,'location':response.location,'numberOfSites':number_sites}).execute(function(response){
+				gapi.client.organisationApi.update({'token': sessionStorage.accessToken, 'org_key':org_key,'name':response.org_name,'location':response.location,'numberOfSites':number_sites}).execute(function(response){
 					$scope.$apply(function () {
 						if (!response.error) {
 
@@ -918,7 +938,7 @@ app.controller("site_controller",['$scope','$timeout', function ($scope,$timeout
 		$scope.show_emp_of_site=true;
 
 
-		gapi.client.employeeApi.employeelist({'site_key':site.websafeKey}).execute(function (response) {
+		gapi.client.employeeApi.employeelist({'token': sessionStorage.accessToken, 'site_key':site.websafeKey}).execute(function (response) {
 			$scope.$apply(function () {
 				if (!response.error) {
 					if(response.items!=null)
@@ -937,7 +957,7 @@ app.controller("site_controller",['$scope','$timeout', function ($scope,$timeout
 
 
 	$scope.del_site=function(index,key){
-		gapi.client.siteApi.remove({'site_key':key}).execute(function(resp){
+		gapi.client.siteApi.remove({'token': sessionStorage.accessToken, 'site_key':key}).execute(function(resp){
 			$scope.$apply(function () {
 				if(!resp.error)
 				{
@@ -971,13 +991,13 @@ app.controller("site_controller",['$scope','$timeout', function ($scope,$timeout
 	}
 
 	$scope.addsite=function(){
-		gapi.client.organisationApi.getAdminOrganisation().execute(function (response) { //getting org_key from getAdminOrganisation() method of organisationApi
+		gapi.client.organisationApi.getAdminOrganisation({'token': sessionStorage.accessToken}).execute(function (response) { //getting org_key from getAdminOrganisation() method of organisationApi
 			var org_key = response.websafeKey;
 			var num_of_site = response.numberOfSites;
 
 			$scope.$apply(function () {
 				if (!response.error) {  //Adding Site to the datastore
-					gapi.client.siteApi.insert({ 'org_key': org_key, 'site_name': $scope.site_name, 'managerEmail': $scope.managerEmail, 'number_of_shifts': $scope.number_of_shifts, 'site_location': $scope.site_location, 'address': $scope.address, 'cityOrTown': $scope.cityOrTown }).execute(function (resp) {
+					gapi.client.siteApi.insert({'token': sessionStorage.accessToken, 'org_key': org_key, 'site_name': $scope.site_name, 'managerEmail': $scope.managerEmail, 'number_of_shifts': $scope.number_of_shifts, 'site_location': $scope.site_location, 'address': $scope.address, 'cityOrTown': $scope.cityOrTown }).execute(function (resp) {
 						$scope.$apply(function () {
 							if (!resp.error) {
 								$scope.left_site=$scope.left_site-1;
@@ -1002,7 +1022,7 @@ app.controller("site_controller",['$scope','$timeout', function ($scope,$timeout
 
 									console.log(time_t);
 
-									gapi.client.shiftApi.insert({ 'site_key': site_key, 'name': shift_name, 'time_from': time_f, 'time_to': time_t }).execute(function (res) {
+									gapi.client.shiftApi.insert({'token': sessionStorage.accessToken, 'site_key': site_key, 'name': shift_name, 'time_from': time_f, 'time_to': time_t }).execute(function (res) {
 										$scope.$apply(function () {
 											if(!res.error)
 											{
@@ -1066,7 +1086,7 @@ app.controller("site_controller",['$scope','$timeout', function ($scope,$timeout
 
 	$scope.updatesite=function(){
 
-		gapi.client.siteApi.update({'site_key':site_key, 'site_location':$scope.u_site_location,'site_name':$scope.u_site_name,'number_of_shifts':$scope.u_number_of_shifts,'cityorTown':$scope.u_cityorTown,'address':$scope.u_address,'managerEmail':$scope.u_managerEmail}).execute(function(resp){
+		gapi.client.siteApi.update({'token': sessionStorage.accessToken, 'site_key':site_key, 'site_location':$scope.u_site_location,'site_name':$scope.u_site_name,'number_of_shifts':$scope.u_number_of_shifts,'cityorTown':$scope.u_cityorTown,'address':$scope.u_address,'managerEmail':$scope.u_managerEmail}).execute(function(resp){
 			$scope.$apply(function () {
 				if(resp.error)
 				{
@@ -1130,9 +1150,9 @@ app.controller("shift_controller",['$scope','$timeout', function ($scope,$timeou
 	$scope.get_shift_data=function(){
 		$scope.show_manage=true;
 		$scope.show_shift=true;
-		gapi.client.organisationApi.getAdminOrganisation().execute(function (response) {
+		gapi.client.organisationApi.getAdminOrganisation({'token': sessionStorage.accessToken}).execute(function (response) {
 			var org_key = response.websafeKey;
-			gapi.client.organisationApi.getAllSites({ 'org_key': org_key }).execute(function (response) {
+			gapi.client.organisationApi.getAllSites({'token': sessionStorage.accessToken, 'org_key': org_key }).execute(function (response) {
 
 				if(!response.error)
 				{
@@ -1144,7 +1164,7 @@ app.controller("shift_controller",['$scope','$timeout', function ($scope,$timeou
 					for(var i=0;i<k;i++)
 					{  
 						data[i]=response.items[i];
-						gapi.client.shiftApi.getShiftBySite({'site_key':data[i].websafeKey}).execute(function(resp){
+						gapi.client.shiftApi.getShiftBySite({'token': sessionStorage.accessToken, 'site_key':data[i].websafeKey}).execute(function(resp){
 							$scope.$apply(function () {
 								if(!resp.error)
 								{  if(resp.items!=null)
@@ -1170,11 +1190,11 @@ app.controller("shift_controller",['$scope','$timeout', function ($scope,$timeou
 		});
 
 
-		gapi.client.organisationApi.getAdminOrganisation().execute(function (response) {
+		gapi.client.organisationApi.getAdminOrganisation({'token': sessionStorage.accessToken}).execute(function (response) {
 			$scope.$apply(function () {
 				var org_key = response.websafeKey;
 
-				gapi.client.organisationApi.getAllSites({ 'org_key': org_key }).execute(function (response) {
+				gapi.client.organisationApi.getAllSites({'token': sessionStorage.accessToken, 'org_key': org_key }).execute(function (response) {
 					$scope.$apply(function () {
 						site_data=response.items;
 						var get_site=[];
@@ -1217,7 +1237,7 @@ app.controller("shift_controller",['$scope','$timeout', function ($scope,$timeou
 		var  time_ts = hours_f + ":" + minutes_f;
 
 
-		gapi.client.shiftApi.insert({'site_key':site_websafekey,'name':$scope.shift_name,'time_from':time_fs,'time_to':time_ts}).execute(function(resp){
+		gapi.client.shiftApi.insert({'token': sessionStorage.accessToken, 'site_key':site_websafekey,'name':$scope.shift_name,'time_from':time_fs,'time_to':time_ts}).execute(function(resp){
 			$scope.$apply(function () {
 				if(resp.error)
 				{
@@ -1280,7 +1300,7 @@ app.controller("shift_controller",['$scope','$timeout', function ($scope,$timeou
 		var minutes_f = date_f.getMinutes() < 10 ? "0" + date_f.getMinutes() : date_f.getMinutes();
 		var  time_ts = hours_f + ":" + minutes_f;
 
-		gapi.client.shiftApi.update({'shift_key':shift_key,'name':$scope.u_shift_name,'time_from':time_fs,'time_to':time_ts}).execute(function(resp){
+		gapi.client.shiftApi.update({'token': sessionStorage.accessToken, 'shift_key':shift_key,'name':$scope.u_shift_name,'time_from':time_fs,'time_to':time_ts}).execute(function(resp){
 			$scope.$apply(function () {
 				if(resp.error)
 				{
@@ -1310,7 +1330,7 @@ app.controller("shift_controller",['$scope','$timeout', function ($scope,$timeou
 		$scope.show_emp_of_shift=true;
 
 
-		gapi.client.employeeApi.employeelist({'shift_key':shift.websafeKey}).execute(function (response) {
+		gapi.client.employeeApi.employeelist({'token': sessionStorage.accessToken, 'shift_key':shift.websafeKey}).execute(function (response) {
 			$scope.$apply(function () {
 				if (!response.error) {
 					if(response.items!=null)
@@ -1329,7 +1349,7 @@ app.controller("shift_controller",['$scope','$timeout', function ($scope,$timeou
 
 	$scope.delete_shift=function(index,key){
 
-		gapi.client.shiftApi.remove({'shift_key':key}).execute(function(resp){
+		gapi.client.shiftApi.remove({'token': sessionStorage.accessToken, 'shift_key':key}).execute(function(resp){
 			$scope.$apply(function () {
 				if(!resp.error)
 				{
@@ -1384,11 +1404,11 @@ app.controller("attendance_details_controller", function ($scope) {
 	var emp=[];
 	$scope.get_attendance=function(){
 
-		gapi.client.organisationApi.getAdminOrganisation().execute(function (response) {
+		gapi.client.organisationApi.getAdminOrganisation({'token': sessionStorage.accessToken}).execute(function (response) {
 			$scope.$apply(function () {
 				var orgkey = response.websafeKey;
 
-				gapi.client.organisationApi.getAllSites({ 'org_key': orgkey }).execute(function (resp) {
+				gapi.client.organisationApi.getAllSites({'token': sessionStorage.accessToken, 'org_key': orgkey }).execute(function (resp) {
 					$scope.$apply(function () {
 						if (!resp.error) {
 
@@ -1406,26 +1426,23 @@ app.controller("attendance_details_controller", function ($scope) {
 		});	
 
 
-		gapi.client.organisationApi.getAdminOrganisation().execute(function (response) {
+		gapi.client.organisationApi.getAdminOrganisation({'token': sessionStorage.accessToken}).execute(function (response) {
 			var org_key = response.websafeKey;
-			gapi.client.organisationApi.getAllSites({ 'org_key': org_key }).execute(function (response) {
+			gapi.client.organisationApi.getAllSites({'token': sessionStorage.accessToken, 'org_key': org_key }).execute(function (response) {
 
 				if(!response.error)
 				{
-
-
 					var k=response.items.length;
 					var o=0;
 					if(response.items!=null)
+					{	
 						for(var i=0;i<k;i++)
 						{  
 							data[i]=response.items[i];
 							get_site_attendance_details(data[i].websafeKey,data[i],data);
 							get_shift_details(data[i].websafeKey);
-
 						}
-
-
+					}
 				}
 			});
 		});
@@ -1447,7 +1464,7 @@ app.controller("attendance_details_controller", function ($scope) {
 		} 
 		today = yyyy+'-'+mm+'-'+dd;
 
-		gapi.client.attendanceApi.getAttendanceBySite({'site_key':key,'date':today}).execute(function(resp){
+		gapi.client.attendanceApi.getAttendanceBySite({'token': sessionStorage.accessToken, 'site_key':key,'date':today}).execute(function(resp){
 			$scope.$apply(function () {
 				if(!resp.error)
 				{     
@@ -1511,7 +1528,7 @@ app.controller("attendance_details_controller", function ($scope) {
 		var present=0,no_of_emp=0,absent=0,late=0;
 		today = yyyy+'-'+mm+'-'+dd;
 
-		gapi.client.attendanceApi.getAttendanceBySite({'site_key':key,'date':today}).execute(function(resp){
+		gapi.client.attendanceApi.getAttendanceBySite({'token': sessionStorage.accessToken, 'site_key':key,'date':today}).execute(function(resp){
 			$scope.$apply(function () {
 				if(!resp.error)
 				{     for(var h=0;h<resp.items.length;h++)
@@ -1559,7 +1576,7 @@ app.controller("attendance_details_controller", function ($scope) {
 	function get_shift_details(key){
 
 
-		gapi.client.shiftApi.getShiftBySite({ 'site_key': key}).execute(function (response) {
+		gapi.client.shiftApi.getShiftBySite({'token': sessionStorage.accessToken, 'site_key': key}).execute(function (response) {
 			$scope.$apply(function () {
 
 
@@ -1597,7 +1614,7 @@ app.controller("attendance_details_controller", function ($scope) {
 		today = yyyy+'-'+mm+'-'+dd;
 
 
-		gapi.client.attendanceApi.getAttendanceByShift({'shift_key':key,'date':today}).execute(function(resp){
+		gapi.client.attendanceApi.getAttendanceByShift({'token': sessionStorage.accessToken, 'shift_key':key,'date':today}).execute(function(resp){
 			$scope.$apply(function () {
 				if(!resp.error)
 				{    	  if(resp.absent!=null)
@@ -1674,11 +1691,11 @@ app.controller("attendance_report_controller", function ($scope) {
 
 	$scope.get_report_data=function(){
 
-		gapi.client.organisationApi.getAdminOrganisation().execute(function (response) {
+		gapi.client.organisationApi.getAdminOrganisation({'token': sessionStorage.accessToken}).execute(function (response) {
 			$scope.$apply(function () {
 				var org_key = response.websafeKey;
 
-				gapi.client.organisationApi.getAllSites({ 'org_key': org_key }).execute(function (response) {
+				gapi.client.organisationApi.getAllSites({'token': sessionStorage.accessToken, 'org_key': org_key }).execute(function (response) {
 					$scope.$apply(function () {
 						data=response.items;
 						var get_site=[];
@@ -1742,14 +1759,14 @@ app.controller("attendance_report_controller", function ($scope) {
 		var y_no_of_absent_emp=0,y_no_of_ontime_emp=0,y_no_of_late_emp=0;
 
 		console.log(key);
-		gapi.client.shiftApi.getShiftBySite({'site_key': key}).execute(function (response) {
+		gapi.client.shiftApi.getShiftBySite({'token': sessionStorage.accessToken, 'site_key': key}).execute(function (response) {
 			$scope.$apply(function () {
 
 				if (!response.error) {
 					for(var i=0;i<response.items.length;i++){
 						var shift_key=response.items[i].websafeKey;
 						console.log(response.items[i]);
-						gapi.client.attendanceApi.getAttendanceByShift({'shift_key':shift_key,'From_date':from_date,'To_date':to_date}).execute(function(resp){
+						gapi.client.attendanceApi.getAttendanceByShift({'token': sessionStorage.accessToken, 'shift_key':shift_key,'From_date':from_date,'To_date':to_date}).execute(function(resp){
 							$scope.$apply(function () {
 								if(!resp.error)
 
@@ -1931,14 +1948,14 @@ app.controller("attendance_report_controller", function ($scope) {
 		var y_no_of_absent_emp_d=0,y_no_of_ontime_emp_d=0,y_no_of_late_emp_d=0;
 
 		console.log(key);
-		gapi.client.shiftApi.getShiftBySite({'site_key': key}).execute(function (response) {
+		gapi.client.shiftApi.getShiftBySite({'token': sessionStorage.accessToken, 'site_key': key}).execute(function (response) {
 			$scope.$apply(function () {
 
 				if (!response.error) {
 					for(var i=0;i<response.items.length;i++){
 						var shift_key=response.items[i].websafeKey;
 						console.log(response.items[i]);
-						gapi.client.attendanceApi.getAttendanceByShift({'shift_key':shift_key,'date':date}).execute(function(resp){
+						gapi.client.attendanceApi.getAttendanceByShift({'token': sessionStorage.accessToken, 'shift_key':shift_key,'date':date}).execute(function(resp){
 							$scope.$apply(function () {
 								if(!resp.error)
 
@@ -2097,11 +2114,11 @@ app.controller("sitemanager_controller", function ($scope) {
 	NProgress.start();
 
 	$scope.get_site_manager_details=function(){
-		gapi.client.organisationApi.getAdminOrganisation().execute(function (response) {
+		gapi.client.organisationApi.getAdminOrganisation({'token': sessionStorage.accessToken}).execute(function (response) {
 			$scope.$apply(function () {
 				var orgkey = response.websafeKey;
 				var site_manager=[],j=0;
-				gapi.client.employeeApi.employeelist({'org_key':orgkey}).execute(function (response) {
+				gapi.client.employeeApi.employeelist({'token': sessionStorage.accessToken, 'org_key':orgkey}).execute(function (response) {
 					$scope.$apply(function () {
 						if (!response.error) {
 							if(response.items!=null)
@@ -2157,11 +2174,3 @@ app.controller("sitemanager_controller", function ($scope) {
 	NProgress.done();
 
 });
-
-
-
-
-
-
-
-

@@ -115,136 +115,133 @@
 						<!--Add Employee details-->
 						<div class="tab-pane fade" id="tab2">
 							<div class="container-fluid">
-								<div class="container-fluid">
-									<div class="alert alert-success" data-ng-show="add_emp_success">
-
-										<strong>Success!</strong>
-										<p>Employee is Added Successfully.</p>
-									</div>
-									<div class="alert alert-danger" data-ng-show="add_emp_error">
-
-										<strong>Failed!</strong>
-										<p>Employee is Not Added</p>
-									</div>
+								<div id="success-alert" class="alert alert-success"
+									data-ng-show="add_emp_success">
+									<strong>Success!</strong>
+									<p>Employee is Added Successfully.</p>
 								</div>
-								<br />
-								<div class="panel panel-info">
-									<div style="padding-top: 30px" class="panel-body">
-										<form id="add_employee" name="add_employee"
-											class="form-horizontal" role="form">
-											<label for="employee_id">Employee Id</label>
-											<div style="margin-bottom: 25px" class="input-group"
-												data-ng-class="{'has-error':add_employee.employee_id.$invalid && !add_employee.employee_id.$pristine}">
-												<span class="input-group-addon"><i
-													class="glyphicon glyphicon-user"></i></span> <input
-													id="employee_id" type="text" data-ng-model="employee_id"
-													class="form-control" name="employee_id" required
-													placeholder="Employee ID">
-											</div>
-											<label for="name">Employee Full Name</label>
-											<div style="margin-bottom: 25px" class="input-group"
-												data-ng-class="{'has-error':add_employee.name.$invalid && !add_employee.name.$pristine}">
-												<span class="input-group-addon"><i
-													class="glyphicon glyphicon-user"></i></span> <input id="name"
-													type="text" data-ng-model="name" class="form-control"
-													name="name" required placeholder="Full Name">
-											</div>
-											<label for="gender">Gender</label>
-											<div style="margin-bottom: 25px" class="input-group"
-												data-ng-class="{'has-error':add_employee.gender.$invalid && !add_employee.gender.$pristine}">
-												<span class="input-group-addon"><i
-													class="glyphicon glyphicon-gift"></i></span> <select id="gender"
-													data-ng-model="gender" class="form-control" required
-													name="gender">
+								<div id="fail-alert" class="alert alert-danger"
+									data-ng-show="add_emp_error">
+									<strong>Failed!</strong>
+									<p>Employee is Not Added</p>
+								</div>
+							</div>
+							<br />
+							<div class="panel panel-info">
+								<div style="padding-top: 30px" class="panel-body">
+									<form id="add_employee" name="add_employee"
+										class="form-horizontal" role="form">
+										<label for="employee_id">Employee Id</label>
+										<div style="margin-bottom: 25px" class="input-group"
+											data-ng-class="{'has-error':add_employee.employee_id.$invalid && !add_employee.employee_id.$pristine}">
+											<span class="input-group-addon"><i
+												class="glyphicon glyphicon-user"></i></span> <input
+												id="employee_id" type="text" data-ng-model="employee_id"
+												class="form-control" name="employee_id" required
+												placeholder="Employee ID">
+										</div>
+										<label for="name">Employee Full Name</label>
+										<div style="margin-bottom: 25px" class="input-group"
+											data-ng-class="{'has-error':add_employee.name.$invalid && !add_employee.name.$pristine}">
+											<span class="input-group-addon"><i
+												class="glyphicon glyphicon-user"></i></span> <input id="name"
+												type="text" data-ng-model="name" class="form-control"
+												name="name" required placeholder="Full Name">
+										</div>
+										<label for="gender">Gender</label>
+										<div style="margin-bottom: 25px" class="input-group"
+											data-ng-class="{'has-error':add_employee.gender.$invalid && !add_employee.gender.$pristine}">
+											<span class="input-group-addon"><i
+												class="glyphicon glyphicon-gift"></i></span> <select id="gender"
+												data-ng-model="gender" class="form-control" required
+												name="gender">
 
-													<option data-ng-disabled="true" data-ng-selected="true"
-														hidden>Choose Gender</option>
-													<option value="male">Male</option>
-													<option value="female">Female</option>
-												</select>
+												<option data-ng-disabled="true" data-ng-selected="true"
+													hidden>Choose Gender</option>
+												<option value="male">Male</option>
+												<option value="female">Female</option>
+											</select>
+										</div>
+										<label for="designation">Designation</label>
+										<div style="margin-bottom: 25px" class="input-group"
+											data-ng-class="{'has-error':add_employee.designation.$invalid && !add_employee.designation.$pristine}">
+											<span class="input-group-addon"><i
+												class="glyphicon glyphicon-briefcase"></i></span> <input
+												id="designation" data-ng-model="designation" type="text"
+												class="form-control" required name="designation" value=""
+												placeholder="Designation">
+										</div>
+										<label for="mobile_number">Mobile Number</label>
+										<div style="margin-bottom: 25px" class="input-group"
+											data-ng-class="{'has-error':add_employee.mobile_number.$invalid && !add_employee.mobile_number.$pristine}">
+											<span class="input-group-addon"><i
+												class="glyphicon glyphicon-phone"></i></span> <input
+												id="mobile_number" type="text" data-ng-model="mobile_number"
+												class="form-control" required name="mobile_number"
+												placeholder="Mobile Number">
+										</div>
+										<label for="email">Email</label>
+										<div style="margin-bottom: 25px" class="input-group"
+											data-ng-class="{'has-error':add_employee.email.$invalid && !add_employee.email.$pristine}">
+											<span class="input-group-addon"><i
+												class="glyphicon glyphicon-lock"></i></span> <input id="email"
+												type="email" data-ng-model="email" class="form-control"
+												name="email" required placeholder="Email">
+										</div>
+										<p class="help-block"
+											data-ng-show="add_employee.email.$error.email">Email is
+											in invalid Form.</p>
+										<label for="address">Address</label>
+										<div style="margin-bottom: 25px" class="input-group"
+											data-ng-class="{'has-error':add_employee.address.$invalid && !add_employee.address.$pristine}">
+											<span class="input-group-addon"><i
+												class="glyphicon glyphicon-phone"></i></span> <input id="address"
+												type="text" data-ng-model="address" class="form-control"
+												required name="address" placeholder="Address">
+										</div>
+										<label for="siteManager">Is SiteManager</label>
+										<div style="margin-bottom: 25px" class="input-group"
+											data-ng-class="{'has-error':add_employee.siteManager.$invalid && !add_employee.siteManager.$pristine}">
+											<span class="input-group-addon"><i
+												class="glyphicon glyphicon-gift"></i> </span> <select
+												id="siteManager" data-ng-model="siteManager"
+												class="form-control" required name="siteManager">
+												<option value="true">Yes</option>
+												<option value="false">No</option>
+											</select>
+										</div>
+										<label for="all_site">Select Site</label>
+										<div style="margin-bottom: 25px" class="input-group"
+											data-ng-class="{'has-error':add_employee.all_site.$invalid && !add_employee.all_site.$pristine}">
+											<span class="input-group-addon"><i
+												class="glyphicon glyphicon-gift"></i></span> <select id="all_site"
+												data-ng-model="all_site_of_org" class="form-control"
+												required name="all_site"
+												data-ng-options="site for site in all_site track by site"
+												data-ng-change="get_shift()">
+											</select>
+										</div>
+										<label for="all_shift">Select Shift</label>
+										<div style="margin-bottom: 25px" class="input-group"
+											data-ng-class="{'has-error':add_employee.all_shift.$invalid && !add_employee.all_shift.$pristine}">
+											<span class="input-group-addon"><i
+												class="glyphicon glyphicon-gift"></i></span> <select id="all_shift"
+												data-ng-model="all_shift_of_site" class="form-control"
+												required name="all_shift"
+												data-ng-options="shift for shift in all_shift track by shift">
+											</select>
+										</div>
+										<div style="margin-top: 10px" class="form-group">
+											<!-- Button -->
+											<div class="col-sm-12 controls centered">
+												<button type="submit" class="btn btn-primary"
+													data-ng-click="addemployee()"
+													data-ng-disabled="add_employee.$invalid">Add
+													Employee</button>
 											</div>
-											<label for="designation">Designation</label>
-											<div style="margin-bottom: 25px" class="input-group"
-												data-ng-class="{'has-error':add_employee.designation.$invalid && !add_employee.designation.$pristine}">
-												<span class="input-group-addon"><i
-													class="glyphicon glyphicon-briefcase"></i></span> <input
-													id="designation" data-ng-model="designation" type="text"
-													class="form-control" required name="designation" value=""
-													placeholder="Designation">
-											</div>
-											<label for="mobile_number">Mobile Number</label>
-											<div style="margin-bottom: 25px" class="input-group"
-												data-ng-class="{'has-error':add_employee.mobile_number.$invalid && !add_employee.mobile_number.$pristine}">
-												<span class="input-group-addon"><i
-													class="glyphicon glyphicon-phone"></i></span> <input
-													id="mobile_number" type="text"
-													data-ng-model="mobile_number" class="form-control" required
-													name="mobile_number" placeholder="Mobile Number">
-											</div>
-											<label for="email">Email</label>
-											<div style="margin-bottom: 25px" class="input-group"
-												data-ng-class="{'has-error':add_employee.email.$invalid && !add_employee.email.$pristine}">
-												<span class="input-group-addon"><i
-													class="glyphicon glyphicon-lock"></i></span> <input id="email"
-													type="email" data-ng-model="email" class="form-control"
-													name="email" required placeholder="Email">
-											</div>
-											<p class="help-block"
-												data-ng-show="add_employee.email.$error.email">Email is
-												in invalid Form.</p>
-											<label for="address">Address</label>
-											<div style="margin-bottom: 25px" class="input-group"
-												data-ng-class="{'has-error':add_employee.address.$invalid && !add_employee.address.$pristine}">
-												<span class="input-group-addon"><i
-													class="glyphicon glyphicon-phone"></i></span> <input id="address"
-													type="text" data-ng-model="address" class="form-control"
-													required name="address" placeholder="Address">
-											</div>
-											<label for="siteManager">Is SiteManager</label>
-											<div style="margin-bottom: 25px" class="input-group"
-												data-ng-class="{'has-error':add_employee.siteManager.$invalid && !add_employee.siteManager.$pristine}">
-												<span class="input-group-addon"><i
-													class="glyphicon glyphicon-gift"></i> </span> <select
-													id="siteManager" data-ng-model="siteManager"
-													class="form-control" required name="siteManager">
-													<option data-ng-selected="true">Is SiteManager</option>
-													<option value="true">Yes</option>
-													<option value="false">No</option>
-												</select>
-											</div>
-											<label for="all_site">Select Site</label>
-											<div style="margin-bottom: 25px" class="input-group"
-												data-ng-class="{'has-error':add_employee.all_site.$invalid && !add_employee.all_site.$pristine}">
-												<span class="input-group-addon"><i
-													class="glyphicon glyphicon-gift"></i></span> <select id="all_site"
-													data-ng-model="all_site_of_org" class="form-control"
-													required name="all_site"
-													data-ng-options="site for site in all_site track by site"
-													data-ng-change="get_shift()">
-												</select>
-											</div>
-											<label for="all_shift">Select Shift</label>
-											<div style="margin-bottom: 25px" class="input-group"
-												data-ng-class="{'has-error':add_employee.all_shift.$invalid && !add_employee.all_shift.$pristine}">
-												<span class="input-group-addon"><i
-													class="glyphicon glyphicon-gift"></i></span> <select
-													id="all_shift" data-ng-model="all_shift_of_site"
-													class="form-control" required name="all_shift"
-													data-ng-options="shift for shift in all_shift track by shift">
-												</select>
-											</div>
-											<div style="margin-top: 10px" class="form-group">
-												<!-- Button -->
-												<div class="col-sm-12 controls centered">
-													<button type="submit" class="btn btn-primary"
-														data-ng-click="addemployee()"
-														data-ng-disabled="add_employee.$invalid">Add
-														Employee</button>
-												</div>
-											</div>
+										</div>
 
-										</form>
-									</div>
+									</form>
 								</div>
 							</div>
 						</div>
@@ -258,19 +255,7 @@
 										<a href="" data-ng-click="go_manage()"
 											class="btn btn-warning pull-right"><i class="fa fa-th">
 										</i><span>Go Back</span> </a>
-									</div>
-									<div id="success-alert" class="alert alert-success"
-										data-ng-show="update_emp_success">
-
-										<strong>Success! </strong>
-										<p>Employee details is Updated Successfully</p>
-									</div>
-									<div id="fail-alert" class="alert alert-danger"
-										data-ng-show="update_emp_error">
-
-										<strong>Failed! </strong>
-										<p>Employee details Not Updated Successfully</p>
-									</div>
+									</div>									
 								</div>
 								<br />
 								<div class="panel panel-info">
@@ -340,7 +325,6 @@
 													type="email" data-ng-model="u_email" value="{{u_email}}"
 													class="form-control" name="email" required
 													placeholder="Email">
-													<p ng-show="update_employee.email.$invalid && !update_employee.email.$pristine" class="help-block">Enter a valid email</p>
 											</div>
 											<p class="help-block"
 												data-ng-show="update_employee.email.$error.email">Email
@@ -375,7 +359,8 @@
 													class="glyphicon glyphicon-gift"></i></span> <select
 													id="u_ManageSite" data-ng-model="u_ManageSite_All"
 													class="form-control" name="u_ManageSite"
-													data-ng-options="site for site in u_ManageSite track by site" data-ng-disabled="checkDisabled()">												
+													data-ng-options="site for site in u_ManageSite track by site"
+													data-ng-disabled="checkDisabled()">
 												</select>
 											</div>
 											<label for="all_site">Select Site</label>
@@ -415,7 +400,7 @@
 								</div>
 							</div>
 							<div data-ng-show="show_manage">
-								<div class="alert alert-success" data-ng-show="del_success">
+								<div id="success-alert" class="alert alert-success" data-ng-show="del_success">
 									<p>Employee Is Deleted Successfully!!</p>
 								</div>
 								<div
@@ -463,12 +448,14 @@
 											<td>{{emp.designation}}</td>
 											<td>{{emp.mobile_number}}</td>
 											<td>{{emp.email}}</td>
-											<td><a href=""
-												data-ng-click="del_emp($index,emp.websafeKey)"
-												class="btn btn-danger"><span class="fa fa-trash-o">
-												</span></a> <a href="" data-ng-click="manage_emp(emp)"
-												class="btn btn-info"><span
-													class="glyphicon glyphicon-edit"> </span></a></td>
+											<td>
+											<a href="" data-ng-click="del_emp($index,emp.websafeKey)" class="btn btn-danger">
+											<span class="fa fa-trash-o"></span>
+											</a> 
+											<a href="" data-ng-click="manage_emp(emp)" class="btn btn-info">
+											<span class="glyphicon glyphicon-edit"> </span>
+											</a>
+											</td>
 										</tr>
 									</tbody>
 								</table>
