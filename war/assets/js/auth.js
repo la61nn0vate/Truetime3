@@ -97,6 +97,7 @@ function Register(profile, id_token)
 		if(response.token!=null)
 		{
 	        sessionStorage.accessToken = response.token;
+	        console.log('TOKEN: ' + response.token);
 	        
 	        gapi.client.accountsApi.get({'token': sessionStorage.accessToken}).execute(function(response)
 			{
@@ -143,7 +144,7 @@ function Register(profile, id_token)
 							{
 								$("#register_error_exist").addClass("show").text("Please wait, you will be automatically redirected to the Dashboard");
 								$("#choosing_trial").addClass("hide");
-								window.location.replace('http://2-dot-truepresent-1.appspot.com/Dashboard/dashboard.html').d;
+								window.location.replace('http://2-dot-truepresent-1.appspot.com/Dashboard/dashboard.html');
 							}
 		
 						});

@@ -1,5 +1,14 @@
 ﻿'use strict';
 
+$(document).ready(function () 
+{
+    $('.button').click(function()
+    {
+         $('ul li').removeClass('selected');
+         $(this).closest("li").addClass('selected');
+    });
+});
+
 var app = angular.module("controllers", ['ui.bootstrap','googlechart']);
 
 app.directive("strToTime", function(){
@@ -363,78 +372,84 @@ app.controller("organisation_controller",['$parse','$scope', function ($parse,$s
 
 	};
 
-	$scope.go_back=function(){
+	$scope.go_back=function()
+	{
 		$scope.increased_sites=false;
-		$scope.decreased_sites=false;
 		$scope.update_org=true;
-
 	}
 
-	$scope.update_org_details=function(){
-
-		gapi.client.organisationApi.getAdminOrganisation({'token': sessionStorage.accessToken}).execute(function (response) {
+	$scope.update_org_details=function()
+	{
+		gapi.client.organisationApi.getAdminOrganisation({'token': sessionStorage.accessToken}).execute(function (response)
+		{
 			if(!response.error)
 			{  
 				var number_sites=response.numberOfSites;
 				var org_key=response.websafeKey;
-				gapi.client.organisationApi.update({'token': sessionStorage.accessToken, 'org_key':org_key,'name':$scope.org_name,'location':$scope.location,'numberOfSites':$scope.numberOfsites}).execute(function(response){
-					$scope.$apply(function () {
-						if (!response.error) {
-
-							$scope.add_org_success="true";
-							$scope.get_org_details();
-
-							if($scope.numberOfsites>number_sites)
-							{$scope.left_site=$scope.numberOfsites-number_sites;
-							$scope.increased_sites=true; 
-							$scope.update_org=false;
-
-							}else if($scope.numberOfsites<number_sites)
+				
+				if($scope.numberOfsites<number_sites)
+				{
+					swal({
+						  title: "Number of Sites cannot be decreased!",
+						  text: "Please contact ADMIN for further support",
+						  timer: 3000,
+						  showConfirmButton: false
+						});
+				}
+				else
+				{
+					gapi.client.organisationApi.update({'token': sessionStorage.accessToken, 'org_key':org_key,'name':$scope.org_name,'location':$scope.location,'numberOfSites':$scope.numberOfsites}).execute(function(response)
+					{
+						$scope.$apply(function () 
+						{
+							if (!response.error) 
 							{
-								$scope.left_site=number_sites-$scope.numberOfsites;
-								$scope.update_org=false;
-								$scope.decreased_sites=true;
+								$scope.add_org_success="true";
+								$scope.get_org_details();
+								$scope.left_site=$scope.numberOfsites-number_sites;	// Check if site has been added or is same
+								$scope.increased_sites=true; 
+								$scope.update_org=false;													
 							}
-						}
+						});
 					});
-				});
+				}
 			}
 		});
 	};
 
-	var shift_d=[];
-	$scope.add_shifts=function(){
-		var shift=[];
-
-		for(var i=0;i<$scope.number_of_shifts;i++)
+	$scope.addsite=function()
+	{
+		if($scope.left_site>0)	// If site has been added, then count is > 0
 		{
-			shift[i]=[{ shift_name:"shift_name"+i,time_from:"time_from"+i,time_to:"time_to"+i}];
-
-		}
-		$scope.shifts=shift;
-		shift_d=shift;
-		console.log($scope.shifts);
-	}
-
-
-
-	$scope.addsite=function(){
-
-		if($scope.left_site>0){
-			gapi.client.organisationApi.getAdminOrganisation({'token': sessionStorage.accessToken}).execute(function (response) { //getting org_key from getAdminOrganisation() method of organisationApi
+			gapi.client.organisationApi.getAdminOrganisation({'token': sessionStorage.accessToken}).execute(function (response) 
+			{ 
+				//getting org_key from getAdminOrganisation() method of organisationApi
 				var org_key = response.websafeKey;
 				var num_of_site = response.numberOfSites;
 
-				$scope.$apply(function () {
-					if (!response.error) {  //Adding Site to the datastore
-						gapi.client.siteApi.insert({ 'token': sessionStorage.accessToken, 'org_key': org_key, 'site_name': $scope.site_name, 'managerEmail': $scope.managerEmail, 'number_of_shifts': $scope.number_of_shifts, 'site_location': $scope.site_location, 'address': $scope.address, 'cityOrTown': $scope.cityOrTown }).execute(function (resp) {
-							$scope.$apply(function () {
-								if (!resp.error) {
+				$scope.$apply(function () 
+				{
+					if (!response.error) 
+					{  //Adding Site to the datastore
+						gapi.client.siteApi.insert({ 'token': sessionStorage.accessToken, 'org_key': org_key, 'site_name': $scope.site_name, 'managerEmail': $scope.managerEmail, 'number_of_shifts': $scope.number_of_shifts, 'site_location': $scope.site_location, 'address': $scope.address, 'cityOrTown': $scope.cityOrTown }).execute(function (resp) 
+						{
+							$scope.$apply(function () 
+							{
+								if (!resp.error) 
+								{
+									swal({
+										  title: "Site Added Successfully",
+										  type: "success",
+										  timer: 3000,
+										  showConfirmButton: false
+										});
+									// Decrement the New Sites counter
 									$scope.left_site=$scope.left_site-1;
 
 									var site_key = resp.websafeKey;
 									var num_of_shift = resp.number_of_shifts;
-									for (var i = 0; i < num_of_shift; i++) {
+									for (var i = 0; i < num_of_shift; i++) 
+									{
 										var shift_name=shift_d[i].shift_name;
 
 										var time_from=shift_d[i].time_from;
@@ -452,69 +467,76 @@ app.controller("organisation_controller",['$parse','$scope', function ($parse,$s
 
 										console.log(time_t);
 
-										gapi.client.shiftApi.insert({'token': sessionStorage.accessToken, 'site_key': site_key, 'name': shift_name, 'time_from': time_f, 'time_to': time_t }).execute(function (res) {
-											$scope.$apply(function () {
+										gapi.client.shiftApi.insert({'token': sessionStorage.accessToken, 'site_key': site_key, 'name': shift_name, 'time_from': time_f, 'time_to': time_t }).execute(function (res) 
+										{
+											$scope.$apply(function () 
+											{
 												if(!res.error)
 												{
-													console.log($scope.left_site);
-													$scope.add_site_success=true;
-													$timeout(function () {
-														$scope.add_site_success=false;
-													}, 5000);
+													console.log($scope.left_site);													
 													$scope.site_name=" ";
 													$scope.site_location=" ";
 													$scope.managerEmail="abc@xyz.com";
 													$scope.address=" ";
 													$scope.cityOrTown=" ";
 													$scope.number_of_shifts="Select Number Of Shifts";
+													swal({
+														  title: "Shift Added Successfully",
+														  type: "success",
+														  timer: 3000,
+														  showConfirmButton: false
+														});
 													$scope.add_shifts();
-												}else
-												{
-													$scope.add_site_error=true;
-													$timeout(function () {
-														$scope.add_site_error=false;
-													}, 5000);
 												}
-
+												else
+												{
+													swal({
+														  title: "Shift Not Added",
+														  type: "error",
+														  timer: 3000,
+														  showConfirmButton: false
+														});
+												}
 											});
 										});
 									}
 								} 
-
+								else
+								{
+									swal({
+										  title: "Site Not Added",
+										  type: "error",
+										  timer: 3000,
+										  showConfirmButton: false
+										});
+								}
 							});
 						});
-
-
 					}
 				});
 
 			});
-
-		}else
+		}
+		else
 		{
 			$scope.increased_sites=false;
-			$scope.decreased_sites=false;
 			$scope.update_org=true;
-
-
 		}
 	}
+	
+	var shift_d=[];
+	$scope.add_shifts=function()
+	{
+		var shift=[];
 
+		for(var i=0;i<$scope.number_of_shifts;i++)
+		{
+			shift[i]=[{ shift_name:"shift_name"+i,time_from:"time_from"+i,time_to:"time_to"+i}];
 
-
-	$scope.del_site=function(index,key){
-
-
-		gapi.client.siteApi.remove({'token': sessionStorage.accessToken, 'site_key':key}).execute(function(resp){
-			$scope.$apply(function () {
-				if(!resp.error)
-				{
-					$scope.del_success="true";
-					$scope.sites.splice(index,1);
-				}
-			});
-
-		});
+		}
+		$scope.shifts=shift;
+		shift_d=shift;
+		console.log($scope.shifts);
 	}
 
 	NProgress.done();
@@ -692,8 +714,12 @@ app.controller("employee_controller",['$scope','$timeout', function ($scope,$tim
 			gapi.client.employeeApi.insertEmployeeDemographic({'token': sessionStorage.accessToken, 'shift_ws_key':shift_websafekey,'employee_id':$scope.employee_id,  'name': $scope.name, 'designation': $scope.designation, 'gender': $scope.gender, 'mobile_number': $scope.mobile_number, 'email': $scope.email, 'address': $scope.address, 'siteManager': $scope.siteManager }).execute(function (response) {
 				$scope.$apply(function () {
 					if (!response.error) {
-						$scope.add_emp_error = false;
-						$scope.add_emp_success = true;						
+						swal({
+							  title: "Employee Added Successfully",
+							  type: "success",
+							  timer: 3000,
+							  showConfirmButton: false
+							});
 
 						$scope.employee_id=" ";
 						$scope.name=" ";
@@ -709,15 +735,16 @@ app.controller("employee_controller",['$scope','$timeout', function ($scope,$tim
 						$scope.add_employee.$invalid=true;
 
 						$scope.get_emp_details();
-						$timeout(function () {
-							$scope.add_emp_success = false;
-						}, 5000);
-					} else {
-						$scope.add_emp_success = false;
-						$scope.add_emp_error = true;
-						$timeout(function () {
-							$scope.add_emp_error = false;
-						}, 5000);
+					} 
+					else 
+					{
+						swal({
+							  title: "Employee Not Added",
+							  text: response.message,
+							  type: "error",
+							  timer: 3000,
+							  showConfirmButton: false
+							});
 					}
 				});
 			});
@@ -735,8 +762,7 @@ app.controller("employee_controller",['$scope','$timeout', function ($scope,$tim
 			  closeOnConfirm: false
 			},
 			function(){
-				$scope.del_employee(index,key);
-				swal("Deleted!", "Employee data has been deleted.", "success");
+				$scope.del_employee(index,key);				
 			});
 	}
 
@@ -745,11 +771,12 @@ app.controller("employee_controller",['$scope','$timeout', function ($scope,$tim
 			$scope.$apply(function () {
 				if(!resp.error)
 				{
-					$scope.del_success=true;
-					$timeout(function () {
-						$scope.del_success = false;
-					}, 5000);
 					$scope.employees.splice(index,1);
+					swal("Deleted!", "Employee data has been deleted.", "success");
+				}
+				else
+				{
+					swal("Error!", "Employee could not be deleted. " + resp.message, "error");
 				}
 			});
 
@@ -769,7 +796,7 @@ app.controller("employee_controller",['$scope','$timeout', function ($scope,$tim
 			$scope.u_mobile_number=emp.mobile_number;
 			$scope.u_email=emp.email;
 			$scope.u_address=emp.address;
-			$scope.all_site_of_org=emp.siteName;
+			$scope.all_site_of_org=emp.siteName;			
 			$scope.get_shift();
 			$scope.all_shift_of_site=emp.shiftName;
 			console.log(emp);
@@ -839,7 +866,7 @@ app.controller("employee_controller",['$scope','$timeout', function ($scope,$tim
 						if (!response.error) 
 						{
 							$scope.get_emp_details(); 
-							scope.show_manage=false;
+							$scope.show_manage=false;
 							swal({
 								  title: "Employee Updated Successfully",
 								  type: "success",
@@ -889,7 +916,6 @@ app.controller("site_controller",['$scope','$timeout', function ($scope,$timeout
 				{
 					var org_key=response.websafeKey;
 
-
 					gapi.client.organisationApi.getAllSites({'token': sessionStorage.accessToken, 'org_key':org_key}).execute(function(response){
 						$scope.$apply(function () {
 							var data=[];
@@ -905,25 +931,6 @@ app.controller("site_controller",['$scope','$timeout', function ($scope,$timeout
 					});
 				}
 			});
-		});
-	};
-
-
-	$scope.update_org_details=function(){
-
-		gapi.client.organisationApi.getAdminOrganisation({'token': sessionStorage.accessToken}).execute(function (response) {
-			if(!response.error)
-			{  
-				var number_sites=response.numberOfSites-1;
-				var org_key=response.websafeKey;
-				gapi.client.organisationApi.update({'token': sessionStorage.accessToken, 'org_key':org_key,'name':response.org_name,'location':response.location,'numberOfSites':number_sites}).execute(function(response){
-					$scope.$apply(function () {
-						if (!response.error) {
-
-						}
-					});
-				});
-			}
 		});
 	};
 
@@ -956,18 +963,14 @@ app.controller("site_controller",['$scope','$timeout', function ($scope,$timeout
 	};
 
 
-	$scope.del_site=function(index,key){
-		gapi.client.siteApi.remove({'token': sessionStorage.accessToken, 'site_key':key}).execute(function(resp){
-			$scope.$apply(function () {
-				if(!resp.error)
-				{
-					$scope.del_success="true";
-					$scope.sites.splice(index,1);
-					$scope.update_org_details();
-				}
+	$scope.del_site=function(index,key)
+	{
+		swal({
+			  title: "Delete site not allowed",
+			  text: "Please contact site ADMIN for further support",
+			  timer: 3000,
+			  showConfirmButton: false
 			});
-
-		});
 	}
 
 
@@ -1026,11 +1029,13 @@ app.controller("site_controller",['$scope','$timeout', function ($scope,$timeout
 										$scope.$apply(function () {
 											if(!res.error)
 											{
+												swal({
+													  title: "Site Added Successfully",
+													  type: "success",
+													  timer: 3000,
+													  showConfirmButton: false
+													});
 												console.log($scope.left_site);
-												$scope.add_site_success=true;
-												$timeout(function () {
-													$scope.add_site_success=false;
-												}, 5000);
 												$scope.site_name=" ";
 												$scope.site_location=" ";
 												$scope.managerEmail="abc@xyz.com";
@@ -1038,14 +1043,21 @@ app.controller("site_controller",['$scope','$timeout', function ($scope,$timeout
 												$scope.cityOrTown=" ";
 												$scope.number_of_shifts="Select Number Of Shifts";
 												$scope.add_shifts();
-											}else
-											{
-												$scope.add_site_error=true;
-												$timeout(function () {
-													$scope.add_site_error=false;
-												}, 5000);
 											}
-
+											else
+											{
+												if(res.error)
+												{
+													var exception = res.message;
+													swal({
+														  title: "Site Not Added",
+														  text: exception,
+														  type: "error",
+														  timer: 3000,
+														  showConfirmButton: false
+														});
+												}												
+											}
 										});
 									});
 								}
@@ -1053,7 +1065,6 @@ app.controller("site_controller",['$scope','$timeout', function ($scope,$timeout
 
 						});
 					});
-
 
 				}
 			});
@@ -1063,15 +1074,16 @@ app.controller("site_controller",['$scope','$timeout', function ($scope,$timeout
 	};
 
 	var site_key="";
-	$scope.manage_site=function(site){
+	$scope.manage_site=function(site)
+	{
 		$scope.show_manage=false;
 		$scope.show_update=true;
 
-		$timeout(function(){
+		$timeout(function()
+		{
 			$scope.u_site_name=site.site_name;
 			$scope.u_site_location=site.site_location;
-			$scope.u_number_of_shifts=site.number_of_shifts;
-			console.log(site.number_of_shifts);
+			$("#u_number_of_shifts").val(site.number_of_shifts);
 			$scope.u_managerEmail=site.managerEmail;
 			$scope.u_address=site.address;
 			$scope.u_cityorTown=site.cityOrTown;
@@ -1079,30 +1091,37 @@ app.controller("site_controller",['$scope','$timeout', function ($scope,$timeout
 		},100);
 	};
 
-	$scope.go_manage=function(){
+	$scope.go_manage=function()
+	{
 		$scope.show_manage=true;
 		$scope.show_update=false;
 	};
 
-	$scope.updatesite=function(){
-
+	$scope.updatesite =function()
+	{
 		gapi.client.siteApi.update({'token': sessionStorage.accessToken, 'site_key':site_key, 'site_location':$scope.u_site_location,'site_name':$scope.u_site_name,'number_of_shifts':$scope.u_number_of_shifts,'cityorTown':$scope.u_cityorTown,'address':$scope.u_address,'managerEmail':$scope.u_managerEmail}).execute(function(resp){
 			$scope.$apply(function () {
 				if(resp.error)
 				{
-					$scope.add_site_error=true;
-					$scope.add_site_success=false;
-					$timeout(function () {
-						$scope.add_site_error=false;
-					}, 5000);
-				}else
-				{  $scope.show_manage=false;
-				$scope.add_site_success=true;				
-				$scope.add_site_error=false;
-				$scope.get_site_data();
-				$timeout(function () {
-					$scope.add_site_success=false;
-				}, 5000);
+					$scope.show_manage=false;
+					$scope.get_site_data();
+					swal({
+						  title: "Site Not Updated",
+						  type: "error",
+						  timer: 3000,
+						  showConfirmButton: false
+						});
+				}
+				else
+				{  
+					$scope.show_manage=true;
+					$scope.get_site_data();
+					swal({
+						  title: "Site Updated Successfully",
+						  type: "success",
+						  timer: 3000,
+						  showConfirmButton: false
+						});
 				}				
 			});
 		});
@@ -1156,7 +1175,6 @@ app.controller("shift_controller",['$scope','$timeout', function ($scope,$timeou
 
 				if(!response.error)
 				{
-
 					var shift=[];
 					var k=response.items.length;
 					var o=0;
@@ -1238,16 +1256,35 @@ app.controller("shift_controller",['$scope','$timeout', function ($scope,$timeou
 
 
 		gapi.client.shiftApi.insert({'token': sessionStorage.accessToken, 'site_key':site_websafekey,'name':$scope.shift_name,'time_from':time_fs,'time_to':time_ts}).execute(function(resp){
-			$scope.$apply(function () {
+			$scope.$apply(function () 
+			{
+				var exception="";
 				if(resp.error)
 				{
-					$scope.add_shift_error=true;
-					$scope.add_shift_success=false;
-				}else
+					if (resp.code==400)
+					{
+						exception = resp.message;
+					}
+					$scope.get_shift_data(); 
+					$scope.show_manage=false;
+					swal({
+						  title: "Shift Not Added",
+						  text: exception,
+						  type: "error",
+						  timer: 3000,
+						  showConfirmButton: false
+						});
+				}
+				else
 				{
-					$scope.add_shift_success=true;
-					$scope.add_shift_error=false;
+					swal({
+						  title: "Shift Added Successfully",
+						  type: "success",
+						  timer: 3000,
+						  showConfirmButton: false
+						});
 					$scope.get_shift_data();
+					$scope.show_manage=true;
 				}
 
 			});
@@ -1260,7 +1297,8 @@ app.controller("shift_controller",['$scope','$timeout', function ($scope,$timeou
 		$scope.show_update=true;
 		$timeout(function(){
 
-			$scope.u_shift_name=shift.name;
+			$scope.u_shift_name=shift.name;			
+			$scope.all_site_of_org=shift.siteName;			
 			console.log(shift.time_from);
 			var time_f=shift.time_from;
 			var time_f_array=time_f.split(':');
@@ -1301,18 +1339,34 @@ app.controller("shift_controller",['$scope','$timeout', function ($scope,$timeou
 		var  time_ts = hours_f + ":" + minutes_f;
 
 		gapi.client.shiftApi.update({'token': sessionStorage.accessToken, 'shift_key':shift_key,'name':$scope.u_shift_name,'time_from':time_fs,'time_to':time_ts}).execute(function(resp){
-			$scope.$apply(function () {
+			$scope.$apply(function () 
+			{
+				var exception="";
 				if(resp.error)
 				{
-					$scope.update_shift_error=true;
-					$scope.update_shift_success=false;
+					if (resp.code==400)
+					{
+						exception = resp.message;
+					}
+					$scope.show_manage=false;
+					$scope.get_shift_data();
+					swal({
+						  title: "Shift Not Updated",
+						  text: exception,
+						  type: "error",
+						  timer: 3000,
+						  showConfirmButton: false
+						});
 				}else
 				{
-					$scope.update_shift_success=true;
-					$scope.update_shift_error=false;
+					swal({
+						  title: "Shift Updated Successfully",
+						  type: "success",
+						  timer: 3000,
+						  showConfirmButton: false
+						});
 					$scope.get_shift_data();
-					$scope.show_manage=false;
-
+					$scope.show_manage=true;
 				}
 			});
 		});
@@ -1347,19 +1401,14 @@ app.controller("shift_controller",['$scope','$timeout', function ($scope,$timeou
 
 	};
 
-	$scope.delete_shift=function(index,key){
-
-		gapi.client.shiftApi.remove({'token': sessionStorage.accessToken, 'shift_key':key}).execute(function(resp){
-			$scope.$apply(function () {
-				if(!resp.error)
-				{
-					$scope.del_success="true";
-					$scope.shifts.splice(index,1);
-					$scope.get_shift_data();
-				}
+	$scope.delete_shift=function(index,key)
+	{
+		swal({
+			  title: "Delete shift not allowed",
+			  text: "Please add new shift if required",
+			  timer: 3000,
+			  showConfirmButton: false
 			});
-
-		});
 	};
 
 	var pagination=function(data){
@@ -2105,9 +2154,6 @@ app.controller("attendance_report_controller", function ($scope) {
 
 
 });
-
-
-
 
 
 app.controller("sitemanager_controller", function ($scope) {

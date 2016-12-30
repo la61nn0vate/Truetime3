@@ -41,19 +41,22 @@
 											data-ng-click="orderByField='S_no';reverse = !reverse">S.no.</a>
 										</th>
 										<th><a href=""
-											data-ng-click="orderByField='employee_id';reverse = !reverse">Employee
-												ID</a></th>
-										<th><a href=""
-											data-ng-click="orderByField='shift';reverse = !reverse">Shift</a>
-										</th>
-										<th><a href=""
-											data-ng-click="orderByField='shift';reverse = !reverse">Site</a>
-										</th>
+											data-ng-click="orderByField='employee_id';reverse = !reverse">EmployeeID</a>
+										</th>																				
 										<th><a href=""
 											data-ng-click="orderByField='name';reverse = !reverse">Name</a>
 										</th>
 										<th><a href=""
 											data-ng-click="orderByField='gender';reverse = !reverse">Gender</a>
+										</th>
+										<th><a href=""
+											data-ng-click="orderByField='site';reverse = !reverse">Site</a>
+										</th>
+										<th><a href=""
+											data-ng-click="orderByField='site';reverse = !reverse">Managing Site</a>
+										</th>
+										<th><a href=""
+											data-ng-click="orderByField='shift';reverse = !reverse">Shift</a>
 										</th>
 										<th><a href=""
 											data-ng-click="orderByField='designation';reverse = !reverse">Designation</a>
@@ -70,11 +73,12 @@
 									<tr
 										data-ng-repeat="emp in employees | filter:search_emp | orderBy:orderByField:reverseSort">
 										<td>{{$index+1}}</td>
-										<td>{{emp.employee_id}}</td>
-										<td>{{emp.shiftName}}</td>
-										<td>{{emp.siteName}}</td>
+										<td>{{emp.employee_id}}</td>																			
 										<td>{{emp.name}}</td>
 										<td>{{emp.gender}}</td>
+										<td>{{emp.siteName}}</td>
+										<td>{{emp.managingSite}}</td>
+										<td>{{emp.shiftName}}</td>
 										<td>{{emp.designation}}</td>
 										<td>{{emp.mobile_number}}</td>
 										<td>{{emp.email}}</td>
@@ -114,19 +118,6 @@
 						<!--/Employee details-->
 						<!--Add Employee details-->
 						<div class="tab-pane fade" id="tab2">
-							<div class="container-fluid">
-								<div id="success-alert" class="alert alert-success"
-									data-ng-show="add_emp_success">
-									<strong>Success!</strong>
-									<p>Employee is Added Successfully.</p>
-								</div>
-								<div id="fail-alert" class="alert alert-danger"
-									data-ng-show="add_emp_error">
-									<strong>Failed!</strong>
-									<p>Employee is Not Added</p>
-								</div>
-							</div>
-							<br />
 							<div class="panel panel-info">
 								<div style="padding-top: 30px" class="panel-body">
 									<form id="add_employee" name="add_employee"
@@ -400,9 +391,6 @@
 								</div>
 							</div>
 							<div data-ng-show="show_manage">
-								<div id="success-alert" class="alert alert-success" data-ng-show="del_success">
-									<p>Employee Is Deleted Successfully!!</p>
-								</div>
 								<div
 									class="input-group has-feedback has-feedback-left col-md-offset-10">
 									<input type="text" class="form-control"
@@ -422,9 +410,18 @@
 													ID</a></th>
 											<th><a href=""
 												data-ng-click="orderByField='name';reverse = !reverse">Name</a>
-											</th>
+											</th>																					
 											<th><a href=""
 												data-ng-click="orderByField='gender';reverse = !reverse">Gender</a>
+											</th>
+											<th><a href=""
+												data-ng-click="orderByField='site';reverse = !reverse">Site</a>
+											</th>
+											<th><a href=""
+												data-ng-click="orderByField='site';reverse = !reverse">Managing Site</a>
+											</th>
+											<th><a href=""
+												data-ng-click="orderByField='shift';reverse = !reverse">Shift</a>
 											</th>
 											<th><a href=""
 												data-ng-click="orderByField='designation';reverse = !reverse">Designation</a>
@@ -443,8 +440,11 @@
 											data-ng-repeat="emp in employees | filter:searchemp | orderBy:orderByField:reverseSort">
 											<td>{{$index+1}}</td>
 											<td>{{emp.employee_id}}</td>
-											<td>{{emp.name}}</td>
+											<td>{{emp.name}}</td>																						
 											<td>{{emp.gender}}</td>
+											<td>{{emp.siteName}}</td>
+											<td>{{emp.managingSite}}</td>
+											<td>{{emp.shiftName}}</td>
 											<td>{{emp.designation}}</td>
 											<td>{{emp.mobile_number}}</td>
 											<td>{{emp.email}}</td>
