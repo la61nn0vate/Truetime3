@@ -44,6 +44,15 @@
                                                     <a href="" data-ng-click="orderByField='gender';reverse = !reverse">Gender</a>
                                                 </th>
                                                 <th>
+                                                	<a href="" data-ng-click="orderByField='site';reverse = !reverse">Site</a>
+												</th>
+												<th>
+													<a href="" data-ng-click="orderByField='site';reverse = !reverse">Managing Site</a>
+												</th>
+												<th>
+													<a href="" data-ng-click="orderByField='shift';reverse = !reverse">Shift</a>
+												</th>
+                                                <th>
                                                     <a href="" data-ng-click="orderByField='designation';reverse = !reverse">Designation</a>
                                                 </th>
                                                 <th>
@@ -69,6 +78,15 @@
                                                 <td>
                                                     {{emp.gender}}
                                                 </td>
+                                                <td>
+                                                	{{emp.siteName}}
+                                                </td>
+												<td>
+													{{emp.managingSite}}
+												</td>
+												<td>
+													{{emp.shiftName}}
+												</td>
                                                 <td>
                                                     {{emp.designation}}
                                                 </td>
