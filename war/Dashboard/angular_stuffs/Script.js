@@ -3,9 +3,9 @@
 var map;
 var markers = [];
 
-function initialize() 
+function initilize() 
 {
-	var india = {lat: 28.626406, lng: 77.244853};
+  var india = {lat: 28.626406, lng: 77.244853};
 
   map = new google.maps.Map(document.getElementById('map'), {
     zoom: 5,
@@ -14,7 +14,7 @@ function initialize()
   });
   
   // Create the search box and link it to the UI element.
- 	var input = document.getElementById('pac-input');
+  var input = document.getElementById('pac-input');
   var searchBox = new google.maps.places.SearchBox(input);
   map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
@@ -109,7 +109,111 @@ function initialize()
   });
 }
 
-google.maps.event.addDomListener(window, 'load', initialize);
+//function initializeMaps() 
+//{
+//	var india = {lat: 28.626406, lng: 77.244853};
+//
+//  map = new google.maps.Map(document.getElementById('map'), {
+//    zoom: 5,
+//    center: india,
+//    mapTypeId: 'roadmap'
+//  });
+//  
+//  // Create the search box and link it to the UI element.
+//  var input = document.getElementById('pac-input');
+//  var searchBox = new google.maps.places.SearchBox(input);
+//  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+//
+//  // Bias the SearchBox results towards current map's viewport.
+//  map.addListener('bounds_changed', function() {
+//    searchBox.setBounds(map.getBounds());
+//  });
+//  
+//  // Listen for the event fired when the user selects a prediction and retrieve
+//  // more details for that place.
+//  searchBox.addListener('places_changed', function() {
+//    var places = searchBox.getPlaces();
+//
+//    if (places.length == 0) {
+//      return;
+//    }
+//
+//    // Clear out the old markers.
+//    markers.forEach(function(marker) {
+//      marker.setMap(null);
+//    });
+//    markers = [];
+//
+//    // For each place, get the icon, name and location.
+//    var bounds = new google.maps.LatLngBounds();
+//    places.forEach(function(place) {
+//      if (!place.geometry) {
+//        console.log("Returned place contains no geometry");
+//        return;
+//      }
+//      var icon = {
+//        url: place.icon,
+//        size: new google.maps.Size(71, 71),
+//        origin: new google.maps.Point(0, 0),
+//        anchor: new google.maps.Point(17, 34),
+//        scaledSize: new google.maps.Size(25, 25)
+//      };
+//
+//      // Create a marker for each place.
+//      markers.push(new google.maps.Marker({
+//        map: map,
+//        icon: icon,
+//        title: place.name,
+//        position: place.geometry.location
+//      }));
+//
+//      if (place.geometry.viewport) {
+//        // Only geocodes have viewport.
+//        bounds.union(place.geometry.viewport);
+//      } else {
+//        bounds.extend(place.geometry.location);
+//      }
+//    });
+//    map.fitBounds(bounds);
+//  });
+//
+//  google.maps.event.addListener(map, 'click', function(event) 
+//  {
+//  	// Clear out the old markers.
+//    markers.forEach(function(marker) {
+//      marker.setMap(null);
+//    });
+//    markers = [];
+//  
+//    var latitude = event.latLng.lat();
+//    var longitude = event.latLng.lng();
+//    var setRad = 100;
+//
+//    var rad = prompt("Please enter radius", setRad);
+//    if (rad != null) {
+//      setRad = Number(rad);
+//    }
+//
+//    markers.push(new google.maps.Circle({map: map,
+//                                     radius: setRad,
+//                                     center: event.latLng,
+//                                     fillColor: '#777',
+//                                     fillOpacity: 0.1,
+//                                     strokeColor: '#AA0000',
+//                                     strokeOpacity: 0.8,
+//                                     strokeWeight: 2,
+//                                     draggable: true,    // Dragable
+//                                     editable: true      // Resizable
+//                                    }));
+//
+//    markers.push(new google.maps.Marker({
+//      map: map,
+//      position: new google.maps.LatLng(latitude, longitude)
+//    }));
+//
+//    console.log( latitude + ', ' + longitude + ', ' + setRad );
+//  });
+//}
 
 $(document).ready(function () 
 {
@@ -1066,6 +1170,112 @@ app.controller("employee_controller",['$scope','$timeout', function ($scope,$tim
 
 app.controller("site_controller",['$scope','$timeout', function ($scope,$timeout) {
 	NProgress.start();
+	
+//	$scope.initializeMaps=function()
+//	{
+//		var india = {lat: 28.626406, lng: 77.244853};
+//
+//	  map = new google.maps.Map(document.getElementById('map'), {
+//	    zoom: 5,
+//	    center: india,
+//	    mapTypeId: 'roadmap'
+//	  });
+//	  
+//	  // Create the search box and link it to the UI element.
+//	  var input = document.getElementById('pac-input');
+//	  var searchBox = new google.maps.places.SearchBox(input);
+//	  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+//
+//	  // Bias the SearchBox results towards current map's viewport.
+//	  map.addListener('bounds_changed', function() {
+//	    searchBox.setBounds(map.getBounds());
+//	  });
+//	  
+//	  // Listen for the event fired when the user selects a prediction and retrieve
+//	  // more details for that place.
+//	  searchBox.addListener('places_changed', function() {
+//	    var places = searchBox.getPlaces();
+//
+//	    if (places.length == 0) {
+//	      return;
+//	    }
+//
+//	    // Clear out the old markers.
+//	    markers.forEach(function(marker) {
+//	      marker.setMap(null);
+//	    });
+//	    markers = [];
+//
+//	    // For each place, get the icon, name and location.
+//	    var bounds = new google.maps.LatLngBounds();
+//	    places.forEach(function(place) {
+//	      if (!place.geometry) {
+//	        console.log("Returned place contains no geometry");
+//	        return;
+//	      }
+//	      var icon = {
+//	        url: place.icon,
+//	        size: new google.maps.Size(71, 71),
+//	        origin: new google.maps.Point(0, 0),
+//	        anchor: new google.maps.Point(17, 34),
+//	        scaledSize: new google.maps.Size(25, 25)
+//	      };
+//
+//	      // Create a marker for each place.
+//	      markers.push(new google.maps.Marker({
+//	        map: map,
+//	        icon: icon,
+//	        title: place.name,
+//	        position: place.geometry.location
+//	      }));
+//
+//	      if (place.geometry.viewport) {
+//	        // Only geocodes have viewport.
+//	        bounds.union(place.geometry.viewport);
+//	      } else {
+//	        bounds.extend(place.geometry.location);
+//	      }
+//	    });
+//	    map.fitBounds(bounds);
+//	  });
+//
+//	  google.maps.event.addListener(map, 'click', function(event) 
+//	  {
+//	  	// Clear out the old markers.
+//	    markers.forEach(function(marker) {
+//	      marker.setMap(null);
+//	    });
+//	    markers = [];
+//	  
+//	    var latitude = event.latLng.lat();
+//	    var longitude = event.latLng.lng();
+//	    var setRad = 100;
+//
+//	    var rad = prompt("Please enter radius", setRad);
+//	    if (rad != null) {
+//	      setRad = Number(rad);
+//	    }
+//
+//	    markers.push(new google.maps.Circle({map: map,
+//	                                     radius: setRad,
+//	                                     center: event.latLng,
+//	                                     fillColor: '#777',
+//	                                     fillOpacity: 0.1,
+//	                                     strokeColor: '#AA0000',
+//	                                     strokeOpacity: 0.8,
+//	                                     strokeWeight: 2,
+//	                                     draggable: true,    // Dragable
+//	                                     editable: true      // Resizable
+//	                                    }));
+//
+//	    markers.push(new google.maps.Marker({
+//	      map: map,
+//	      position: new google.maps.LatLng(latitude, longitude)
+//	    }));
+//
+//	    console.log( latitude + ', ' + longitude + ', ' + setRad );
+//	  });
+//	};
 
 	$scope.get_site_data=function(){
 
@@ -1250,9 +1460,14 @@ app.controller("site_controller",['$scope','$timeout', function ($scope,$timeout
 	}
 	
 	
+	$scope.initilizeMaps = function () {
+		initilize(); // Calling java script method
+    };
+	
 	var site_key="";
 	$scope.manage_site=function(site)
 	{
+		$scope.initilizeMaps();
 		$scope.show_manage=false;
 		$scope.show_update=true;
 
