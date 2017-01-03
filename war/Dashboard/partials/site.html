@@ -277,7 +277,37 @@
 											</select>																															
 										</div>
 										
-										<div id="shift_details" class="well well-lg hide"></div>
+										<div data-ng-repeat="shift in shifts">
+											<h3>Shift {{$index+1}} Details</h3>
+
+											<div style="margin-bottom: 25px" class="input-group"
+												data-ng-class="{'has-error':add_site.shift_name.$invalid && !add_site.shift_name.$pristine}">
+												<span class="input-group-addon"><i
+													class="glyphicon glyphicon-user"></i></span> <input
+													id="shift_name" data-ng-model="shift.shift_name"
+													type="text" class="form-control" name="shift_name"
+													value="" placeholder="Shift Name">
+											</div>
+
+											<div style="margin-bottom: 25px"
+												class="input-group bootstrap-timepicker timepicker "
+												data-ng-class="{'has-error':add_site.time_from.$invalid && !add_site.time_from.$pristine}">
+												<span class="input-group-addon"><i
+													class="glyphicon glyphicon-time"></i></span> <input
+													id="time_from[$index]" type="time"
+													class="form-control input-small"
+													data-ng-model="shift.time_from" placeholder="Time From">
+											</div>
+											<div style="margin-bottom: 25px"
+												class="input-group bootstrap-timepicker timepicker "
+												data-ng-class="{'has-error':add_site.time_to.$invalid && !add_site.time_to.$pristine}">
+												<span class="input-group-addon"><i
+													class="glyphicon glyphicon-time"></i></span> <input
+													id="time_to[$index]" type="time"
+													class="form-control input-small"
+													data-ng-model="shift.time_to" placeholder="Time To">
+											</div>
+										</div>
 
 										<div style="margin-top: 10px" class="form-group">
 											<!-- Button -->
@@ -285,7 +315,7 @@
 												<button type="submit" class="btn btn-primary"
 													data-ng-click="addsite()"
 													data-ng-disabled="add_site.$invalid">Add Site And
-													Its Shifts</button>
+													it's Shifts</button>
 											</div>
 										</div>
 

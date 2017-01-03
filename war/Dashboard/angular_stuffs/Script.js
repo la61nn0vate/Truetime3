@@ -436,13 +436,7 @@ app.controller("organisation_controller",['$parse','$scope', function ($parse,$s
 							$scope.$apply(function () 
 							{
 								if (!resp.error) 
-								{
-									swal({
-										  title: "Site Added Successfully",
-										  type: "success",
-										  timer: 3000,
-										  showConfirmButton: false
-										});
+								{									
 									// Decrement the New Sites counter
 									$scope.left_site=$scope.left_site-1;
 
@@ -481,21 +475,27 @@ app.controller("organisation_controller",['$parse','$scope', function ($parse,$s
 													$scope.cityOrTown=" ";
 													$scope.number_of_shifts="Select Number Of Shifts";
 													swal({
-														  title: "Shift Added Successfully",
+														  title: "Site and Shift Added Successfully",
 														  type: "success",
 														  timer: 3000,
 														  showConfirmButton: false
 														});
 													$scope.add_shifts();
+													$scope.get_org_details();
 												}
 												else
 												{
-													swal({
-														  title: "Shift Not Added",
-														  type: "error",
-														  timer: 3000,
-														  showConfirmButton: false
-														});
+													if (res.error)
+													{
+														swal({
+															  title: "Shift Not Added",
+															  text: res.message,
+															  type: "error",
+															  timer: 3000,
+															  showConfirmButton: false
+															});
+														$scope.get_org_details();
+													}													
 												}
 											});
 										});
@@ -503,12 +503,17 @@ app.controller("organisation_controller",['$parse','$scope', function ($parse,$s
 								} 
 								else
 								{
-									swal({
-										  title: "Site Not Added",
-										  type: "error",
-										  timer: 3000,
-										  showConfirmButton: false
-										});
+									if (resp.error) 
+									{										
+										swal({
+											  title: "Site and Shifts Not Added",
+											  text: resp.message,
+											  type: "error",
+											  timer: 3000,
+											  showConfirmButton: false
+											});
+										$scope.get_org_details();
+									}
 								}
 							});
 						});
@@ -977,18 +982,20 @@ app.controller("site_controller",['$scope','$timeout', function ($scope,$timeout
 	$scope.addsite=function(){
 		gapi.client.organisationApi.getAdminOrganisation({'token': sessionStorage.accessToken}).execute(function (response) { //getting org_key from getAdminOrganisation() method of organisationApi
 			var org_key = response.websafeKey;
-			var num_of_site = response.numberOfSites;
 
 			$scope.$apply(function () {
 				if (!response.error) {  //Adding Site to the datastore
-					gapi.client.siteApi.insert({'token': sessionStorage.accessToken, 'org_key': org_key, 'site_name': $scope.site_name, 'managerEmail': $scope.managerEmail, 'number_of_shifts': $scope.number_of_shifts, 'site_location': $scope.site_location, 'address': $scope.address, 'cityOrTown': $scope.cityOrTown }).execute(function (resp) {
-						$scope.$apply(function () {
-							if (!resp.error) {
-								$scope.left_site=$scope.left_site-1;
-
+					gapi.client.siteApi.insert({'token': sessionStorage.accessToken, 'org_key': org_key, 'site_name': $scope.site_name, 'managerEmail': $scope.managerEmail, 'number_of_shifts': $scope.number_of_shifts, 'site_location': $scope.site_location, 'address': $scope.address, 'cityOrTown': $scope.cityOrTown }).execute(function (resp) 
+					{
+						$scope.$apply(function () 
+							{
+							if (!resp.error) 
+							{
 								var site_key = resp.websafeKey;
 								var num_of_shift = resp.number_of_shifts;
-								for (var i = 0; i < num_of_shift; i++) {
+								
+								for (var i = 0; i < num_of_shift; i++) 
+								{
 									var shift_name=shift_d[i].shift_name;
 
 									var time_from=shift_d[i].time_from;
@@ -1005,9 +1012,11 @@ app.controller("site_controller",['$scope','$timeout', function ($scope,$timeout
 									var  time_t = hours_t + ":" + minutes_t;
 
 									console.log(time_t);
-
-									gapi.client.shiftApi.insert({'token': sessionStorage.accessToken, 'site_key': site_key, 'name': shift_name, 'time_from': time_f, 'time_to': time_t }).execute(function (res) {
-										$scope.$apply(function () {
+									
+									gapi.client.shiftApi.insert({'token': sessionStorage.accessToken, 'site_key': site_key, 'name': shift_name, 'time_from': time_f, 'time_to': time_t }).execute(function (res) 
+									{
+										$scope.$apply(function () 
+										{
 											if(!res.error)
 											{
 												swal({
@@ -1024,25 +1033,40 @@ app.controller("site_controller",['$scope','$timeout', function ($scope,$timeout
 												$scope.cityOrTown=" ";
 												$scope.number_of_shifts="Select Number Of Shifts";
 												$scope.add_shifts();
+												$scope.get_site_data();
 											}
 											else
 											{
 												if(res.error)
 												{
-													var exception = res.message;
 													swal({
-														  title: "SIte & Shift Not Added",
-														  text: exception,
+														  title: "Shift Not Added",
+														  text: res.message,
 														  type: "error",
 														  timer: 3000,
 														  showConfirmButton: false
 														});
+													$scope.get_site_data();
 												}												
 											}
 										});
 									});
 								}
 							} 
+							else
+							{
+								if(resp.error)
+								{
+									swal({
+										  title: "Site & Shift Not Added",
+										  text: resp.message,
+										  type: "error",
+										  timer: 3000,
+										  showConfirmButton: false
+										});
+								}
+								$scope.get_site_data();
+							}
 
 						});
 					});
@@ -1054,77 +1078,22 @@ app.controller("site_controller",['$scope','$timeout', function ($scope,$timeout
 
 	};
 	
-	//select number of shifts
-	$('#number_of_shifts').change(function () {
-		$("#shift_details").addClass("show");
-		$("#shift_details").removeClass("hide");
-		var sel_value = $('#number_of_shifts option:selected').val();
+	var shift_d=[];
+	$scope.add_shifts=function()
+	{
+		var shift=[];
 
-		console.log(sel_value);
-		if (sel_value == "Select Number Of Shifts") {
-			$("#shift_details").removeClass("show");
-			$("#shift_details").addClass("hide");
-			$("#shift_details").empty(); // Resetting Form
-			$("#shift_details").css({
-				'display': 'none'
-			});
-		} else {
-			$("#shift_details").empty(); //Resetting Form
-			// Below Function Creates Input Fields Dynamically
-			create(sel_value);
+		for(var i=0;i<$scope.number_of_shifts;i++)
+		{
+			shift[i]=[{ shift_name:"shift_name"+i,time_from:"time_from"+i,time_to:"time_to"+i}];
 
 		}
-	});
-	function create(sel_value) {
-		for (var i = 1; i <= sel_value; i++) {
-			$("div#shift_details").slideDown('slow');
-			$("div#shift_details").append($("#shift_details").append($("<div/>", {
-				id: 'head',
-				class: 'row'
-			}).append($("<h3/>").text("Shift " + i + " Details")), $("<div/>", { class: 'row form-group'
-
-
-			}).append($("<label/>", {
-				text: 'Shift Name',
-				class: 'control-label'
-
-			}), $("<input/>", {
-				type: 'text',
-				placeholder: 'Shift Name',
-				id: 'shift_name' + i,
-				required: "required",
-				class: 'form-control'
-			})), $("<br/>"), $("<div/>", { class: 'row form-group'
-
-
-			}).append($("<label/>", {
-				text: 'Time from',
-				class: 'control-label'
-
-			}), $("<input/>", {
-				type: 'time',
-				placeholder: 'Time From',
-				id: 'time_from' + i,
-				required: "required",
-				class: 'form-control'
-			})), $("<br/>"), $("<div/>", { class: 'row form-group'
-
-
-			}).append($("<label/>", {
-				text: 'Time to',
-				class: 'control-label'
-
-			}), $("<input/>", {
-				placeholder: 'Time To',
-				type: 'time',
-				id: 'time_to' + i,
-				required: "required",
-				class: 'form-control'
-			})), $("<hr/>")))
-		}
+		$scope.shifts=shift;
+		shift_d=shift;
+		console.log($scope.shifts);
 	}
-	//!select shift
-
+	
+	
 	var site_key="";
 	$scope.manage_site=function(site)
 	{
