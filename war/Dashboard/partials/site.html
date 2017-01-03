@@ -390,6 +390,26 @@
 													class="form-control" required name="cityorTown"
 													placeholder="City / Town">
 											</div>
+											<label for="u_location">Location</label>
+											<div style="margin-bottom: 25px" class="input-group"
+												data-ng-class="{'has-error':update_site.u_locationData.$invalid && !update_site.u_locationData.$pristine}">
+												<span class="input-group-addon"><i
+													class="glyphicon glyphicon-phone"></i></span> <input
+													id="u_locationData" type="text" data-ng-model="u_locationData"
+													class="form-control" required name="locationData"
+													placeholder="Location">
+											</div>
+											<label for="u_range">Range</label>
+											<div style="margin-bottom: 25px" class="input-group"
+												data-ng-class="{'has-error':update_site.u_rangeData.$invalid && !update_site.u_rangeData.$pristine}">
+												<span class="input-group-addon"><i
+													class="glyphicon glyphicon-phone"></i></span> <input
+													id="u_rangeData" type="text" data-ng-model="u_rangeData"
+													class="form-control" required name="rangeData"
+													placeholder="Range">
+											</div>
+											<input id="pac-input" class="controls" type="text" placeholder="Search Box">
+    										<div id="map"></div>
 											<label for="u_number_of_shifts">Number Of Shifts</label>
 											<div style="margin-bottom: 25px" class="input-group"
 												data-ng-class="{'has-error':update_site.u_number_of_shifts.$invalid && !update_site.u_number_of_shifts.$pristine}">
