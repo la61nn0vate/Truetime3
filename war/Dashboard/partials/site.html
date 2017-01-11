@@ -246,13 +246,13 @@
 												type="text" data-ng-model="address" class="form-control"
 												required name="address" placeholder="Address">
 										</div>
-										<label for="cityorTown">City / Town</label>
+										<label for="cityOrTown">City / Town</label>
 										<div style="margin-bottom: 25px" class="input-group"
-											data-ng-class="{'has-error':add_site.cityorTown.$invalid && !add_site.cityorTown.$pristine}">
+											data-ng-class="{'has-error':add_site.cityOrTown.$invalid && !add_site.cityOrTown.$pristine}">
 											<span class="input-group-addon"><i
 												class="glyphicon glyphicon-phone"></i></span> <input
-												id="cityorTown" type="text" data-ng-model="cityOrTown"
-												class="form-control" required name="cityorTown"
+												id="cityOrTown" type="text" data-ng-model="cityOrTown"
+												class="form-control" required name="cityOrTown"
 												placeholder="City / Town">
 										</div>
 										<label for="number_of_shifts">Number Of Shifts</label>
@@ -344,13 +344,14 @@
 											<label for="u_site_name">Site Name</label>
 											<div style="margin-bottom: 25px" class="input-group"
 												data-ng-class="{'has-error':update_site.u_site_name.$invalid && !update_site.u_site_name.$pristine}">
-												<span class="input-group-addon"><i
-													class="glyphicon glyphicon-user"></i></span> <input
-													id="u_site_name" type="text" data-ng-model="u_site_name"
+												<span class="input-group-addon">
+												<i class="glyphicon glyphicon-user"></i>
+												</span> 
+												<input id="u_site_name" type="text" data-ng-model="u_site_name"
 													class="form-control" name="site_name" required
 													placeholder="Site Name">
 											</div>
-											<label for="u_site_name">Site Location</label>
+											<label for="u_site_location">Site Location</label>
 											<div style="margin-bottom: 25px" class="input-group"
 												data-ng-class="{'has-error':update_site.u_site_location.$invalid && !update_site.u_site_location.$pristine}">
 												<span class="input-group-addon"><i
@@ -359,7 +360,7 @@
 													data-ng-model="u_site_location" class="form-control"
 													name="site_location" required placeholder="Site Location">
 											</div>
-											<label for="u_site_name">Manager Email</label>
+											<label for="u_managerEmail">Manager Email</label>
 											<div style="margin-bottom: 25px" class="input-group"
 												data-ng-class="{'has-error':update_site.u_managerEmail.$invalid && !update_site.u_managerEmail.$pristine}">
 												<span class="input-group-addon"><i
@@ -372,7 +373,7 @@
 												data-ng-show="add_site.managerEmail.$error.email">Email
 												is in invalid Form.</p>
 
-											<label for="u_site_name">Address</label>
+											<label for="u_address">Address</label>
 											<div style="margin-bottom: 25px" class="input-group"
 												data-ng-class="{'has-error':update_site.u_address.$invalid && !update_site.u_address.$pristine}">
 												<span class="input-group-addon"><i
@@ -381,48 +382,46 @@
 													class="form-control" required name="address"
 													placeholder="Address">
 											</div>
-											<label for="u_site_name">City/Town</label>
+											<label for="u_cityOrTown">City/Town</label>
 											<div style="margin-bottom: 25px" class="input-group"
-												data-ng-class="{'has-error':update_site.u_cityorTown.$invalid && !update_site.u_cityorTown.$pristine}">
+												data-ng-class="{'has-error':update_site.u_cityOrTown.$invalid && !update_site.u_cityOrTown.$pristine}">
 												<span class="input-group-addon"><i
 													class="glyphicon glyphicon-phone"></i></span> <input
-													id="u_cityorTown" type="text" data-ng-model="u_cityorTown"
-													class="form-control" required name="cityorTown"
+													id="u_cityOrTown" type="text" data-ng-model="u_cityOrTown"
+													class="form-control" required name="cityOrTown"
 													placeholder="City / Town">
 											</div>
-											<label for="u_location">Location</label>
-											<div class="input-group">
+											<label for="u_latitudeData">Latitude</label>
+											<div class="input-group" 
+												data-ng-class="{'has-error':update_site.u_latitudeData.$invalid && !update_site.u_latitudeData.$pristine}">
 												<span class="input-group-addon"><i
 													class="glyphicon glyphicon-phone"></i></span> <input
 													id="u_latitudeData" type="text" data-ng-model="u_latitudeData"
 													class="form-control" required name="latitudeData"
 													placeholder="Latitude">
-											</div>
-											<div style="margin-bottom: 25px" class="input-group">
+											</div>											
+											<label for="u_longitudeData">Longitude</label>
+											<div style="margin-bottom: 25px" class="input-group" 
+												data-ng-class="{'has-error':update_site.u_longitudeData.$invalid && !update_site.u_longitudeData.$pristine}">
 												<span class="input-group-addon"><i
 													class="glyphicon glyphicon-phone"></i></span> <input
 													id="u_longitudeData" type="text" data-ng-model="u_longitudeData"
 													class="form-control" required name="longitudeData"
 													placeholder="Longitude">
 											</div>
-											<label for="u_range">Range</label>
-											<div style="margin-bottom: 25px" class="input-group">
+											<label for="u_rangeData">Range</label>
+											<div style="margin-bottom: 25px" class="input-group" 
+												data-ng-class="{'has-error':update_site.u_rangeData.$invalid && !update_site.u_range.$pristine}">
 												<span class="input-group-addon"><i
 													class="glyphicon glyphicon-phone"></i></span> <input
 													id="u_rangeData" type="text" data-ng-model="u_rangeData"
 													class="form-control" required name="rangeData"
-													placeholder="Range">
+													placeholder="Range" convertToNumber>
 											</div>
-											<!-- <label for="u_range">Search Location</label>
-											<div  style="margin-bottom: 10px" class="input-group">
-												<span class="input-group-addon"><i
-													class="glyphicon glyphicon-phone"></i></span> <input
-													id="pac-input" type="text" class="form-control" name="searchData"
-													placeholder="Search Box">
-											</div> -->
-											<!-- <div>Search Map</div> -->
+											
 											<input id="pac-input" class="controls" type="text" placeholder="Search Box">
     										<div style="margin-bottom: 25px" id="map"></div>
+    										
 											<label for="u_number_of_shifts">Number Of Shifts</label>
 											<div style="margin-bottom: 25px" class="input-group"
 												data-ng-class="{'has-error':update_site.u_number_of_shifts.$invalid && !update_site.u_number_of_shifts.$pristine}">
