@@ -797,19 +797,19 @@ app.controller("site_controller",['$scope','$timeout', function ($scope,$timeout
 		{ id: 8, name: '8'},
 		{ id: 9, name: '9'},
 		{ id: 10, name: '10'},
-	]
+		]
 
 	$scope.get_site_data=function()
 	{
 		$('.nav-tabs').bind('click', function (e) 
-		{
+				{
 			var tabId = e.target;
 			if(tabId.hash == '#site_tab2')
 			{
 				$scope.initilizeMaps1();
 			}			
-		});
-		
+				});
+
 		$scope.show_manage=true;
 		$scope.show_sites=true;
 		gapi.client.organisationApi.getAdminOrganisation({'token': sessionStorage.accessToken}).execute(function(response){
@@ -884,16 +884,16 @@ app.controller("site_controller",['$scope','$timeout', function ($scope,$timeout
 			center: india,
 			mapTypeId: 'roadmap'
 		});
-		
+
 		google.maps.event.addDomListener(map, 'idle', function() 
-		{
-				setTimeout(function()
 				{
-					var center = map.getCenter();
-					google.maps.event.trigger(map, "resize");
-					map.setCenter(center);
-				},50);
-		});
+			setTimeout(function()
+					{
+				var center = map.getCenter();
+				google.maps.event.trigger(map, "resize");
+				map.setCenter(center);
+					},50);
+				});
 
 		// Create the search box and link it to the UI element.
 		var input = document.getElementById('pac-input1');
@@ -1012,61 +1012,60 @@ app.controller("site_controller",['$scope','$timeout', function ($scope,$timeout
 			$scope.$apply();
 
 			console.log( latitude + ', ' + longitude + ', ' + radius );
-			});
+				});
 	};
 
 	$scope.addsite=function()
 	{
-		gapi.client.organisationApi.getAdminOrganisation({'token': sessionStorage.accessToken}).execute(function (response) //getting org_key from getAdminOrganisation() method of organisationApi
-				{ 
+		gapi.client.organisationApi.getAdminOrganisation({'token': sessionStorage.accessToken}).execute(function (response){ //getting org_key from getAdminOrganisation() method of organisationApi 
 			var org_key = response.websafeKey;
+			var currSiteount = response.numberOfSites + 1;	// Add ONE to current
 			if(!response.error)
-			{  
-				gapi.client.organisationApi.update({'token': sessionStorage.accessToken, 'numberOfSites':$scope.numberOfsites}).execute(function(response)
-						{				
-					if (!response.error) 
-					{							
-						//Adding Site to the datastore
-						gapi.client.siteApi.insert({'token': sessionStorage.accessToken, 'org_key': org_key, 'site_name': $scope.site_name, 'managerEmail': $scope.managerEmail, 'number_of_shifts': $scope.number_of_shifts, 'site_location': $scope.site_location, 'address': $scope.address, 'cityOrTown': $scope.cityOrTown }).execute(function (resp) 
+			{						
+				//Adding Site to the datastore
+				gapi.client.siteApi.insert({'token': sessionStorage.accessToken, 
+					'org_key': org_key, 
+					'site_name': $scope.site_name, 
+					'managerEmail': $scope.managerEmail, 
+					'number_of_shifts': $scope.number_of_shifts, 
+					'site_location': $scope.site_location, 
+					'address': $scope.address, 
+					'cityOrTown': $scope.cityOrTown,
+					'location': {latitude:$scope.latitudeData , longitude:$scope.longitudeData}, 
+					'locationRange':$scope.rangeData}).execute(function (resp){
+						$scope.$apply(function () {
+							if (!resp.error) 
+							{
+								var site_key = resp.websafeKey;
+								var num_of_shift = resp.number_of_shifts;
+
+								for (var i = 0; i < num_of_shift; i++) 
 								{
-							$scope.$apply(function () 
-									{
-								if (!resp.error) 
-								{
-									var site_key = resp.websafeKey;
-									var num_of_shift = resp.number_of_shifts;
+									var shift_name=shift_d[i].shift_name;
 
-									for (var i = 0; i < num_of_shift; i++) 
-									{
-										var shift_name=shift_d[i].shift_name;
+									var time_from=shift_d[i].time_from;
 
-										var time_from=shift_d[i].time_from;
+									var date_f = new Date(time_from);
+									var hours_f = date_f.getHours() < 10 ? "0" + date_f.getHours() : date_f.getHours();
+									var minutes_f = date_f.getMinutes() < 10 ? "0" + date_f.getMinutes() : date_f.getMinutes();
+									var  time_f = hours_f + ":" + minutes_f;
 
-										var date_f = new Date(time_from);
-										var hours_f = date_f.getHours() < 10 ? "0" + date_f.getHours() : date_f.getHours();
-										var minutes_f = date_f.getMinutes() < 10 ? "0" + date_f.getMinutes() : date_f.getMinutes();
-										var  time_f = hours_f + ":" + minutes_f;
+									var time_to=shift_d[i].time_to;
+									var date_t = new Date(time_to);
+									var hours_t = date_f.getHours() < 10 ? "0" + date_t.getHours() : date_t.getHours();
+									var minutes_t = date_f.getMinutes() < 10 ? "0" + date_t.getMinutes() : date_t.getMinutes();
+									var  time_t = hours_t + ":" + minutes_t;
 
-										var time_to=shift_d[i].time_to;
-										var date_t = new Date(time_to);
-										var hours_t = date_f.getHours() < 10 ? "0" + date_t.getHours() : date_t.getHours();
-										var minutes_t = date_f.getMinutes() < 10 ? "0" + date_t.getMinutes() : date_t.getMinutes();
-										var  time_t = hours_t + ":" + minutes_t;
+									console.log(time_t);
 
-										console.log(time_t);
-
-										gapi.client.shiftApi.insert({'token': sessionStorage.accessToken, 'site_key': site_key, 'name': shift_name, 'time_from': time_f, 'time_to': time_t }).execute(function (res) 
-												{
-											$scope.$apply(function () 
-													{
+									gapi.client.shiftApi.insert({'token': sessionStorage.accessToken, 
+										'site_key': site_key, 
+										'name': shift_name, 
+										'time_from': time_f, 
+										'time_to': time_t }).execute(function (res){
+											$scope.$apply(function () {
 												if(!res.error)
-												{
-													swal({
-														title: "Site & Shift Added Successfully",
-														type: "success",
-														timer: 3000,
-														showConfirmButton: false
-													});
+												{													
 													console.log($scope.left_site);
 													$scope.site_name=" ";
 													$scope.site_location=" ";
@@ -1076,6 +1075,20 @@ app.controller("site_controller",['$scope','$timeout', function ($scope,$timeout
 													$scope.number_of_shifts="Select Number Of Shifts";
 													$scope.add_shifts();
 													$scope.get_site_data();
+
+													gapi.client.organisationApi.patch({'token': sessionStorage.accessToken, 
+														'org_key': org_key, 
+														'numberOfSites': currSiteount}).execute(function(response){				
+															if (!response.error) 
+															{
+																swal({
+																	title: "Site & Shift Added Successfully",
+																	type: "success",
+																	timer: 3000,
+																	showConfirmButton: false
+																});
+															}
+														});
 												}
 												else if (res.error)
 												{
@@ -1088,38 +1101,36 @@ app.controller("site_controller",['$scope','$timeout', function ($scope,$timeout
 													});
 													$scope.get_site_data();																							
 												}
-													});
-												});
-									}
-								} 
-								else if (resp.error)
-								{
-									swal({
-										title: "Site & Shift Not Added",
-										text: resp.message,
-										type: "error",
-										timer: 3000,
-										showConfirmButton: false
-									});									
-									$scope.get_site_data();
+											});
+										});
 								}
-									});
-								});
-					}
-					else if (response.error)
-					{
-						swal({
-							title: "Site & Shift Not Added",
-							text: resp.message,
-							type: "error",
-							timer: 3000,
-							showConfirmButton: false
+							} 
+							else if (resp.error)
+							{
+								swal({
+									title: "Site & Shift Not Added",
+									text: resp.message,
+									type: "error",
+									timer: 3000,
+									showConfirmButton: false
+								});									
+								$scope.get_site_data();
+							}
 						});
-						$scope.get_site_data();
-					}
-						});
+					});
 			}
+			else if (response.error)
+			{
+				swal({
+					title: "Site & Shift Not Added",
+					text: resp.message,
+					type: "error",
+					timer: 3000,
+					showConfirmButton: false
 				});
+				$scope.get_site_data();
+			}			
+		});
 	};
 
 	var shift_d=[];
@@ -1299,7 +1310,7 @@ app.controller("site_controller",['$scope','$timeout', function ($scope,$timeout
 		$scope.show_update=true;
 
 		$timeout(function()
-		{
+				{
 			site_key=site.websafeKey;
 			$scope.u_site_name=site.site_name;
 			$scope.u_site_location=site.site_location;
@@ -1311,7 +1322,7 @@ app.controller("site_controller",['$scope','$timeout', function ($scope,$timeout
 			$scope.u_longitudeData=site.location.longitude;
 			$scope.u_rangeData=site.locationRange;
 			$scope.initilizeMaps();
-		},100);
+				},100);
 	};
 
 	$scope.go_manage=function()
