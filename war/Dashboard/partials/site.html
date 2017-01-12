@@ -16,11 +16,15 @@
 			<div class="panel with-nav-tabs panel">
 				<div class="panel-heading">
 					<ul class="nav nav-tabs nav-justified">
-						<li class="active"><a href="#site_tab1" data-toggle="tab">Site
-								Details</a></li>
-						<li><a href="#site_tab2" data-toggle="tab">Add Site</a></li>
-
-						<li><a href="#site_tab3" data-toggle="tab">Manage Site</a></li>
+						<li class="active">
+							<a href="#site_tab1" data-toggle="tab">Site Details</a>
+						</li>						
+						<li>
+							<a href="#site_tab2" data-toggle="tab">Add Site</a>
+						</li>
+						<li>
+							<a href="#site_tab3" data-toggle="tab">Manage Site</a>
+						</li>
 					</ul>
 				</div>
 				<div class="panel-body">
@@ -255,6 +259,37 @@
 												class="form-control" required name="cityOrTown"
 												placeholder="City / Town">
 										</div>
+										<label for="latitudeData">Latitude</label>
+										<div style="margin-bottom: 25px" class="input-group" 
+											data-ng-class="{'has-error':add_site.latitudeData.$invalid && !add_site.latitudeData.$pristine}">
+											<span class="input-group-addon"><i
+												class="glyphicon glyphicon-phone"></i></span> <input
+												id="latitudeData" type="text" data-ng-model="latitudeData"
+												class="form-control" required name="latitudeData"
+												placeholder="Latitude">
+										</div>											
+										<label for="longitudeData">Longitude</label>
+										<div style="margin-bottom: 25px" class="input-group" 
+											data-ng-class="{'has-error':add_site.longitudeData.$invalid && !add_site.longitudeData.$pristine}">
+											<span class="input-group-addon"><i
+												class="glyphicon glyphicon-phone"></i></span> <input
+												id="longitudeData" type="text" data-ng-model="longitudeData"
+												class="form-control" required name="longitudeData"
+												placeholder="Longitude">
+										</div>
+										<label for="rangeData">Range</label>
+										<div style="margin-bottom: 25px" class="input-group" 
+											data-ng-class="{'has-error':add_site.rangeData.$invalid && !add_site.range.$pristine}">
+											<span class="input-group-addon"><i
+												class="glyphicon glyphicon-phone"></i></span> <input
+												id="rangeData" type="text" data-ng-model="rangeData"
+												class="form-control" required name="rangeData"
+												placeholder="Range" convertToNumber>
+										</div>
+										
+										<input id="pac-input1" class="controls" type="text" placeholder="Search Box">
+   										<div style="margin-bottom: 25px" id="map1"></div>
+   										
 										<label for="number_of_shifts">Number Of Shifts</label>
 										<div style="margin-bottom: 25px" class="input-group"
 											data-ng-class="{'has-error':add_site.number_of_shifts.$invalid && !add_site.number_of_shifts.$pristine}">
@@ -262,18 +297,7 @@
 												class="glyphicon glyphicon-briefcase"></i></span> <select
 												id="number_of_shifts" data-ng-model="number_of_shifts"
 												data-ng-change="add_shifts()" class="form-control" required
-												name="number_of_shifts">
-												<option ng-selected="true">Select Number Of Shifts</option>
-												<option value="1">1</option>
-												<option value="2">2</option>
-												<option value="3">3</option>
-												<option value="4">4</option>
-												<option value="5">5</option>
-												<option value="6">6</option>
-												<option value="7">7</option>
-												<option value="8">8</option>
-												<option value="9">9</option>
-												<option value="10">10</option>
+												name="number_of_shifts" data-ng-options="shift.name for shift in shiftList">
 											</select>																															
 										</div>
 										
@@ -311,7 +335,7 @@
 
 										<div style="margin-top: 10px" class="form-group">
 											<!-- Button -->
-											<div class="col-sm-12 controls centered">
+											<div class="col-sm-12 centered">
 												<button type="submit" class="btn btn-primary"
 													data-ng-click="addsite()"
 													data-ng-disabled="add_site.$invalid">Add Site And
@@ -392,7 +416,7 @@
 													placeholder="City / Town">
 											</div>
 											<label for="u_latitudeData">Latitude</label>
-											<div class="input-group" 
+											<div style="margin-bottom: 25px" class="input-group" 
 												data-ng-class="{'has-error':update_site.u_latitudeData.$invalid && !update_site.u_latitudeData.$pristine}">
 												<span class="input-group-addon"><i
 													class="glyphicon glyphicon-phone"></i></span> <input
@@ -429,18 +453,8 @@
 													class="glyphicon glyphicon-briefcase"></i></span> <select
 													id="u_number_of_shifts" data-ng-model="u_number_of_shifts"
 													convertToNumber data-ng-change="add_shifts()"
-													class="form-control" required name="u_number_of_shifts">
-													<option value="0">Select Number Of Shifts</option>
-													<option value="1">1</option>
-													<option value="2">2</option>
-													<option value="3">3</option>
-													<option value="4">4</option>
-													<option value="5">5</option>
-													<option value="6">6</option>
-													<option value="7">7</option>
-													<option value="8">8</option>
-													<option value="9">9</option>
-													<option value="10">10</option>
+													class="form-control" required name="u_number_of_shifts" 
+													data-ng-options="shift.name for shift in shiftList">												
 												</select>
 
 											</div>

@@ -10,6 +10,12 @@ html, body {
   position: relative;
 }
 
+#map1 {
+  height: 400px;
+  width: 100%;
+  position: relative;
+}
+
 #pac-input {
   background-color: #fff;
   font-family: Roboto;
@@ -21,10 +27,28 @@ html, body {
   width: 300px;  
   position: absolute;
   z-index: 99;
-  left: 160px;
+  left: 141px;
+}
+
+#pac-input1 {
+  background-color: #fff;
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 300;
+  margin-left: 12px;
+  padding: 0 11px 0 13px;
+  text-overflow: ellipsis;
+  width: 300px;  
+  position: absolute;
+  z-index: 99;
+  left: 141px;
 }
 
 #pac-input:focus {
+  border-color: #4d90fe;
+}
+
+#pac-input1:focus {
   border-color: #4d90fe;
 }
 
@@ -43,14 +67,15 @@ html, body {
   font-size: 13px;
   font-weight: 300;
 }
+
 #target {
   width: 345px;
 }
 
 .controls {
   margin-top: 10px;
-  border: 1px solid transparent;
-  border-radius: 2px 0 0 2px;
+  border: 0px solid transparent;
+  border-radius: 4px 4px 4px 4px;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   height: 32px;

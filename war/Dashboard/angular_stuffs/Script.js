@@ -1,13 +1,20 @@
 ﻿'use strict';
 
 $(document).ready(function () 
-{
-    $('.button').click(function()
-    {
-         $('ul li').removeClass('selected');
-         $(this).closest("li").addClass('selected');
-    });
-});
+		{
+	$('.button').click(function()
+			{
+		$('ul li').removeClass('selected');
+		$(this).closest("li").addClass('selected');
+			});
+
+	$(window).keydown(function(event){
+		if(event.keyCode == 13) {
+			event.preventDefault();
+			return false;
+		}
+	});
+		});
 
 var app = angular.module("controllers", ['ui.bootstrap','googlechart']);
 
@@ -375,43 +382,43 @@ app.controller("organisation_controller",['$parse','$scope', function ($parse,$s
 	$scope.update_org_details=function()
 	{
 		gapi.client.organisationApi.getAdminOrganisation({'token': sessionStorage.accessToken}).execute(function (response)
-		{
+				{
 			if(!response.error)
 			{
-        	  		var org_key=response.websafeKey;
+				var org_key=response.websafeKey;
 				gapi.client.organisationApi.update({'token': sessionStorage.accessToken, 'org_key':org_key,'name':$scope.org_name,'location':$scope.location,'numberOfSites':$scope.numberOfsites}).execute(function(response)
-				{
+						{
 					$scope.$apply(function () 
-					{
+							{
 						if (!response.error) 
 						{
 							$scope.get_org_details();
 							swal({
-								  title: "Organisation Updated Successfully",
-								  type: "success",
-								  timer: 3000,
-								  showConfirmButton: false
-								});
+								title: "Organisation Updated Successfully",
+								type: "success",
+								timer: 3000,
+								showConfirmButton: false
+							});
 						}
 						else
 						{
 							if (response.error) 
 							{
 								swal({
-									  title: "Organisation Not Updated",
-									  text: response.message,
-									  type: "error",
-									  timer: 3000,
-									  showConfirmButton: false
-									});
+									title: "Organisation Not Updated",
+									text: response.message,
+									type: "error",
+									timer: 3000,
+									showConfirmButton: false
+								});
 							}
 						}
-					});
-				});
+							});
+						});
 			}
-		});
+				});
 	};
-	
+
 	NProgress.done();
 
 }]);
@@ -588,11 +595,11 @@ app.controller("employee_controller",['$scope','$timeout', function ($scope,$tim
 				$scope.$apply(function () {
 					if (!response.error) {
 						swal({
-							  title: "Employee Added Successfully",
-							  type: "success",
-							  timer: 3000,
-							  showConfirmButton: false
-							});
+							title: "Employee Added Successfully",
+							type: "success",
+							timer: 3000,
+							showConfirmButton: false
+						});
 
 						$scope.employee_id=" ";
 						$scope.name=" ";
@@ -612,12 +619,12 @@ app.controller("employee_controller",['$scope','$timeout', function ($scope,$tim
 					else 
 					{
 						swal({
-							  title: "Employee Not Added",
-							  text: response.message,
-							  type: "error",
-							  timer: 3000,
-							  showConfirmButton: false
-							});
+							title: "Employee Not Added",
+							text: response.message,
+							type: "error",
+							timer: 3000,
+							showConfirmButton: false
+						});
 					}
 				});
 			});
@@ -626,17 +633,17 @@ app.controller("employee_controller",['$scope','$timeout', function ($scope,$tim
 
 	$scope.del_emp=function(index,key){
 		swal({
-			  title: "Are you sure?",
-			  text: "You will not be able to recover!",
-			  type: "warning",
-			  showCancelButton: true,
-			  confirmButtonColor: "#DD6B55",
-			  confirmButtonText: "Yes, delete it!",
-			  closeOnConfirm: false
-			},
-			function(){
-				$scope.del_employee(index,key);				
-			});
+			title: "Are you sure?",
+			text: "You will not be able to recover!",
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#DD6B55",
+			confirmButtonText: "Yes, delete it!",
+			closeOnConfirm: false
+		},
+		function(){
+			$scope.del_employee(index,key);				
+		});
 	}
 
 	$scope.del_employee=function(index,key){
@@ -709,22 +716,22 @@ app.controller("employee_controller",['$scope','$timeout', function ($scope,$tim
 					{
 						$scope.get_emp_details(); 
 						$scope.show_manage=false;
-						
+
 						swal({
-							  title: "Employee Updated Successfully",
-							  type: "success",
-							  timer: 3000,
-							  showConfirmButton: false
-							});
+							title: "Employee Updated Successfully",
+							type: "success",
+							timer: 3000,
+							showConfirmButton: false
+						});
 					} 
 					else 
 					{
 						swal({
-							  title: "Employee Not Updated",
-							  type: "error",
-							  timer: 3000,
-							  showConfirmButton: false
-							});
+							title: "Employee Not Updated",
+							type: "error",
+							timer: 3000,
+							showConfirmButton: false
+						});
 					}
 				});
 			});
@@ -741,20 +748,20 @@ app.controller("employee_controller",['$scope','$timeout', function ($scope,$tim
 							$scope.get_emp_details(); 
 							$scope.show_manage=false;
 							swal({
-								  title: "Employee Updated Successfully",
-								  type: "success",
-								  timer: 3000,
-								  showConfirmButton: false
-								});
+								title: "Employee Updated Successfully",
+								type: "success",
+								timer: 3000,
+								showConfirmButton: false
+							});
 						} 
 						else 
 						{
 							swal({
-								  title: "Employee Not Updated",
-								  type: "error",
-								  timer: 3000,
-								  showConfirmButton: false
-								});
+								title: "Employee Not Updated",
+								type: "error",
+								timer: 3000,
+								showConfirmButton: false
+							});
 						}
 					});
 				});
@@ -762,11 +769,11 @@ app.controller("employee_controller",['$scope','$timeout', function ($scope,$tim
 			else if ($scope.u_ManageSite_All == null)
 			{
 				swal({
-					  title: "Employee Not Updated",
-					  type: "error",
-					  timer: 3000,
-					  showConfirmButton: false
-					});
+					title: "Employee Not Updated",
+					type: "error",
+					timer: 3000,
+					showConfirmButton: false
+				});
 			}
 
 		}
@@ -779,8 +786,30 @@ app.controller("employee_controller",['$scope','$timeout', function ($scope,$tim
 app.controller("site_controller",['$scope','$timeout', function ($scope,$timeout) {
 	NProgress.start();
 
-	$scope.get_site_data=function(){
+	$scope.shiftList = [
+		{ id: 1, name: '1'},
+		{ id: 2, name: '2'},
+		{ id: 3, name: '3'},
+		{ id: 4, name: '4'},
+		{ id: 5, name: '5'},
+		{ id: 6, name: '6'},
+		{ id: 7, name: '7'},
+		{ id: 8, name: '8'},
+		{ id: 9, name: '9'},
+		{ id: 10, name: '10'},
+	]
 
+	$scope.get_site_data=function()
+	{
+		$('.nav-tabs').bind('click', function (e) 
+		{
+			var tabId = e.target;
+			if(tabId.hash == '#site_tab2')
+			{
+				$scope.initilizeMaps1();
+			}			
+		});
+		
 		$scope.show_manage=true;
 		$scope.show_sites=true;
 		gapi.client.organisationApi.getAdminOrganisation({'token': sessionStorage.accessToken}).execute(function(response){
@@ -835,70 +864,209 @@ app.controller("site_controller",['$scope','$timeout', function ($scope,$timeout
 
 	};
 
-
 	$scope.del_site=function(index,key)
 	{
 		swal({
-			  title: "Delete site not allowed",
-			  text: "Please contact site ADMIN for further support",
-			  timer: 3000,
-			  showConfirmButton: false
-			});
+			title: "Delete site not allowed",
+			text: "Please contact site ADMIN for further support",
+			timer: 3000,
+			showConfirmButton: false
+		});
 	}
 
+	$scope.initilizeMaps1 = function () {
+		var map;
+		var markers = [];
+		var india = {lat: 28.626406, lng: 77.244853};
+
+		map = new google.maps.Map(document.getElementById('map1'), {
+			zoom: 5,
+			center: india,
+			mapTypeId: 'roadmap'
+		});
+		
+		google.maps.event.addDomListener(map, 'idle', function() 
+		{
+				setTimeout(function()
+				{
+					var center = map.getCenter();
+					google.maps.event.trigger(map, "resize");
+					map.setCenter(center);
+				},50);
+		});
+
+		// Create the search box and link it to the UI element.
+		var input = document.getElementById('pac-input1');
+		var searchBox = new google.maps.places.SearchBox(input);
+
+		// Bias the SearchBox results towards current map's viewport.
+		map.addListener('bounds_changed', function() {
+			searchBox.setBounds(map.getBounds());
+		});
+
+		// Listen for the event fired when the user selects a prediction and retrieve
+		// more details for that place.
+		searchBox.addListener('places_changed', function() {
+			var places = searchBox.getPlaces();
+
+			if (places.length == 0) {
+				return;
+			}
+
+			// Clear out the old markers.
+			markers.forEach(function(marker) {
+				marker.setMap(null);
+			});
+			markers = [];
+
+			// For each place, get the icon, name and location.
+			var bounds = new google.maps.LatLngBounds();
+			places.forEach(function(place) {
+				if (!place.geometry) {
+					console.log("Returned place contains no geometry");
+					return;
+				}
+				var icon = {
+						url: place.icon,
+						size: new google.maps.Size(71, 71),
+						origin: new google.maps.Point(0, 0),
+						anchor: new google.maps.Point(17, 34),
+						scaledSize: new google.maps.Size(25, 25)
+				};
+
+				// Create a marker for each place.
+				markers.push(new google.maps.Marker({
+					map: map,
+					icon: icon,
+					title: place.name,
+					position: place.geometry.location
+				}));
+
+				if (place.geometry.viewport) {
+					// Only geocodes have viewport.
+					bounds.union(place.geometry.viewport);
+				} else {
+					bounds.extend(place.geometry.location);
+				}
+			});
+			map.fitBounds(bounds);
+		});
+
+		google.maps.event.addListener(map, 'click', function(event) 
+				{
+			// Clear out the old markers.
+			markers.forEach(function(marker) {
+				marker.setMap(null);
+			});
+			markers = [];
+
+			var latitude = event.latLng.lat();
+			var longitude = event.latLng.lng();
+			var radius = 0;
+
+			swal({
+				title: "Enter Range for Area Calculation",
+				text: "Please enter the radius from the point selected on Map",
+				type: "input",
+				showCancelButton: true,
+				closeOnConfirm: false,
+				animation: "slide-from-top",
+				inputPlaceholder: "Enter Range (in meters)"
+			},
+			function(inputValue){
+				if (inputValue === false) return false;
+
+				if (inputValue === "") {
+					swal.showInputError("You need to enter a range!");
+					return false
+				}
+
+				swal("Nice!", "Range entered by you is: " + inputValue, "success");
+				$scope.rangeData = Number(inputValue);
+				$scope.$apply();
+				radius = Number(inputValue);
+
+				markers.push(new google.maps.Circle({map: map,
+					radius: radius,
+					center: event.latLng,
+					fillColor: '#777',
+					fillOpacity: 0.1,
+					strokeColor: '#AA0000',
+					strokeOpacity: 0.8,
+					strokeWeight: 2,
+					draggable: true,
+					editable: false,  // Resize
+					clickable: false
+				}));
+			});
+
+
+
+			markers.push(new google.maps.Marker({
+				map: map,
+				position: new google.maps.LatLng(latitude, longitude)
+			}));
+
+			$scope.latitudeData = latitude;
+			$scope.longitudeData = longitude;
+			$scope.$apply();
+
+			console.log( latitude + ', ' + longitude + ', ' + radius );
+			});
+	};
 
 	$scope.addsite=function()
 	{
 		gapi.client.organisationApi.getAdminOrganisation({'token': sessionStorage.accessToken}).execute(function (response) //getting org_key from getAdminOrganisation() method of organisationApi
-		{ 
+				{ 
 			var org_key = response.websafeKey;
 			if(!response.error)
 			{  
 				gapi.client.organisationApi.update({'token': sessionStorage.accessToken, 'numberOfSites':$scope.numberOfsites}).execute(function(response)
-				{				
+						{				
 					if (!response.error) 
 					{							
 						//Adding Site to the datastore
 						gapi.client.siteApi.insert({'token': sessionStorage.accessToken, 'org_key': org_key, 'site_name': $scope.site_name, 'managerEmail': $scope.managerEmail, 'number_of_shifts': $scope.number_of_shifts, 'site_location': $scope.site_location, 'address': $scope.address, 'cityOrTown': $scope.cityOrTown }).execute(function (resp) 
-						{
+								{
 							$scope.$apply(function () 
-							{
+									{
 								if (!resp.error) 
 								{
 									var site_key = resp.websafeKey;
 									var num_of_shift = resp.number_of_shifts;
-									
+
 									for (var i = 0; i < num_of_shift; i++) 
 									{
 										var shift_name=shift_d[i].shift_name;
-	
+
 										var time_from=shift_d[i].time_from;
-	
+
 										var date_f = new Date(time_from);
 										var hours_f = date_f.getHours() < 10 ? "0" + date_f.getHours() : date_f.getHours();
 										var minutes_f = date_f.getMinutes() < 10 ? "0" + date_f.getMinutes() : date_f.getMinutes();
 										var  time_f = hours_f + ":" + minutes_f;
-	
+
 										var time_to=shift_d[i].time_to;
 										var date_t = new Date(time_to);
 										var hours_t = date_f.getHours() < 10 ? "0" + date_t.getHours() : date_t.getHours();
 										var minutes_t = date_f.getMinutes() < 10 ? "0" + date_t.getMinutes() : date_t.getMinutes();
 										var  time_t = hours_t + ":" + minutes_t;
-	
+
 										console.log(time_t);
-										
+
 										gapi.client.shiftApi.insert({'token': sessionStorage.accessToken, 'site_key': site_key, 'name': shift_name, 'time_from': time_f, 'time_to': time_t }).execute(function (res) 
-										{
+												{
 											$scope.$apply(function () 
-											{
+													{
 												if(!res.error)
 												{
 													swal({
-														  title: "Site & Shift Added Successfully",
-														  type: "success",
-														  timer: 3000,
-														  showConfirmButton: false
-														});
+														title: "Site & Shift Added Successfully",
+														type: "success",
+														timer: 3000,
+														showConfirmButton: false
+													});
 													console.log($scope.left_site);
 													$scope.site_name=" ";
 													$scope.site_location=" ";
@@ -912,48 +1080,48 @@ app.controller("site_controller",['$scope','$timeout', function ($scope,$timeout
 												else if (res.error)
 												{
 													swal({
-														  title: "Shift Not Added",
-														  text: res.message,
-														  type: "error",
-														  timer: 3000,
-														  showConfirmButton: false
-														});
+														title: "Shift Not Added",
+														text: res.message,
+														type: "error",
+														timer: 3000,
+														showConfirmButton: false
+													});
 													$scope.get_site_data();																							
 												}
-											});
-										});
+													});
+												});
 									}
 								} 
 								else if (resp.error)
 								{
 									swal({
-										  title: "Site & Shift Not Added",
-										  text: resp.message,
-										  type: "error",
-										  timer: 3000,
-										  showConfirmButton: false
-										});									
+										title: "Site & Shift Not Added",
+										text: resp.message,
+										type: "error",
+										timer: 3000,
+										showConfirmButton: false
+									});									
 									$scope.get_site_data();
 								}
-							});
-						});
+									});
+								});
 					}
 					else if (response.error)
 					{
 						swal({
-							  title: "Site & Shift Not Added",
-							  text: resp.message,
-							  type: "error",
-							  timer: 3000,
-							  showConfirmButton: false
-							});
+							title: "Site & Shift Not Added",
+							text: resp.message,
+							type: "error",
+							timer: 3000,
+							showConfirmButton: false
+						});
 						$scope.get_site_data();
 					}
-				});
+						});
 			}
-		});
+				});
 	};
-	
+
 	var shift_d=[];
 	$scope.add_shifts=function()
 	{
@@ -968,168 +1136,181 @@ app.controller("site_controller",['$scope','$timeout', function ($scope,$timeout
 		shift_d=shift;
 		console.log($scope.shifts);
 	}
-	
-	var latitudeGlobal = "";
-	var longitudeGlobal = "";
-	var rangeGlobal = 0;
-	
+
 	$scope.initilizeMaps = function () {
 		var map;
 		var markers = [];
 		var india = {lat: 28.626406, lng: 77.244853};
-		
-		map = new google.maps.Map(document.getElementById('map'), {
-		zoom: 5,
-		center: india,
-		mapTypeId: 'roadmap'
-		  });
-		  
-		  // Create the search box and link it to the UI element.
-		  var input = document.getElementById('pac-input');
-		  var searchBox = new google.maps.places.SearchBox(input);
-		
-		  // Bias the SearchBox results towards current map's viewport.
-		  map.addListener('bounds_changed', function() {
-		    searchBox.setBounds(map.getBounds());
-		  });
-		  
-		  // Listen for the event fired when the user selects a prediction and retrieve
-		  // more details for that place.
-		  searchBox.addListener('places_changed', function() {
-		var places = searchBox.getPlaces();
-		
-		if (places.length == 0) {
-		  return;
-		}
-		
-		// Clear out the old markers.
-		markers.forEach(function(marker) {
-		  marker.setMap(null);
-		});
-		markers = [];
-		
-		// For each place, get the icon, name and location.
-		var bounds = new google.maps.LatLngBounds();
-		places.forEach(function(place) {
-		  if (!place.geometry) {
-		    console.log("Returned place contains no geometry");
-		    return;
-		  }
-		  var icon = {
-		    url: place.icon,
-		    size: new google.maps.Size(71, 71),
-		    origin: new google.maps.Point(0, 0),
-		    anchor: new google.maps.Point(17, 34),
-		    scaledSize: new google.maps.Size(25, 25)
-		  };
-		
-		  // Create a marker for each place.
-		  markers.push(new google.maps.Marker({
-		    map: map,
-		    icon: icon,
-		    title: place.name,
-		    position: place.geometry.location
-		  }));
-		
-		  if (place.geometry.viewport) {
-		    // Only geocodes have viewport.
-		        bounds.union(place.geometry.viewport);
-		      } else {
-		        bounds.extend(place.geometry.location);
-		      }
-		    });
-		    map.fitBounds(bounds);
-		  });
-		
-		  google.maps.event.addListener(map, 'click', function(event) 
-		  {
-		  	// Clear out the old markers.
-		    markers.forEach(function(marker) {
-		      marker.setMap(null);
-		    });
-		    markers = [];
-		  
-		    var latitude = event.latLng.lat();
-		    var longitude = event.latLng.lng();
-		    var radius = 0;
-		
-		    swal({
-		    	  title: "Enter Range for Area Calculation",
-		    	  text: "Please enter the radius from the point selected on Map",
-		    	  type: "input",
-		    	  showCancelButton: true,
-		    	  closeOnConfirm: false,
-		    	  animation: "slide-from-top",
-		    	  inputPlaceholder: "Enter Range (in meters)"
-		    	},
-		    	function(inputValue){
-		    	  if (inputValue === false) return false;
-		    	  
-		    	  if (inputValue === "") {
-		    	    swal.showInputError("You need to enter a range!");
-		    	    return false
-		    	  }
-		    	  
-		    	  swal("Nice!", "Range entered by you is: " + inputValue, "success");
-		    	  $scope.u_rangeData = Number(inputValue);
-		    	  //$(rangeGlobal).val(Number(inputValue));
-		    	  radius = Number(inputValue);
-		    	  
-		    	  markers.push(new google.maps.Circle({map: map,
-	                  radius: radius,
-	                  center: event.latLng,
-	                  fillColor: '#777',
-	                  fillOpacity: 0.1,
-	                  strokeColor: '#AA0000',
-	                  strokeOpacity: 0.8,
-	                  strokeWeight: 2,
-	                  draggable: true,
-	                  editable: false,  // Resize
-	                  clickable: false
-	                 }));
-		    	});
-		
-		
-		
-		markers.push(new google.maps.Marker({
-		  map: map,
-		  position: new google.maps.LatLng(latitude, longitude)
-		}));
-		
-		$scope.u_latitudeData = latitude;
-		$scope.u_longitudeData = longitude;
 
-//		$(latitudeGlobal).val(latitude);
-//		$(longitudeGlobal).val(longitude);
-		
-		console.log( latitude + ', ' + longitude + ', ' + radius );
-		  });
-    };
-	
+		map = new google.maps.Map(document.getElementById('map'), {
+			zoom: 5,
+			center: india,
+			mapTypeId: 'roadmap'
+		});
+
+		// Create a marker for selected place.
+		markers.push(new google.maps.Marker({
+			map: map,
+			title: 'Site Location',
+			position: new google.maps.LatLng($scope.u_latitudeData, $scope.u_longitudeData),
+		}));
+
+		// Create a radius for selected place.
+		markers.push(new google.maps.Circle({map: map,
+			radius: $scope.u_rangeData,
+			center: new google.maps.LatLng($scope.u_latitudeData, $scope.u_longitudeData),
+			fillColor: '#777',
+			fillOpacity: 0.1,
+			strokeColor: '#AA0000',
+			strokeOpacity: 0.8,
+			strokeWeight: 2,
+			draggable: true,
+			editable: false,  // Resize
+			clickable: false
+		}));
+
+		map.panTo(new google.maps.LatLng($scope.u_latitudeData, $scope.u_longitudeData));
+		map.setZoom(17);
+
+		// Create the search box and link it to the UI element.
+		var input = document.getElementById('pac-input');
+		var searchBox = new google.maps.places.SearchBox(input);
+
+		// Bias the SearchBox results towards current map's viewport.
+		map.addListener('bounds_changed', function() {
+			searchBox.setBounds(map.getBounds());
+		});
+
+		// Listen for the event fired when the user selects a prediction and retrieve
+		// more details for that place.
+		searchBox.addListener('places_changed', function() {
+			var places = searchBox.getPlaces();
+
+			if (places.length == 0) {
+				return;
+			}
+
+			// Clear out the old markers.
+			markers.forEach(function(marker) {
+				marker.setMap(null);
+			});
+			markers = [];
+
+			// For each place, get the icon, name and location.
+			var bounds = new google.maps.LatLngBounds();
+			places.forEach(function(place) {
+				if (!place.geometry) {
+					console.log("Returned place contains no geometry");
+					return;
+				}
+				var icon = {
+						url: place.icon,
+						size: new google.maps.Size(71, 71),
+						origin: new google.maps.Point(0, 0),
+						anchor: new google.maps.Point(17, 34),
+						scaledSize: new google.maps.Size(25, 25)
+				};
+
+				// Create a marker for each place.
+				markers.push(new google.maps.Marker({
+					map: map,
+					icon: icon,
+					title: place.name,
+					position: place.geometry.location
+				}));
+
+				if (place.geometry.viewport) {
+					// Only geocodes have viewport.
+					bounds.union(place.geometry.viewport);
+				} else {
+					bounds.extend(place.geometry.location);
+				}
+			});
+			map.fitBounds(bounds);
+		});
+
+		google.maps.event.addListener(map, 'click', function(event) 
+				{
+			// Clear out the old markers.
+			markers.forEach(function(marker) {
+				marker.setMap(null);
+			});
+			markers = [];
+
+			var latitude = event.latLng.lat();
+			var longitude = event.latLng.lng();
+			var radius = 0;
+
+			swal({
+				title: "Enter Range for Area Calculation",
+				text: "Please enter the radius from the point selected on Map",
+				type: "input",
+				showCancelButton: true,
+				closeOnConfirm: false,
+				animation: "slide-from-top",
+				inputPlaceholder: "Enter Range (in meters)"
+			},
+			function(inputValue){
+				if (inputValue === false) return false;
+
+				if (inputValue === "") {
+					swal.showInputError("You need to enter a range!");
+					return false
+				}
+
+				swal("Nice!", "Range entered by you is: " + inputValue, "success");
+				$scope.u_rangeData = Number(inputValue);
+				$scope.$apply();
+				radius = Number(inputValue);
+
+				markers.push(new google.maps.Circle({map: map,
+					radius: radius,
+					center: event.latLng,
+					fillColor: '#777',
+					fillOpacity: 0.1,
+					strokeColor: '#AA0000',
+					strokeOpacity: 0.8,
+					strokeWeight: 2,
+					draggable: true,
+					editable: false,  // Resize
+					clickable: false
+				}));
+			});
+
+
+
+			markers.push(new google.maps.Marker({
+				map: map,
+				position: new google.maps.LatLng(latitude, longitude)
+			}));
+
+			$scope.u_latitudeData = latitude;
+			$scope.u_longitudeData = longitude;
+			$scope.$apply();
+
+			console.log( latitude + ', ' + longitude + ', ' + radius );
+				});
+	};
+
 	var site_key="";
 	$scope.manage_site=function(site)
 	{		
 		$scope.show_manage=false;
 		$scope.show_update=true;
-		
+
 		$timeout(function()
 		{
-			latitudeGlobal = "u_latitudeData";
-			longitudeGlobal = "u_longitudeData";
-			rangeGlobal = "u_rangeData";
-			$scope.initilizeMaps();
-			
 			site_key=site.websafeKey;
 			$scope.u_site_name=site.site_name;
 			$scope.u_site_location=site.site_location;
-			$scope.nos=site.number_of_shifts;
-			$("#u_number_of_shifts").val(site.number_of_shifts);
+			$scope.u_number_of_shifts = $scope.shiftList[site.number_of_shifts-1];
 			$scope.u_managerEmail=site.managerEmail;
 			$scope.u_address=site.address;
 			$scope.u_cityOrTown=site.cityOrTown;
 			$scope.u_latitudeData=site.location.latitude;
 			$scope.u_longitudeData=site.location.longitude;
-			$scope.u_rangeData=site.locationRange;			
+			$scope.u_rangeData=site.locationRange;
+			$scope.initilizeMaps();
 		},100);
 	};
 
@@ -1140,46 +1321,45 @@ app.controller("site_controller",['$scope','$timeout', function ($scope,$timeout
 	};
 
 	$scope.updatesite =function()
-	{
-
+	{	
 		gapi.client.siteApi.update({'token': sessionStorage.accessToken, 
-									'site_key':site_key, 
-									'site_location':$scope.u_site_location, 
-									'site_name':$scope.u_site_name, 
-									'number_of_shifts':$scope.nos, 
-									'cityOrTown':$scope.u_cityOrTown, 
-									'location': {latitude:$scope.u_latitudeData , longitude:$scope.u_longitudeData}, 
-									'locationRange':$scope.u_rangeData, 
-									'address':$scope.u_address,
-									'managerEmail':$scope.u_managerEmail}).execute(function(resp)
-		{
-			$scope.$apply(function () {
-				if(resp.error)
-				{
-					var exception = resp.message;
-					$scope.show_manage=false;
-					$scope.get_site_data();
-					swal({
-						  title: "Site Not Updated",
-						  text: exception,
-						  type: "error",
-						  timer: 3000,
-						  showConfirmButton: false
+			'site_key':site_key, 
+			'site_location':$scope.u_site_location, 
+			'site_name':$scope.u_site_name, 
+			'number_of_shifts':Number($scope.u_number_of_shifts.name), 
+			'cityOrTown':$scope.u_cityOrTown, 
+			'location': {latitude:$scope.u_latitudeData , longitude:$scope.u_longitudeData}, 
+			'locationRange':$scope.u_rangeData, 
+			'address':$scope.u_address,
+			'managerEmail':$scope.u_managerEmail}).execute(function(resp)
+					{
+				$scope.$apply(function () {
+					if(resp.error)
+					{
+						var exception = resp.message;
+						$scope.show_manage=false;
+						$scope.get_site_data();
+						swal({
+							title: "Site Not Updated",
+							text: exception,
+							type: "error",
+							timer: 3000,
+							showConfirmButton: false
 						});
-				}
-				else
-				{  
-					$scope.show_manage=true;
-					$scope.get_site_data();
-					swal({
-						  title: "Site Updated Successfully",
-						  type: "success",
-						  timer: 3000,
-						  showConfirmButton: false
+					}
+					else
+					{  
+						$scope.show_manage=true;
+						$scope.get_site_data();
+						swal({
+							title: "Site Updated Successfully",
+							type: "success",
+							timer: 3000,
+							showConfirmButton: false
 						});
-				}				
-			});
-		});
+					}				
+				});
+					});
 	};
 
 	var pagination=function(data){
@@ -1213,6 +1393,7 @@ app.controller("site_controller",['$scope','$timeout', function ($scope,$timeout
 			return pages;
 		};
 	}
+
 	NProgress.done();
 }]);
 
@@ -1312,7 +1493,7 @@ app.controller("shift_controller",['$scope','$timeout', function ($scope,$timeou
 
 		gapi.client.shiftApi.insert({'token': sessionStorage.accessToken, 'site_key':site_websafekey,'name':$scope.shift_name,'time_from':time_fs,'time_to':time_ts}).execute(function(resp){
 			$scope.$apply(function () 
-			{
+					{
 				var exception="";
 				if(resp.error)
 				{
@@ -1323,26 +1504,26 @@ app.controller("shift_controller",['$scope','$timeout', function ($scope,$timeou
 					$scope.get_shift_data(); 
 					$scope.show_manage=false;
 					swal({
-						  title: "Shift Not Added",
-						  text: exception,
-						  type: "error",
-						  timer: 3000,
-						  showConfirmButton: false
-						});
+						title: "Shift Not Added",
+						text: exception,
+						type: "error",
+						timer: 3000,
+						showConfirmButton: false
+					});
 				}
 				else
 				{
 					swal({
-						  title: "Shift Added Successfully",
-						  type: "success",
-						  timer: 3000,
-						  showConfirmButton: false
-						});
+						title: "Shift Added Successfully",
+						type: "success",
+						timer: 3000,
+						showConfirmButton: false
+					});
 					$scope.get_shift_data();
 					$scope.show_manage=true;
 				}
 
-			});
+					});
 		});
 	};
 
@@ -1395,7 +1576,7 @@ app.controller("shift_controller",['$scope','$timeout', function ($scope,$timeou
 
 		gapi.client.shiftApi.update({'token': sessionStorage.accessToken, 'shift_key':shift_key,'name':$scope.u_shift_name,'time_from':time_fs,'time_to':time_ts}).execute(function(resp){
 			$scope.$apply(function () 
-			{
+					{
 				var exception="";
 				if(resp.error)
 				{
@@ -1406,24 +1587,24 @@ app.controller("shift_controller",['$scope','$timeout', function ($scope,$timeou
 					$scope.show_manage=false;
 					$scope.get_shift_data();
 					swal({
-						  title: "Shift Not Updated",
-						  text: exception,
-						  type: "error",
-						  timer: 3000,
-						  showConfirmButton: false
-						});
+						title: "Shift Not Updated",
+						text: exception,
+						type: "error",
+						timer: 3000,
+						showConfirmButton: false
+					});
 				}else
 				{
 					swal({
-						  title: "Shift Updated Successfully",
-						  type: "success",
-						  timer: 3000,
-						  showConfirmButton: false
-						});
+						title: "Shift Updated Successfully",
+						type: "success",
+						timer: 3000,
+						showConfirmButton: false
+					});
 					$scope.get_shift_data();
 					$scope.show_manage=true;
 				}
-			});
+					});
 		});
 	};
 
@@ -1459,11 +1640,11 @@ app.controller("shift_controller",['$scope','$timeout', function ($scope,$timeou
 	$scope.delete_shift=function(index,key)
 	{
 		swal({
-			  title: "Delete shift not allowed",
-			  text: "Please add new shift if required",
-			  timer: 3000,
-			  showConfirmButton: false
-			});
+			title: "Delete shift not allowed",
+			text: "Please add new shift if required",
+			timer: 3000,
+			showConfirmButton: false
+		});
 	};
 
 	var pagination=function(data){
