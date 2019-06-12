@@ -639,9 +639,9 @@
 													<label class="col-md-3 control-label" for="mobile_number">
 														Mobile Number</label>
 													<div class="col-md-9">
-														<input type="text" class="form-control"
-															name="mobileNumber" id="mobile_number" 
-															placeholder="Mobile Number" required="required">
+														<input type="number" class="form-control" ng-minlength="10" 
+														ng-maxlength="10" name="mobileNumber" id="mobile_number" 
+														placeholder="Mobile Number" ng-model="user.phone" ng-required="true" >
 													</div>
 													<br /> <br />
 												</div>
@@ -662,9 +662,10 @@
 													<label class="col-md-3 control-label" for="mobilenumber">
 														Mobile Number</label>
 													<div class="col-md-9">
-														<input type="text" class="form-control"
-															name="mobileNumber" id="mobilenumber"
-															placeholder="Mobile Number" required="required">
+														<input type="number" class="form-control" ng-minlength="10" 
+														ng-maxlength="10" name="mobileNumber" id="mobilenumber" 
+														placeholder="Mobile Number" ng-model="user.phone" ng-required="true" 
+														ng-class="{red: test.MyNumber.$invalid}">
 													</div>
 													<br /> <br />
 												</div>

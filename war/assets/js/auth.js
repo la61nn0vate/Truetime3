@@ -144,7 +144,7 @@ function Register(profile, id_token)
 							{
 								$("#register_error_exist").addClass("show").text("Please wait, you will be automatically redirected to the Dashboard");
 								$("#choosing_trial").addClass("hide");
-								window.location.replace('http://2-dot-truepresent-1.appspot.com/Dashboard/dashboard.html');
+								window.location.replace('http://1-dot-truepresent-1.appspot.com/Dashboard/dashboard.html');
 							}
 		
 						});
@@ -166,7 +166,7 @@ function Register(profile, id_token)
 							{
 								$("#register_error_exist").addClass("show").text("Your Trial Period is already Started, You will be automatically redirected to the Dashboard");
 								$("#choosing_trial").addClass("hide");
-								window.location.replace('http://2-dot-truepresent-1.appspot.com/Dashboard/dashboard.html');
+								window.location.replace('http://1-dot-truepresent-1.appspot.com/Dashboard/dashboard.html');
 							}
 						});
 					}
@@ -183,7 +183,7 @@ function Register(profile, id_token)
 
 function signOut() {
 	var auth2 = gapi.auth2.getAuthInstance();
-	auth2.signOut().then(function () {
+	auth2.disconnect().then(function () {
 		$("#signout").removeClass("show");
 		$("#signin").removeClass("hide");
 		$("#register_error_exist").removeClass("show");
@@ -272,6 +272,7 @@ function choosed_trial() {
 			var key = response.websafeKey;
 			if (!response.error) 
 			{
+				window.onbeforeunload = function() { return "Your work will be lost"; };
 				gapi.client.accountsApi.update({ 'token': sessionStorage.accessToken, 'status': 'TRIAL_STARTED', 'account_key': key, 'email': response.email, 'mobileNumber': $("#mobileNumber").val() }).execute(function (response) 
 				{
 					if (response.error) 
@@ -393,8 +394,7 @@ function add_site_shift() {
 										} else {
 											$("#add_site-shift").addClass("hide");
 											$("#completed_form").addClass("show");
-											window.location.replace('http://2-dot-truepresent-1.appspot.com/Dashboard/dashboard.html');
-
+											window.location.replace('http://1-dot-truepresent-1.appspot.com/Dashboard/dashboard.html');
 										}
 
 									});
@@ -407,14 +407,12 @@ function add_site_shift() {
 							$("#site_name").val("");
 							$("#site_manager_email").val("");
 							$("#site_no_of_shifts").val("0").change();
-
 							$("#site_location").val("");
 							$("#site_address").val("");
 							$("#site_city_town").val("");
 							$("#shift_name" + i).val("");
 							$("#time_from" + i).val("");
 							$("#time_to" + i).val("");
-
 							$("#site_form").text("Site " + initial);
 						}
 					} else {
