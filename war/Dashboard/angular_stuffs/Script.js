@@ -72,61 +72,9 @@ app.controller("dashboard_controller",['$scope', function ($scope) {
 					$scope.$apply(function () {
 						$scope.no_of_sites=response.items.length;
 						if(response.items!=null)
-							for(var i=0;i<response.items.length;i++){ 
+							for(var i=0;i<response.items.length;i++){ 								
+								get_site_by_shift(response.items[i].websafeKey);
 								get_yesterday_attendance(response.items[i].websafeKey);
-								gapi.client.shiftApi.getShiftBySite({'token': sessionStorage.accessToken, 'site_key':response.items[i].websafeKey}).execute(function(resp){
-									$scope.$apply(function () {
-										no_of_shift=no_of_shift+resp.items.length;
-										$scope.no_of_shifts=no_of_shift;
-
-										var today = new Date();
-										var dd = today.getDate(); 
-										var yyyy = today.getFullYear();
-										var mm=today.getMonth()+1;
-										if(dd<10) {
-											dd='0'+dd
-										} 
-
-										if(mm<10) {
-											mm='0'+mm
-										} 
-										var present=0,no_of_emp=0;;
-										today = yyyy+'-'+mm+'-'+dd;
-										if(resp.items!=null)
-											for(var j=0;j<resp.items.length;j++)
-											{
-												gapi.client.attendanceApi.getAttendanceByShift({'token': sessionStorage.accessToken, 'shift_key':resp.items[j].websafeKey,'date':today}).execute(function(res){
-													$scope.$apply(function () {
-														if(!res.error)
-														{  
-															if(res.absent!=null)
-															{ 
-																no_of_absent_emp=no_of_absent_emp+res.absent.length;
-
-															}
-															if(res.late!=null)
-															{
-																no_of_late_emp=no_of_late_emp+res.late.length;
-
-															}
-															if(res.ontime!=null)
-																no_of_present_emp=no_of_present_emp+res.ontime.length;
-
-															$scope.no_of_present=no_of_present_emp;
-															$scope.no_of_late=no_of_late_emp;
-															$scope.no_of_absent=no_of_absent_emp;
-															get_chart();
-														}
-													});
-												});
-											}
-									});
-
-
-								});
-
-
-
 							}
 					});
 
@@ -159,9 +107,59 @@ app.controller("dashboard_controller",['$scope', function ($scope) {
 	};
 
 	var y_no_of_absent_emp=0,y_no_of_present_emp=0,y_no_of_late_emp=0;
+	
+	var get_site_by_shift=function(key){
+		gapi.client.shiftApi.getShiftBySite({'token': sessionStorage.accessToken, 'site_key':key}).execute(function(resp){
+			$scope.$apply(function () {
+				no_of_shift=no_of_shift+resp.items.length;
+				$scope.no_of_shifts=no_of_shift;
+
+				var today = new Date();
+				var dd = today.getDate(); 
+				var yyyy = today.getFullYear();
+				var mm=today.getMonth()+1;
+				if(dd<10) {
+					dd='0'+dd
+				} 
+
+				if(mm<10) {
+					mm='0'+mm
+				} 
+				var present=0,no_of_emp=0;;
+				today = yyyy+'-'+mm+'-'+dd;
+				if(resp.items!=null)
+					for(var j=0;j<resp.items.length;j++)
+					{
+						gapi.client.attendanceApi.getAttendanceByShift({'token': sessionStorage.accessToken, 'shift_key':resp.items[j].websafeKey,'date':today}).execute(function(res){
+							$scope.$apply(function () {
+								if(!res.error)
+								{  
+									if(res.absent!=null)
+									{ 
+										no_of_absent_emp=no_of_absent_emp+res.absent.length;
+
+									}
+									if(res.late!=null)
+									{
+										no_of_late_emp=no_of_late_emp+res.late.length;
+
+									}
+									if(res.ontime!=null)
+										no_of_present_emp=no_of_present_emp+res.ontime.length;
+
+									$scope.no_of_present=no_of_present_emp;
+									$scope.no_of_late=no_of_late_emp;
+									$scope.no_of_absent=no_of_absent_emp;
+									get_chart();
+								}
+							});
+						});
+					}
+			});
+		});
+	}
 
 	var get_yesterday_attendance=function(key){
-
 		gapi.client.shiftApi.getShiftBySite({'token': sessionStorage.accessToken, 'site_key':key}).execute(function(resp){
 			$scope.$apply(function () {
 
@@ -206,11 +204,7 @@ app.controller("dashboard_controller",['$scope', function ($scope) {
 					});
 				}
 			});
-
-
 		});
-
-
 	};
 
 	function y_get_chart(){
@@ -2254,7 +2248,6 @@ app.controller("attendance_report_controller", function ($scope) {
 						gapi.client.attendanceApi.getAttendanceByShift({'token': sessionStorage.accessToken, 'shift_key':shift_key,'date':date}).execute(function(resp){
 							$scope.$apply(function () {
 								if(!resp.error)
-
 								{   
 									var get_shift_chart_details={};  
 									var no_of_absent_emp=0,no_of_late_emp=0,no_of_ontime_emp=0;
@@ -2289,19 +2282,10 @@ app.controller("attendance_report_controller", function ($scope) {
 								}
 							});
 						});
-
 					}
-
-
 				}
 			});
 		});
-
-
-
-
-
-
 	};
 
 	var f=0;

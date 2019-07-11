@@ -144,7 +144,7 @@ function Register(profile, id_token)
 							{
 								$("#register_error_exist").addClass("show").text("Please wait, you will be automatically redirected to the Dashboard");
 								$("#choosing_trial").addClass("hide");
-								window.location.replace('http://1-dot-truepresent-1.appspot.com/Dashboard/dashboard.html');
+								window.location.replace(deployUrl.url + '/Dashboard/dashboard.html');
 							}
 		
 						});
@@ -166,7 +166,7 @@ function Register(profile, id_token)
 							{
 								$("#register_error_exist").addClass("show").text("Your Trial Period is already Started, You will be automatically redirected to the Dashboard");
 								$("#choosing_trial").addClass("hide");
-								window.location.replace('http://1-dot-truepresent-1.appspot.com/Dashboard/dashboard.html');
+								window.location.replace(deployUrl.url + '/Dashboard/dashboard.html');
 							}
 						});
 					}
@@ -394,7 +394,7 @@ function add_site_shift() {
 										} else {
 											$("#add_site-shift").addClass("hide");
 											$("#completed_form").addClass("show");
-											window.location.replace('http://1-dot-truepresent-1.appspot.com/Dashboard/dashboard.html');
+											window.location.replace(deployUrl.url + '/Dashboard/dashboard.html');
 										}
 
 									});

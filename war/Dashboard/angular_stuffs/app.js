@@ -65,7 +65,7 @@ app.directive('validFile', function () {
 
 app.factory('oauth2Provider', function ($modal) {
     var oauth2Provider = {
-        CLIENT_ID: '26822065412-fjdo8q0kutrh2c443l3fmlr4fikcp50b.apps.googleusercontent.com',
+        CLIENT_ID: '26822065412-gpv1kf1o8os4pkepfvla1t89jagmcke2.apps.googleusercontent.com',
         SCOPES: 'https://www.googleapis.com/auth/userinfo.email profile',
         	signedIn: false
     };
