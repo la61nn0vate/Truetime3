@@ -585,7 +585,7 @@ app.controller("employee_controller",['$scope','$timeout', function ($scope,$tim
 				}
 
 			}
-			gapi.client.employeeApi.insertEmployeeDemographic({'token': sessionStorage.accessToken, 'shift_ws_key':shift_websafekey,'employee_id':$scope.employee_id,  'name': $scope.name, 'designation': $scope.designation, 'gender': $scope.gender, 'mobile_number': $scope.mobile_number, 'email': $scope.email, 'address': $scope.address, 'siteManager': $scope.siteManager }).execute(function (response) {
+			gapi.client.employeeApi.insertEmployeeDemographicNew({'token': sessionStorage.accessToken, 'shift_ws_key':shift_websafekey,'employee_id':$scope.employee_id,  'name': $scope.name, 'designation': $scope.designation, 'gender': $scope.gender, 'mobile_number': $scope.mobile_number, 'email': $scope.email, 'address': $scope.address, 'siteManager': $scope.siteManager }).execute(function (response) {
 				$scope.$apply(function () {
 					if (!response.error) {
 						swal({
