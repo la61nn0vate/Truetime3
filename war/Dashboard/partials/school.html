@@ -1,14 +1,14 @@
 
 <!--sites-->
-<div data-ng-controller="site_controller" data-ng-init="get_site_data()">
+<div data-ng-controller="school_controller" data-ng-init="get_site_data()">
 	<div class="container-fluid">
 		<section class="content-header">
 			<h1>
-				Sites Details <small>Biometric Attendance System</small>
+				School Details <small>Biometric Attendance System</small>
 			</h1>
 			<ol class="breadcrumb">
 				<li><a href="#/"><i class="fa fa-dashboard"></i>Home</a></li>
-				<li class="active">Sites details</li>
+				<li class="active">School details</li>
 			</ol>
 		</section>
 		<br />
@@ -17,13 +17,13 @@
 				<div class="panel-heading">
 					<ul class="nav nav-tabs nav-justified">
 						<li class="active">
-							<a href="#site_tab1" data-toggle="tab">Site Details</a>
+							<a href="#site_tab1" data-toggle="tab">School Details</a>
 						</li>						
 						<li>
-							<a href="#site_tab2" data-toggle="tab">Add Site</a>
+							<a href="#site_tab2" data-toggle="tab">Add School</a>
 						</li>
 						<li>
-							<a href="#site_tab3" data-toggle="tab">Manage Site</a>
+							<a href="#site_tab3" data-toggle="tab">Manage School</a>
 						</li>
 					</ul>
 				</div>
@@ -47,18 +47,20 @@
 												data-ng-click="orderByField='S_no';reverse = !reverse">S.no.</a>
 											</th>
 											<th><a href=""
-												data-ng-click="orderByField='site_name';reverse = !reverse">Site Name</a>
+												data-ng-click="orderByField='site_name';reverse = !reverse">School Name</a>
 											</th>
 											<th><a href=""
-												data-ng-click="orderByField='site_location';reverse = !reverse">Site Location</a>
+												data-ng-click="orderByField='site_location';reverse = !reverse">School Location</a>
 											</th>
 											<th><a href=""
-												data-ng-click="orderByField='number_of_shifts';reverse = !reverse">Number of Shifts</a>
+												data-ng-click="orderByField='number_of_shifts';reverse = !reverse">Number of Classes</a>
+											</th>
+											<!-- <th><a href=""
+												data-ng-click="orderByField='number_of_shifts';reverse = !reverse">Teachers</a>
 											</th>
 											<th><a href=""
-												data-ng-click="orderByField='number_of_shifts';reverse = !reverse">Employees</a>
-											</th>
-
+												data-ng-click="orderByField='number_of_shifts';reverse = !reverse">Students</a>
+											</th>	 -->									
 										</tr>
 									</thead>
 									<tbody
@@ -113,10 +115,17 @@
 								<br>
 
 								<div
+									class="input-group has-feedback has-feedback-left col-md-offset-10">									
+									<input type="text" class="form-control"
+										placeholder="Name" data-ng-model="search_emp" /> 
+									<span class="glyphicon glyphicon-search form-control-feedback"></span>
+								</div>
+								<br />
+								<div
 									class="input-group has-feedback has-feedback-left col-md-offset-10">
 									<input type="text" class="form-control"
-										placeholder="Type (eg, Name)" data-ng-model="search_emp" /> <span
-										class="glyphicon glyphicon-search form-control-feedback"></span>
+										placeholder="Designation" data-ng-model="search_des" /> 
+									<span class="glyphicon glyphicon-search form-control-feedback"></span>
 								</div>
 								<br />
 								<table
@@ -127,7 +136,7 @@
 												data-ng-click="orderByField='S_no';reverse = !reverse">S.no.</a>
 											</th>
 											<th><a href=""
-												data-ng-click="orderByField='employee_id';reverse = !reverse">Employee ID</a>
+												data-ng-click="orderByField='employee_id';reverse = !reverse">Student ID</a>
 											</th>
 											<th><a href=""
 												data-ng-click="orderByField='name';reverse = !reverse">Name</a>
@@ -136,10 +145,10 @@
 												data-ng-click="orderByField='gender';reverse = !reverse">Gender</a>
 											</th>
 											<th><a href=""
-												data-ng-click="orderByField='site';reverse = !reverse">Site</a>
+												data-ng-click="orderByField='site';reverse = !reverse">School</a>
 											</th>
 											<th><a href=""
-												data-ng-click="orderByField='site';reverse = !reverse">Managing Site</a>
+												data-ng-click="orderByField='site';reverse = !reverse">Managing School</a>
 											</th>
 											<th><a href=""
 												data-ng-click="orderByField='shift';reverse = !reverse">Shift</a>
@@ -157,7 +166,7 @@
 									</thead>
 									<tbody>
 										<tr
-											data-ng-repeat="emp in employees | filter:search_emp | orderBy:orderByField:reverseSort">
+											data-ng-repeat="emp in employees | filter:search_emp | filter:search_des | orderBy:orderByField:reverseSort">
 											<td>{{$index+1}}</td>
 											<td>{{emp.employee_id}}</td>
 											<td>{{emp.name}}</td>
@@ -211,7 +220,7 @@
 								<div style="padding-top: 30px" class="panel-body">
 									<form id="add_site" name="add_site" class="form-horizontal"
 										role="form">
-										<label for="site_name">Site Name</label>
+										<label for="site_name">School Name</label>
 										<div style="margin-bottom: 25px" class="input-group"
 											data-ng-class="{'has-error':add_site.site_name.$invalid && !add_site.site_name.$pristine}">
 											<span class="input-group-addon"><i
@@ -219,7 +228,7 @@
 												type="text" data-ng-model="site_name" class="form-control"
 												name="site_name" required placeholder="Site Name">
 										</div>
-										<label for="site_location">Site Location</label>
+										<label for="site_location">School Location</label>
 										<div style="margin-bottom: 25px" class="input-group"
 											data-ng-class="{'has-error':site_location.site_location.$invalid && !add_site.site_location.$pristine}">
 											<span class="input-group-addon"><i
@@ -229,7 +238,7 @@
 												name="site_location" required placeholder="Site Location">
 										</div>
 
-										<label for="managerEmail">Manager Email</label>
+										<label for="managerEmail">Principal Email</label>
 										<div style="margin-bottom: 25px" class="input-group"
 											data-ng-class="{'has-error':add_site.managerEmail.$invalid && !add_site.managerEmail.$pristine}">
 											<span class="input-group-addon"><i
@@ -290,7 +299,7 @@
 										<input id="pac-input1" class="controls" type="text" placeholder="Search Box">
    										<div style="margin-bottom: 25px" id="map1"></div>
    										
-										<label for="number_of_shifts">Number Of Shifts</label>
+										<label for="number_of_shifts">Number Of Classes</label>
 										<div style="margin-bottom: 25px" class="input-group"
 											data-ng-class="{'has-error':add_site.number_of_shifts.$invalid && !add_site.number_of_shifts.$pristine}">
 											<span class="input-group-addon"><i
@@ -312,7 +321,7 @@
 										</div>
 										
 										<div data-ng-repeat="shift in shifts">
-											<h3>Shift {{$index+1}} Details</h3>
+											<h3>Class {{$index+1}} Details</h3>
 
 											<div style="margin-bottom: 25px" class="input-group"
 												data-ng-class="{'has-error':add_site.shift_name.$invalid && !add_site.shift_name.$pristine}">
@@ -320,7 +329,7 @@
 													class="glyphicon glyphicon-user"></i></span> <input
 													id="shift_name" data-ng-model="shift.shift_name"
 													type="text" class="form-control" name="shift_name"
-													value="" placeholder="Shift Name">
+													value="" placeholder="Class Name">
 											</div>
 
 											<div style="margin-bottom: 25px"
@@ -348,8 +357,8 @@
 											<div class="col-sm-12 centered">
 												<button type="submit" class="btn btn-primary"
 													data-ng-click="addsite()"
-													data-ng-disabled="add_site.$invalid">Add Site And
-													it's Shifts</button>
+													data-ng-disabled="add_site.$invalid">Add School And
+													it's Classes</button>
 											</div>
 										</div>
 
@@ -375,7 +384,7 @@
 									<div style="padding-top: 30px" class="panel-body">
 										<form id="update_site" name="update_site"
 											class="form-horizontal" role="form">
-											<label for="u_site_name">Site Name</label>
+											<label for="u_site_name">School Name</label>
 											<div style="margin-bottom: 25px" class="input-group"
 												data-ng-class="{'has-error':update_site.u_site_name.$invalid && !update_site.u_site_name.$pristine}">
 												<span class="input-group-addon">
@@ -383,25 +392,25 @@
 												</span> 
 												<input id="u_site_name" type="text" data-ng-model="u_site_name"
 													class="form-control" name="site_name" required
-													placeholder="Site Name">
+													placeholder="School Name">
 											</div>
-											<label for="u_site_location">Site Location</label>
+											<label for="u_site_location">School Location</label>
 											<div style="margin-bottom: 25px" class="input-group"
 												data-ng-class="{'has-error':update_site.u_site_location.$invalid && !update_site.u_site_location.$pristine}">
 												<span class="input-group-addon"><i
 													class="glyphicon glyphicon-user"></i></span> <input
 													id="u_site_location" type="text"
 													data-ng-model="u_site_location" class="form-control"
-													name="site_location" required placeholder="Site Location">
+													name="site_location" required placeholder="School Location">
 											</div>
-											<label for="u_managerEmail">Manager Email</label>
+											<label for="u_managerEmail">Principal Email</label>
 											<div style="margin-bottom: 25px" class="input-group"
 												data-ng-class="{'has-error':update_site.u_managerEmail.$invalid && !update_site.u_managerEmail.$pristine}">
 												<span class="input-group-addon"><i
 													class="glyphicon glyphicon-lock"></i></span> <input
 													id="u_managerEmail" type="email"
 													data-ng-model="u_managerEmail" class="form-control"
-													name="managerEmail" required placeholder="Manager Email">
+													name="managerEmail" required placeholder="Principal Email">
 											</div>
 											<p class="help-block"
 												data-ng-show="add_site.managerEmail.$error.email">Email
@@ -456,7 +465,7 @@
 											<input id="pac-input" class="controls" type="text" placeholder="Search Box">
     										<div style="margin-bottom: 25px" id="map"></div>
     										
-											<label for="u_number_of_shifts">Number Of Shifts</label>
+											<label for="u_number_of_shifts">Number Of Classes</label>
 											<div style="margin-bottom: 25px" class="input-group"
 												data-ng-class="{'has-error':update_site.u_number_of_shifts.$invalid && !update_site.u_number_of_shifts.$pristine}">
 												<span class="input-group-addon"><i
@@ -475,7 +484,7 @@
 													<button id="submitUpdateSite" type="submit"
 														class="btn btn-primary" data-ng-click="updatesite()"
 														data-ng-disabled="update_site.$invalid">Update
-														Site</button>
+														School</button>
 												</div>
 											</div>
 
@@ -500,13 +509,13 @@
 												data-ng-click="orderByField='S_no';reverse = !reverse">S.no.</a>
 											</th>
 											<th><a href=""
-												data-ng-click="orderByField='site_name';reverse = !reverse">Site Name</a>
+												data-ng-click="orderByField='site_name';reverse = !reverse">School Name</a>
 											</th>
 											<th><a href=""
-												data-ng-click="orderByField='site_location';reverse = !reverse">Site Location</a>
+												data-ng-click="orderByField='site_location';reverse = !reverse">School Location</a>
 											</th>
 											<th><a href=""
-												data-ng-click="orderByField='number_of_shifts';reverse = !reverse">Number of Shifts</a>
+												data-ng-click="orderByField='number_of_shifts';reverse = !reverse">Number of Classes</a>
 											</th>
 											<th><a href=""
 												data-ng-click="orderByField='manage';reverse = !reverse">Manage</a>

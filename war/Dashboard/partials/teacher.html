@@ -1,14 +1,14 @@
  
         <!--Site Managers-->
-        <div data-ng-controller="sitemanager_controller" data-ng-init="get_site_manager_details()">
+        <div data-ng-controller="teacher_controller" data-ng-init="get_site_manager_details()">
              <div class="container-fluid" >
                 <section class="content-header">
                     <h1>
-                        Site Manager Details <small>Biometric Attendance System</small>
+                        School Teacher Details <small>Biometric Attendance System</small>
                     </h1>
                     <ol class="breadcrumb">
                         <li><a href="#/"><i class="fa fa-dashboard"></i>Home</a></li>
-                        <li class="active">Site Manager details</li>
+                        <li class="active">School Teacher details</li>
                     </ol>
                 </section>
                 <br />
@@ -16,7 +16,7 @@
                     <div class="panel with-nav-tabs panel">
                         <div class="panel-heading">
                             <ul class="nav nav-tabs nav-justified">
-                                <li class="active"><a href="#tab1" data-toggle="tab">Site Manager Details</a></li>
+                                <li class="active"><a href="#tab1" data-toggle="tab">School Teacher Details</a></li>
                             </ul>
                         </div>
                         <div class="panel-body">
@@ -35,7 +35,7 @@
                                                     <a href="" data-ng-click="orderByField='S_no';reverse = !reverse">S.no.</a>
                                                 </th>
                                                 <th>
-                                                    <a href="" data-ng-click="orderByField='employee_id';reverse = !reverse">Employee ID</a>
+                                                    <a href="" data-ng-click="orderByField='employee_id';reverse = !reverse">Teacher ID</a>
                                                 </th>
                                                 <th>
                                                     <a href="" data-ng-click="orderByField='name';reverse = !reverse">Name</a>

@@ -1,7 +1,7 @@
 'use strict';
 
 var deployUrl = {
-	url : 'https://1-dot-truetime-216405.appspot.com'
+	url : 'https://2-dot-truetime-216405.appspot.com'
 };
 
 var serverUrl = {

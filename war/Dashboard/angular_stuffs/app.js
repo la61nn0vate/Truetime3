@@ -14,17 +14,17 @@ var app = angular.module('admin',
                     templateUrl: 'partials/organisational.html',
                     controller: 'organisation_controller'
                 }).
-                when('/employee_details', {
-                    templateUrl: 'partials/employee.html',
-                    controller: 'employee_controller'
+                when('/student_details', {
+                    templateUrl: 'partials/student.html',
+                    controller: 'student_controller'
                 }).
-                when('/sites_details', {
-                    templateUrl: 'partials/site.html',
-                    controller: 'site_controller'
+                when('/school_details', {
+                    templateUrl: 'partials/school.html',
+                    controller: 'school_controller'
                 }).
-                when('/shift_details', {
-                    templateUrl: 'partials/shift.html',
-                    controller: 'shift_controller'
+                when('/class_details', {
+                    templateUrl: 'partials/class.html',
+                    controller: 'class_controller'
                 }).
                 when('/attendance_details', {
                     templateUrl: 'partials/attendance_details.html',
@@ -38,9 +38,9 @@ var app = angular.module('admin',
                     templateUrl: 'partials/profile.html',
                     controller: 'profile_controller'
                 }).
-                when('/site_managers', {
-                    templateUrl: 'partials/sitemanager.html',
-                    controller: 'sitemanager_controller'
+                when('/teachers', {
+                    templateUrl: 'partials/teacher.html',
+                    controller: 'teacher_controller'
                 }).
                    otherwise({
                     redirectTo: '/'

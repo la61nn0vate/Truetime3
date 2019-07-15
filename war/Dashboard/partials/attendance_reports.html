@@ -1,144 +1,136 @@
 <!--Attendance Reports-->
-        <div  data-ng-controller="attendance_report_controller" data-ng-init="get_report_data()">
-                <div class="container-fluid">
-                <section class="content-header">
-                    <h1>
-                        Attendance Reports <small>Biometric Attendance System</small>
-                    </h1>
-                    <ol class="breadcrumb">
-                        <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
-                        <li class="active">Attendance Reports</li>
-                    </ol>
-                </section>
-                <br /> 
-                <br>
-                
-                
-                 <div class="container-fluid box">
-                    <div class="panel with-nav-tabs panel">
-                        <div class="panel-heading">
-                            <ul class="nav nav-tabs nav-justified">
-                                <li class="active"><a href="#report_tab1" data-toggle="tab">Date From And Date To Attendance Reports</a></li>
-                                 <li><a href="#report_tab2" data-toggle="tab">Date Wise Attendance Reports</a></li>
-                               
-                            </ul>
-                        </div>
-                        <div class="panel-body">
-                            <div class="tab-content">
-                                <!--Shifts details-->
-                                 <div class="tab-pane fade in active" id="report_tab1">
-                                 <form name="report1" >
-                                   <div class="row"> 
-                                      
-                                       <div class="col-md-offset-4">
-                                       <label for="date_from">Date From</label>
-                                         <input type="date" name="date_from" id="date_from" required data-ng-model="date_from" >
-                                       </div>
-                                        </div>
-                                        <br>
-                                       <div class="row">
-                                       <div class="col-md-offset-4">
-                                         
-                                          <label for="date_to">Date To&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                                      <input type="date" name="date_to" id="date_to" required data-ng-model="date_to" >
-                                         </div>
-                                      </div>
-                                    <br>
-                                    
-                                    <div class="row">
-                                         <div class="col-md-12" >
-                                           <label for="all_site">Select Site</label>
-                                                        <select id="all_site" data-ng-model="all_site_of_org" class="form-control"
-                                                             name="all_site" required data-ng-options="site for site in all_site track by site" >
-                                                              </select>
-                                                    </div>
-                                                   
-                                   </div>
-                                  
-                                   <br>
-                                   <div class="col-md-offset-5">
-                                     <button class="btn btn-primary" data-ng-click="show_report1()" data-ng-disabled="report1.$invalid">
-                                        See Reports
-                                     </button>
-                                   </div>
-                                   </form> 
-                                   
-                                   <br>
-                                   <br>
-                                 <hr>  
-                                   <div class="row" data-ng-show="site_atten_show" >
-                                   <h3>Site Attendance report</h3>
-                                     <div google-chart chart="charts" style="{{chart.cssStyle}}">
+<div data-ng-controller="attendance_report_controller"
+	data-ng-init="get_report_data()">
+	<div class="container-fluid">
+		<section class="content-header">
+			<h1>
+				Attendance Reports <small>Biometric Attendance System</small>
+			</h1>
+			<ol class="breadcrumb">
+				<li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
+				<li class="active">Attendance Reports</li>
+			</ol>
+		</section>
+		<br /> <br>
+
+
+		<div class="container-fluid box">
+			<div class="panel with-nav-tabs panel">
+				<div class="panel-heading">
+					<ul class="nav nav-tabs nav-justified">
+						<li class="active"><a href="#report_tab1" data-toggle="tab">Date
+								From And Date To Attendance Reports</a></li>
+						<li><a href="#report_tab2" data-toggle="tab">Date Wise
+								Attendance Reports</a></li>
+
+					</ul>
+				</div>
+				<div class="panel-body">
+					<div class="tab-content">
+						<!--Shifts details-->
+						<div class="tab-pane fade in active" id="report_tab1">
+							<form name="report1">
+								<div class="row">
+
+									<div class="col-md-offset-4">
+										<label for="date_from">Date From</label> <input type="date"
+											name="date_from" id="date_from" required
+											data-ng-model="date_from">
+									</div>
+								</div>
+								<br>
+								<div class="row">
+									<div class="col-md-offset-4">
+
+										<label for="date_to">Date
+											To&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label> <input type="date"
+											name="date_to" id="date_to" required data-ng-model="date_to">
+									</div>
+								</div>
+								<br>
+
+								<div class="row">
+									<div class="col-md-12">
+										<label for="all_site">Select Site</label> <select
+											id="all_site" data-ng-model="all_site_of_org"
+											class="form-control" name="all_site" required
+											data-ng-options="site for site in all_site track by site">
+										</select>
+									</div>
+
+								</div>
+
+								<br>
+								<div class="col-md-offset-5">
+									<button class="btn btn-primary" data-ng-click="show_report1()"
+										data-ng-disabled="report1.$invalid">See Reports</button>
+								</div>
+							</form>
+
+							<br> <br>
+							<hr>
+							<div class="row" data-ng-show="site_atten_show">
+								<h3>School Attendance report</h3>
+								<div google-chart chart="charts" style=""></div>
+							</div>
+							<hr>
+							<div class="row" data-ng-show="shifts_atten_show">
+								<h3>Class Attendance report</h3>
+
+								<div data-ng-repeat="chart in shift_charts track by $index">
+									<div google-chart chart="charts{{$index+1}}" style=""></div>
+								</div>
+							</div>
+							<hr>
+						</div>
+						<div class="tab-pane fade" id="report_tab2">
+
+							<form name="report2">
+								<div class="row">
+									<br> <br>
+									<div class="col-md-offset-4">
+										<label for="date">Date</label> <input type="date" name="date"
+											id="date" required data-ng-model="date">
+									</div>
+								</div>
+								<br> <br>
+								<div class="row">
+									<div class="col-md-12">
+										<label for="all_site">Select Site</label> <select
+											id="all_site" data-ng-model="all_site_of_org"
+											class="form-control" name="all_site" required
+											data-ng-options="site for site in all_site track by site">
+										</select>
+									</div>
+
+								</div>
+
+								<br>
+								<div class="col-md-offset-5">
+									<button class="btn btn-primary" data-ng-click="show_report2()"
+										data-ng-disabled="report2.$invalid">See Reports</button>
+								</div>
+							</form>
+							<hr>
+							<div class="row" data-ng-show="site_atten_show2">
+								<h3>School Attendance report</h3>
+								<div google-chart chart="charts_d" style=""></div>
+							</div>
+							<hr>
+							<div class="row" data-ng-show="shifts_atten_show2">
+								<h3>Class Attendance report</h3>
+
+								<div data-ng-repeat="chart in shift_date_chart track by $index">
+									<div google-chart chart="charts_d{{$index+1}}" style="">
+									</div>
+								</div>
+							</div>
+							<hr>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
-                                   </div>
-                                   <hr>   
-                                   <div class="row" data-ng-show="shifts_atten_show">
-                                     <h3>Shifts Attendance report</h3>
-                                  
-                                       <div data-ng-repeat="chart in shift_charts track by $index">
-                                            <div google-chart chart="charts{{$index+1}}" style="{{chart.cssStyle}}">
-</div>
-                                       </div>
-                                   </div>
-                                   <hr>
-	                            	</div>
-                                 <div class="tab-pane fade" id="report_tab2">
-                                       
-                                  <form name="report2" >
-                                   <div class="row"> 
-                                       <br>
-                                       <br>
-                                       <div class="col-md-offset-4">
-                                       <label for="date">Date</label>
-                                         <input type="date" name="date" id="date" required data-ng-model="date" >
-                                       </div>
-                                       </div>
-                                    <br>
-                                    <br>   
-                                    <div class="row">
-                                         <div class="col-md-12" >
-                                           <label for="all_site">Select Site</label>
-                                                        <select id="all_site" data-ng-model="all_site_of_org" class="form-control"
-                                                             name="all_site" required data-ng-options="site for site in all_site track by site" >
-                                                              </select>
-                                                    </div>
-                                                   
-                                   </div>
-                                  
-                                   <br>
-                                   <div class="col-md-offset-5">
-                                     <button class="btn btn-primary" data-ng-click="show_report2()" data-ng-disabled="report2.$invalid">
-                                        See Reports
-                                     </button>
-                                   </div>
-                                   </form> 
-                                   <hr>  
-                                   <div class="row" data-ng-show="site_atten_show2">
-                                   <h3>Site Attendance report</h3>
-                                     <div google-chart chart="charts_d" style="{{chart.cssStyle}}">
-</div>
-                                   </div>
-                                   <hr>   
-                                   <div class="row" data-ng-show="shifts_atten_show2">
-                                     <h3>Shifts Attendance report</h3>
-                                  
-                                       <div data-ng-repeat="chart in shift_date_chart track by $index">
-                                            <div google-chart chart="charts_d{{$index+1}}" style="{{chart.cssStyle}}">
-</div>
-                                       </div>
-                                   </div>
-                                   <hr>
-                                 </div>
-                                
-                               
-                               
-                                
-                            </div>
-                </div>
-                </div>
-                
-                </div>
-        </div>
-       
-        </div>
-        <!--/Attendance Reports-->
+<!--/Attendance Reports-->

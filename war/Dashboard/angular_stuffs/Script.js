@@ -418,7 +418,7 @@ app.controller("organisation_controller",['$parse','$scope', function ($parse,$s
 }]);
 
 
-app.controller("employee_controller",['$scope','$timeout', function ($scope,$timeout) {
+app.controller("student_controller",['$scope','$timeout', function ($scope,$timeout) {
 	NProgress.start();
 	var data=[];
 	var site_websafekey="";
@@ -597,7 +597,7 @@ app.controller("employee_controller",['$scope','$timeout', function ($scope,$tim
 
 						$scope.employee_id=" ";
 						$scope.name=" ";
-						$scope.designation=" ";
+						$scope.designation="Student";
 						$scope.gender="Choose Gender";
 						$scope.mobile_number=" ";
 						$scope.email="abc@xyz.com";
@@ -607,7 +607,6 @@ app.controller("employee_controller",['$scope','$timeout', function ($scope,$tim
 						$scope.all_shift_of_site="Select Shift";
 						$scope.get_emp_details(); 
 						$scope.add_employee.$invalid=true;
-
 						$scope.get_emp_details();
 					} 
 					else 
@@ -777,7 +776,7 @@ app.controller("employee_controller",['$scope','$timeout', function ($scope,$tim
 }]);
 
 
-app.controller("site_controller",['$scope','$timeout', function ($scope,$timeout) {
+app.controller("school_controller",['$scope','$timeout', function ($scope,$timeout) {
 	NProgress.start();
 
 	$scope.shiftList = [
@@ -1403,7 +1402,7 @@ app.controller("site_controller",['$scope','$timeout', function ($scope,$timeout
 }]);
 
 
-app.controller("shift_controller",['$scope','$timeout', function ($scope,$timeout) {
+app.controller("class_controller",['$scope','$timeout', function ($scope,$timeout) {
 	NProgress.start();
 	var data=[];
 	var site_data=[];
@@ -1800,9 +1799,6 @@ app.controller("attendance_details_controller", function ($scope) {
 
 	};
 
-
-
-
 	function get_site_attendance_details(key,item,data){
 		var today = new Date();
 		var dd = today.getDate(); 
@@ -1855,37 +1851,22 @@ app.controller("attendance_details_controller", function ($scope) {
 		});
 	};
 
-
-
-
-
-
-
 	var get_shift=[];
 	var p=0;
 	function get_shift_details(key){
-
-
 		gapi.client.shiftApi.getShiftBySite({'token': sessionStorage.accessToken, 'site_key': key}).execute(function (response) {
 			$scope.$apply(function () {
-
-
 				if (!response.error) {
-					if(response.items!=null)
+					if(response.items!=null){
 						for(var i=0;i<response.items.length;i++){
 							get_shift[p]=(response.items[i]);
 							get_shift_attendance_details(get_shift[p].websafeKey,get_shift[p],get_shift);
 							p++;
-
 						}
-
-
+					}
 				}
 			});
 		});
-
-
-
 	};
 
 	function get_shift_attendance_details(key,shift_item,get_shift){
@@ -1906,35 +1887,32 @@ app.controller("attendance_details_controller", function ($scope) {
 
 		gapi.client.attendanceApi.getAttendanceByShift({'token': sessionStorage.accessToken, 'shift_key':key,'date':today}).execute(function(resp){
 			$scope.$apply(function () {
-				if(!resp.error)
-				{    	  if(resp.absent!=null)
-				{
-					no_of_emp=no_of_emp+resp.absent.length;
-					absent=absent+resp.absent.length;
-				}
-				if(resp.late!=null)
-				{
-					no_of_emp=no_of_emp+resp.late.length;
-					late=late+resp.late.length;
-				}
-				if(resp.ontime!=null)
-				{
-					present=present+ resp.ontime.length;
-					no_of_emp=no_of_emp+resp.ontime.length;
-
-				}
-
-				angular.extend(shift_item,{'no_of_present_today_emp':present});
-				angular.extend(shift_item,{'no_of_emp':no_of_emp});
-				angular.extend(shift_item,{'no_of_late_today_emp':late});
-				angular.extend(shift_item,{'no_of_absent_today_emp':absent});
-
-				$scope.attendance_details_of_shift=get_shift;
-				pagination($scope.attendance_details_of_shift);
+				if(!resp.error){    	  
+					if(resp.absent!=null)
+					{
+						no_of_emp=no_of_emp+resp.absent.length;
+						absent=absent+resp.absent.length;
+					}
+					if(resp.late!=null)
+					{
+						no_of_emp=no_of_emp+resp.late.length;
+						late=late+resp.late.length;
+					}
+					if(resp.ontime!=null)
+					{
+						present=present+ resp.ontime.length;
+						no_of_emp=no_of_emp+resp.ontime.length;
+					}
+					angular.extend(shift_item,{'no_of_present_today_emp':present});
+					angular.extend(shift_item,{'no_of_emp':no_of_emp});
+					angular.extend(shift_item,{'no_of_late_today_emp':late});
+					angular.extend(shift_item,{'no_of_absent_today_emp':absent});
+	
+					$scope.attendance_details_of_shift=get_shift;
+					pagination($scope.attendance_details_of_shift);
 				}
 			});
 		});
-
 	};
 
 
@@ -2095,19 +2073,10 @@ app.controller("attendance_report_controller", function ($scope) {
 								}
 							});
 						});
-
 					}
-
-
 				}
 			});
 		});
-
-
-
-
-
-
 	};
 
 	var e=0;
@@ -2197,13 +2166,9 @@ app.controller("attendance_report_controller", function ($scope) {
 		};
 
 		chart2.formatters = {};
-
 		$scope.charts = chart2;
 
 	}
-
-
-
 
 	$scope.show_report2=function(){
 		$scope.site_atten_show2=true;
@@ -2387,7 +2352,7 @@ app.controller("attendance_report_controller", function ($scope) {
 });
 
 
-app.controller("sitemanager_controller", function ($scope) {
+app.controller("teacher_controller", function ($scope) {
 	NProgress.start();
 
 	$scope.get_site_manager_details=function(){

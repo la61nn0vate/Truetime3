@@ -1,5 +1,5 @@
 <!-- Employee-->
-<div data-ng-controller="employee_controller"
+<div data-ng-controller="student_controller"
 	data-ng-init="get_emp_details()">
 	<div class="container-fluid">
 		<section class="content-header">
@@ -8,7 +8,7 @@
 			</h1>
 			<ol class="breadcrumb">
 				<li><a href="#/"><i class="fa fa-dashboard"></i>Home</a></li>
-				<li class="active">Employee details</li>
+				<li class="active">Student details</li>
 			</ol>
 		</section>
 		<br />
@@ -16,10 +16,10 @@
 			<div class="panel with-nav-tabs panel">
 				<div class="panel-heading">
 					<ul class="nav nav-tabs nav-justified">
-						<li class="active"><a href="#tab1" data-toggle="tab">Employee
+						<li class="active"><a href="#tab1" data-toggle="tab">Student
 								Details</a></li>
-						<li><a href="#tab2" data-toggle="tab">Add Employee</a></li>
-						<li><a href="#tab3" data-toggle="tab">Manage Employee</a></li>
+						<li><a href="#tab2" data-toggle="tab">Add Student</a></li>
+						<li><a href="#tab3" data-toggle="tab">Manage Student</a></li>
 					</ul>
 				</div>
 				<div class="panel-body">
@@ -41,7 +41,7 @@
 											data-ng-click="orderByField='S_no';reverse = !reverse">S.no.</a>
 										</th>
 										<th><a href=""
-											data-ng-click="orderByField='employee_id';reverse = !reverse">EmployeeID</a>
+											data-ng-click="orderByField='employee_id';reverse = !reverse">Student ID</a>
 										</th>																				
 										<th><a href=""
 											data-ng-click="orderByField='name';reverse = !reverse">Name</a>
@@ -52,15 +52,15 @@
 										<th><a href=""
 											data-ng-click="orderByField='site';reverse = !reverse">Site</a>
 										</th>
+										<!-- <th><a href=""
+											data-ng-click="orderByField='site';reverse = !reverse">Managing School</a>
+										</th> -->
 										<th><a href=""
-											data-ng-click="orderByField='site';reverse = !reverse">Managing Site</a>
+											data-ng-click="orderByField='shift';reverse = !reverse">Class</a>
 										</th>
-										<th><a href=""
-											data-ng-click="orderByField='shift';reverse = !reverse">Shift</a>
-										</th>
-										<th><a href=""
+										<!-- <th><a href=""
 											data-ng-click="orderByField='designation';reverse = !reverse">Designation</a>
-										</th>
+										</th> -->
 										<th><a href=""
 											data-ng-click="orderByField='mobile_number';reverse = !reverse">Mobile
 												Number </a></th>
@@ -79,7 +79,7 @@
 										<td>{{emp.siteName}}</td>
 										<td>{{emp.managingSite}}</td>
 										<td>{{emp.shiftName}}</td>
-										<td>{{emp.designation}}</td>
+										<!-- <td>{{emp.designation}}</td> -->
 										<td>{{emp.mobile_number}}</td>
 										<td>{{emp.email}}</td>
 									</tr>
@@ -122,7 +122,7 @@
 								<div style="padding-top: 30px" class="panel-body">
 									<form id="add_employee" name="add_employee"
 										class="form-horizontal" role="form">
-										<label for="employee_id">Employee Id</label>
+										<label for="employee_id">Student Id</label>
 										<div style="margin-bottom: 25px" class="input-group"
 											data-ng-class="{'has-error':add_employee.employee_id.$invalid && !add_employee.employee_id.$pristine}">
 											<span class="input-group-addon"><i
@@ -131,7 +131,7 @@
 												class="form-control" name="employee_id" required
 												placeholder="Employee ID">
 										</div>
-										<label for="name">Employee Full Name</label>
+										<label for="name">Student Full Name</label>
 										<div style="margin-bottom: 25px" class="input-group"
 											data-ng-class="{'has-error':add_employee.name.$invalid && !add_employee.name.$pristine}">
 											<span class="input-group-addon"><i
@@ -153,7 +153,7 @@
 												<option value="female">Female</option>
 											</select>
 										</div>
-										<label for="designation">Designation</label>
+										<!-- <label for="designation">Designation</label>
 										<div style="margin-bottom: 25px" class="input-group"
 											data-ng-class="{'has-error':add_employee.designation.$invalid && !add_employee.designation.$pristine}">
 											<span class="input-group-addon"><i
@@ -161,7 +161,7 @@
 												id="designation" data-ng-model="designation" type="text"
 												class="form-control" required name="designation" value=""
 												placeholder="Designation">
-										</div>
+										</div> -->
 										<label for="mobile_number">Mobile Number</label>
 										<div style="margin-bottom: 25px" class="input-group"
 											data-ng-class="{'has-error':add_employee.mobile_number.$invalid && !add_employee.mobile_number.$pristine}">
@@ -190,7 +190,7 @@
 												type="text" data-ng-model="address" class="form-control"
 												required name="address" placeholder="Address">
 										</div>
-										<label for="siteManager">Is SiteManager</label>
+										<!-- <label for="siteManager">Is Teacher</label>
 										<div style="margin-bottom: 25px" class="input-group"
 											data-ng-class="{'has-error':add_employee.siteManager.$invalid && !add_employee.siteManager.$pristine}">
 											<span class="input-group-addon"><i
@@ -200,8 +200,8 @@
 												<option value="true">Yes</option>
 												<option value="false">No</option>
 											</select>
-										</div>
-										<label for="all_site">Select Site</label>
+										</div> -->
+										<label for="all_site">Select School</label>
 										<div style="margin-bottom: 25px" class="input-group"
 											data-ng-class="{'has-error':add_employee.all_site.$invalid && !add_employee.all_site.$pristine}">
 											<span class="input-group-addon"><i
@@ -212,7 +212,7 @@
 												data-ng-change="get_shift()">
 											</select>
 										</div>
-										<label for="all_shift">Select Shift</label>
+										<label for="all_shift">Select Class</label>
 										<div style="margin-bottom: 25px" class="input-group"
 											data-ng-class="{'has-error':add_employee.all_shift.$invalid && !add_employee.all_shift.$pristine}">
 											<span class="input-group-addon"><i
@@ -228,7 +228,7 @@
 												<button type="submit" class="btn btn-primary"
 													data-ng-click="addemployee()"
 													data-ng-disabled="add_employee.$invalid">Add
-													Employee</button>
+													Student</button>
 											</div>
 										</div>
 
@@ -253,7 +253,7 @@
 									<div style="padding-top: 30px" class="panel-body">
 										<form id="update_employee" name="update_employee"
 											class="form-horizontal" role="form">
-											<label for="u_employee_id">Employee ID</label>
+											<label for="u_employee_id">Student ID</label>
 											<div style="margin-bottom: 25px" class="input-group"
 												data-ng-class="{'has-error':update_employee.employee_id.$invalid && !update_employee.employee_id.$pristine}">
 												<span class="input-group-addon"><i
@@ -263,7 +263,7 @@
 													class="form-control" name="employee_id" required
 													placeholder="Employee ID">
 											</div>
-											<label for="u_name">Employee Full Name</label>
+											<label for="u_name">Student Full Name</label>
 											<div style="margin-bottom: 25px" class="input-group"
 												data-ng-class="{'has-error':update_employee.name.$invalid && !update_employee.name.$pristine}">
 												<span class="input-group-addon"><i
@@ -288,8 +288,22 @@
 												</select>
 											</div>
 
-											<label for="u_designation">Designation</label>
+											<!-- <label for="u_designation">Designation</label>
 											<div style="margin-bottom: 25px" class="input-group"
+												data-ng-class="{'has-error':update_employee.designation.$invalid && !update_employee.designation.$pristine}">
+												<span class="input-group-addon"><i
+													class="glyphicon glyphicon-gift"></i></span> <select id="u_designation"
+													data-ng-model="u_designation" value="{{u_designation}}"
+													class="form-control" required name="gender">
+
+													<option data-ng-disabled="true" data-ng-selected="true"
+														hidden>Choose Designation</option>
+													<option value="principle">Principle</option>
+													<option value="teacher">Teacher</option>
+													<option value="student">Student</option>
+												</select>
+											</div> -->
+											<!-- <div style="margin-bottom: 25px" class="input-group"
 												data-ng-class="{'has-error':update_employee.designation.$invalid && !update_employee.designation.$pristine}">
 												<span class="input-group-addon"><i
 													class="glyphicon glyphicon-briefcase"></i></span> <input
@@ -297,7 +311,7 @@
 													value="{{u_designation}}" type="text" class="form-control"
 													required name="designation" value=""
 													placeholder="Designation">
-											</div>
+											</div> -->
 											<label for="u_mobile_number">Mobile Number</label>
 											<div style="margin-bottom: 25px" class="input-group"
 												data-ng-class="{'has-error':update_employee.mobile_number.$invalid && !update_employee.mobile_number.$pristine}">
@@ -331,7 +345,7 @@
 													name="address" placeholder="Address">
 											</div>
 
-											<label for="u_SiteManager">Is SiteManager</label>
+											<!-- <label for="u_SiteManager">Is Teacher</label>
 											<div style="margin-bottom: 25px" class="input-group"
 												data-ng-class="{'has-error':update_employee.u_SiteManager.$invalid && !update_employee.u_SiteManager.$pristine}">
 												<span class="input-group-addon"><i
@@ -343,8 +357,8 @@
 													<option value="true">Yes</option>
 													<option value="false">No</option>
 												</select>
-											</div>
-											<label for="u_ManageSite">Managing Site</label>
+											</div> -->
+											<label for="u_ManageSite">Managing School</label>
 											<div style="margin-bottom: 25px" class="input-group">
 												<span class="input-group-addon"><i
 													class="glyphicon glyphicon-gift"></i></span> <select
@@ -354,7 +368,7 @@
 													data-ng-disabled="checkDisabled()">
 												</select>
 											</div>
-											<label for="all_site">Select Site</label>
+											<label for="all_site">Select School</label>
 											<div style="margin-bottom: 25px" class="input-group"
 												data-ng-class="{'has-error':update_employee.all_site.$invalid && !update_employee.all_site.$pristine}">
 												<span class="input-group-addon"><i
@@ -365,7 +379,7 @@
 													data-ng-change="get_shift()">
 												</select>
 											</div>
-											<label for="all_shift">Select Shift</label>
+											<label for="all_shift">Select Class</label>
 											<div style="margin-bottom: 25px" class="input-group"
 												data-ng-class="{'has-error':update_employee.all_shift.$invalid && !update_employee.all_shift.$pristine}">
 												<span class="input-group-addon"><i
@@ -382,7 +396,7 @@
 													<button type="submit" class="btn btn-primary"
 														data-ng-click="updateemployee()"
 														data-ng-disabled="update_employee.$invalid">
-														Update Employee</button>
+														Update Student</button>
 												</div>
 											</div>
 
@@ -406,7 +420,7 @@
 												data-ng-click="orderByField='S_no';reverse = !reverse">S.no.</a>
 											</th>
 											<th><a href=""
-												data-ng-click="orderByField='employee_id';reverse = !reverse">Employee
+												data-ng-click="orderByField='employee_id';reverse = !reverse">Student
 													ID</a></th>
 											<th><a href=""
 												data-ng-click="orderByField='name';reverse = !reverse">Name</a>
@@ -418,14 +432,14 @@
 												data-ng-click="orderByField='site';reverse = !reverse">Site</a>
 											</th>
 											<th><a href=""
-												data-ng-click="orderByField='site';reverse = !reverse">Managing Site</a>
+												data-ng-click="orderByField='site';reverse = !reverse">Managing School</a>
 											</th>
 											<th><a href=""
 												data-ng-click="orderByField='shift';reverse = !reverse">Shift</a>
 											</th>
-											<th><a href=""
+											<!-- <th><a href=""
 												data-ng-click="orderByField='designation';reverse = !reverse">Designation</a>
-											</th>
+											</th> -->
 											<th><a href=""
 												data-ng-click="orderByField='mobile_number';reverse = !reverse">Mobile
 													Number </a></th>
@@ -445,7 +459,7 @@
 											<td>{{emp.siteName}}</td>
 											<td>{{emp.managingSite}}</td>
 											<td>{{emp.shiftName}}</td>
-											<td>{{emp.designation}}</td>
+											<!-- <td>{{emp.designation}}</td> -->
 											<td>{{emp.mobile_number}}</td>
 											<td>{{emp.email}}</td>
 											<td>
