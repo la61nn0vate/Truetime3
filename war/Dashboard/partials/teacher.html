@@ -1,138 +1,537 @@
- 
-        <!--Site Managers-->
-        <div data-ng-controller="teacher_controller" data-ng-init="get_site_manager_details()">
-             <div class="container-fluid" >
-                <section class="content-header">
-                    <h1>
-                        School Teacher Details <small>Biometric Attendance System</small>
-                    </h1>
-                    <ol class="breadcrumb">
-                        <li><a href="#/"><i class="fa fa-dashboard"></i>Home</a></li>
-                        <li class="active">School Teacher details</li>
-                    </ol>
-                </section>
-                <br />
-                <div class="container-fluid box">
-                    <div class="panel with-nav-tabs panel">
-                        <div class="panel-heading">
-                            <ul class="nav nav-tabs nav-justified">
-                                <li class="active"><a href="#tab1" data-toggle="tab">School Teacher Details</a></li>
-                            </ul>
-                        </div>
-                        <div class="panel-body">
-                            <div class="tab-content">
-                                <!--Site Manager details-->
-                                <div class="tab-pane fade in active" id="tab1">
-                                    <div class="input-group has-feedback has-feedback-left col-md-offset-10">
-                                        <input type="text" class="form-control" placeholder="Type (eg, Name)"  data-ng-model="search_emp"/>
-                                       <span class="glyphicon glyphicon-search form-control-feedback"></span>
-                                    </div>
-                                    <br /> 
-                                    <table class="table table-hover  table-bordered table-striped table-condensed table-no-more">
-                                        <thead>
-                                            <tr>
-                                                <th>
-                                                    <a href="" data-ng-click="orderByField='S_no';reverse = !reverse">S.no.</a>
-                                                </th>
-                                                <th>
-                                                    <a href="" data-ng-click="orderByField='employee_id';reverse = !reverse">Teacher ID</a>
-                                                </th>
-                                                <th>
-                                                    <a href="" data-ng-click="orderByField='name';reverse = !reverse">Name</a>
-                                                </th>
-                                                <th>
-                                                    <a href="" data-ng-click="orderByField='gender';reverse = !reverse">Gender</a>
-                                                </th>
-                                                <th>
-                                                	<a href="" data-ng-click="orderByField='site';reverse = !reverse">Site</a>
-												</th>
-												<th>
-													<a href="" data-ng-click="orderByField='site';reverse = !reverse">Managing Site</a>
-												</th>
-												<th>
-													<a href="" data-ng-click="orderByField='shift';reverse = !reverse">Shift</a>
-												</th>
-                                                <th>
-                                                    <a href="" data-ng-click="orderByField='designation';reverse = !reverse">Designation</a>
-                                                </th>
-                                                <th>
-                                                    <a href="" data-ng-click="orderByField='mobile_number';reverse = !reverse">Mobile Number
-                                                    </a>
-                                                </th>
-                                                <th>
-                                                    <a href="" data-ng-click="orderByField='email';reverse = !reverse">Email</a>
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr data-ng-repeat="emp in employees | filter:search_emp | orderBy:orderByField:reverseSort">
-                                                <td>
-                                                    {{$index+1}}
-                                                </td>
-                                                 <td>
-                                                    {{emp.employee_id}}
-                                                </td>
-                                                <td>
-                                                    {{emp.name}}
-                                                </td>
-                                                <td>
-                                                    {{emp.gender}}
-                                                </td>
-                                                <td>
-                                                	{{emp.siteName}}
-                                                </td>
-												<td>
-													{{emp.managingSite}}
-												</td>
-												<td>
-													{{emp.shiftName}}
-												</td>
-                                                <td>
-                                                    {{emp.designation}}
-                                                </td>
-                                                <td>
-                                                    {{emp.mobile_number}}
-                                                </td>
-                                                <td>
-                                                    {{emp.email}}
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                       <ul class="pagination" ng-show="employees.length > 0">
-				<li ng-class="{disabled: pagination.currentPage == 0 }"><a
-					ng-class="{disabled: pagination.currentPage == 0 }"
-					ng-click="pagination.isDisabled($event) || (pagination.currentPage = 0)">&lt&lt</a>
-				</li>
-				<li ng-class="{disabled: pagination.currentPage == 0 }"><a
-					ng-class="{disabled: pagination.currentPage == 0 }"
-					ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.currentPage - 1)">&lt</a>
-				</li>
+<!--Site Managers-->
+<div data-ng-controller="teacher_controller"
+	data-ng-init="get_teacher_and_site_manager_details()">
+	<div class="container-fluid">
+		<section class="content-header">
+			<h1>
+				School Teacher Details <small>Biometric Attendance System</small>
+			</h1>
+			<ol class="breadcrumb">
+				<li><a href="#/"><i class="fa fa-dashboard"></i>Home</a></li>
+				<li class="active">School Teacher details</li>
+			</ol>
+		</section>
+		<br />
+		<div class="container-fluid box">
+			<div class="panel with-nav-tabs panel">
+				<div class="panel-heading">
+					<ul class="nav nav-tabs nav-justified">
+						<li class="active"><a href="#tab1" data-toggle="tab">School
+								Teacher Details</a></li>
+						<li><a href="#tab2" data-toggle="tab">Add Teacher</a></li>
+						<li><a href="#tab3" data-toggle="tab">Manage Teacher</a></li>
+					</ul>
+				</div>
+				<div class="panel-body">
+					<div class="tab-content">
+						<!--School Teacher details-->
+						<div class="tab-pane fade in active" id="tab1">
+							<div
+								class="input-group has-feedback has-feedback-left col-md-offset-10">
+								<input type="text" class="form-control"
+									placeholder="Type (eg, Name)" data-ng-model="search_emp" /> <span
+									class="glyphicon glyphicon-search form-control-feedback"></span>
+							</div>
+							<br />
+							<table
+								class="table table-hover  table-bordered table-striped table-condensed table-no-more">
+								<thead>
+									<tr>
+										<th><a href=""
+											data-ng-click="orderByField='S_no';reverse = !reverse">S.no.</a>
+										</th>
+										<th><a href=""
+											data-ng-click="orderByField='employee_id';reverse = !reverse">Teacher
+												ID</a></th>
+										<th><a href=""
+											data-ng-click="orderByField='name';reverse = !reverse">Name</a>
+										</th>
+										<th><a href=""
+											data-ng-click="orderByField='gender';reverse = !reverse">Gender</a>
+										</th>
+										<th><a href=""
+											data-ng-click="orderByField='biometric';reverse = !reverse">Biometric
+												Type</a></th>
+										<th>
+										<th><a href=""
+											data-ng-click="orderByField='site';reverse = !reverse">School</a>
+										</th>
+										<th><a href=""
+											data-ng-click="orderByField='site';reverse = !reverse">Managing
+												School</a></th>
+										<th><a href=""
+											data-ng-click="orderByField='shift';reverse = !reverse">Class</a>
+										</th>
+										<th><a href=""
+											data-ng-click="orderByField='shift';reverse = !reverse">Managing
+												Shift</a></th>
+										<th><a href=""
+											data-ng-click="orderByField='designation';reverse = !reverse">Designation</a>
+										</th>
+										<th><a href=""
+											data-ng-click="orderByField='mobile_number';reverse = !reverse">Mobile
+												Number </a></th>
+										<th><a href=""
+											data-ng-click="orderByField='email';reverse = !reverse">Email</a>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr
+										data-ng-repeat="emp in employees | filter:search_emp | orderBy:orderByField:reverseSort">
+										<td>{{$index+1}}</td>
+										<td>{{emp.employee_id}}</td>
+										<td>{{emp.name}}</td>
+										<td>{{emp.gender}}</td>
+										<td>{{emp.biometric_type}}</td>
+										<td>{{emp.siteName}}</td>
+										<td>{{emp.managingSite}}</td>
+										<td>{{emp.shiftName}}</td>
+										<td>{{emp.managingShift}}</td>
+										<td>{{emp.designation}}</td>
+										<td>{{emp.mobile_number}}</td>
+										<td>{{emp.email}}</td>
+									</tr>
+								</tbody>
+							</table>
+							<ul class="pagination" data-ng-show="employees.length > 0">
+								<li data-ng-class="{disabled: pagination.currentPage == 0 }"><a
+									data-ng-class="{disabled: pagination.currentPage == 0 }"
+									data-ng-click="pagination.isDisabled($event) || (pagination.currentPage = 0)">&lt&lt</a>
+								</li>
+								<li data-ng-class="{disabled: pagination.currentPage == 0 }"><a
+									data-ng-class="{disabled: pagination.currentPage == 0 }"
+									data-ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.currentPage - 1)">&lt</a>
+								</li>
 
-				<!-- ng-repeat creates a new scope. Need to specify the pagination.currentPage as $parent.pagination.currentPage -->
-				<li ng-repeat="page in pagination.pageArray()"
-					ng-class="{active: $parent.pagination.currentPage == page}"><a
-					ng-click="$parent.pagination.currentPage = page">{{page + 1}}</a></li>
+								<!-- data-ng-repeat creates a new scope. Need to specify the pagination.currentPage as $parent.pagination.currentPage -->
+								<li data-ng-repeat="page in pagination.pageArray()"
+									data-ng-class="{active: $parent.pagination.currentPage == page}"><a
+									data-ng-click="$parent.pagination.currentPage = page">{{page
+										+ 1}}</a></li>
 
-				<li
-					ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}">
-					<a
-					ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}"
-					ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.currentPage + 1)">&gt</a>
-				</li>
-				<li
-					ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}">
-					<a
-					ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}"
-					ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.numberOfPages() - 1)">&gt&gt</a>
-				</li>
-			</ul>
-                                </div>
-                                <!--/Site Manager details-->
-                                                     </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-          
-        </div>
+								<li
+									data-ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}">
+									<a
+									data-ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}"
+									data-ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.currentPage + 1)">&gt</a>
+								</li>
+								<li
+									data-ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}">
+									<a
+									data-ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}"
+									data-ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.numberOfPages() - 1)">&gt&gt</a>
+								</li>
+							</ul>
+						</div>
+						<!--/School Teacher details-->
+
+						<!--Add Teacher details-->
+						<div class="tab-pane fade" id="tab2">
+							<div class="panel panel-info">
+								<div style="padding-top: 30px" class="panel-body">
+									<form id="add_employee" name="add_employee"
+										class="form-horizontal" role="form">
+										<label for="employee_id">Teacher Id</label>
+										<div style="margin-bottom: 25px" class="input-group"
+											data-ng-class="{'has-error':add_employee.employee_id.$invalid && !add_employee.employee_id.$pristine}">
+											<span class="input-group-addon"><i
+												class="glyphicon glyphicon-user"></i></span> <input
+												id="employee_id" type="text" data-ng-model="employee_id"
+												class="form-control" name="employee_id" required
+												placeholder="Employee ID">
+										</div>
+										<label for="name">Teacher Full Name</label>
+										<div style="margin-bottom: 25px" class="input-group"
+											data-ng-class="{'has-error':add_employee.name.$invalid && !add_employee.name.$pristine}">
+											<span class="input-group-addon"><i
+												class="glyphicon glyphicon-user"></i></span> <input id="name"
+												type="text" data-ng-model="name" class="form-control"
+												name="name" required placeholder="Full Name">
+										</div>
+										<label for="gender">Gender</label>
+										<div style="margin-bottom: 25px" class="input-group"
+											data-ng-class="{'has-error':add_employee.gender.$invalid && !add_employee.gender.$pristine}">
+											<span class="input-group-addon"><i
+												class="glyphicon glyphicon-gift"></i></span> <select id="gender"
+												data-ng-model="gender" class="form-control" required
+												name="gender">
+												<option data-ng-disabled="true" data-ng-selected="true"
+													hidden>Choose Gender</option>
+												<option value="male">Male</option>
+												<option value="female">Female</option>
+											</select>
+										</div>
+										<label for="gender">Biometric Type</label>
+										<div style="margin-bottom: 25px" class="input-group"
+											data-ng-class="{'has-error':add_employee.biometric_type.$invalid && !add_employee.biometric_type.$pristine}">
+											<span class="input-group-addon"><i
+												class="glyphicon glyphicon-gift"></i></span> <select id="biometric_type"
+												data-ng-model="biometric_type" class="form-control" required
+												name="biometric_type">
+												<option data-ng-disabled="true" data-ng-selected="true"
+													hidden>Choose Biometric</option>
+												<option value="face">Face</option>
+												<option value="finger">Finger</option>
+											</select>
+										</div>
+										<label for="mobile_number">Mobile Number</label>
+										<div style="margin-bottom: 25px" class="input-group"
+											data-ng-class="{'has-error':add_employee.mobile_number.$invalid && !add_employee.mobile_number.$pristine}">
+											<span class="input-group-addon"><i
+												class="glyphicon glyphicon-phone"></i></span> <input
+												id="mobile_number" type="text" data-ng-model="mobile_number"
+												class="form-control" required name="mobile_number"
+												placeholder="Mobile Number">
+										</div>
+										<label for="email">Email</label>
+										<div style="margin-bottom: 25px" class="input-group"
+											data-ng-class="{'has-error':add_employee.email.$invalid && !add_employee.email.$pristine}">
+											<span class="input-group-addon"><i
+												class="glyphicon glyphicon-lock"></i></span> <input id="email"
+												type="email" data-ng-model="email" class="form-control"
+												name="email" required placeholder="Email">
+										</div>
+										<p class="help-block"
+											data-ng-show="add_employee.email.$error.email">Email is
+											in invalid Form.</p>
+										<label for="address">Address</label>
+										<div style="margin-bottom: 25px" class="input-group"
+											data-ng-class="{'has-error':add_employee.address.$invalid && !add_employee.address.$pristine}">
+											<span class="input-group-addon"><i
+												class="glyphicon glyphicon-phone"></i></span> <input id="address"
+												type="text" data-ng-model="address" class="form-control"
+												required name="address" placeholder="Address">
+										</div>
+										<label for="designation">Designation</label>
+										<div style="margin-bottom: 25px" class="input-group"
+											data-ng-class="{'has-error':add_employee.designation.$invalid && !add_employee.designation.$pristine}">
+											<span class="input-group-addon"><i
+												class="glyphicon glyphicon-gift"></i></span> <select
+												id="designation" data-ng-model="designation"
+												value="{{designation}}" class="form-control" required
+												name="designation">
+												<option data-ng-disabled="true" data-ng-selected="true"
+													hidden>Choose Designation</option>
+												<option value="Principal">Principal</option>
+												<option value="Teacher">Teacher</option>
+											</select>
+										</div>
+										<label for="all_site">Select School</label>
+										<div style="margin-bottom: 25px" class="input-group"
+											data-ng-class="{'has-error':add_employee.all_site.$invalid && !add_employee.all_site.$pristine}">
+											<span class="input-group-addon"><i
+												class="glyphicon glyphicon-gift"></i></span> <select id="all_site"
+												data-ng-model="all_site_of_org" class="form-control"
+												name="all_site" required data-ng-change="get_shift()"
+												data-ng-options="site for site in all_site track by site">
+											</select>
+										</div>
+										<label for="all_shift">Select Class</label>
+										<div style="margin-bottom: 25px" class="input-group"
+											data-ng-class="{'has-error':add_employee.all_shift.$invalid && !add_employee.all_shift.$pristine}">
+											<span class="input-group-addon"><i
+												class="glyphicon glyphicon-gift"></i></span> <select id="all_shift"
+												data-ng-model="all_shift_of_site" class="form-control"
+												name="all_shift" required
+												data-ng-options="shift for shift in all_shift track by shift">
+											</select>
+										</div>
+										<div style="margin-top: 10px" class="form-group">
+											<!-- Button -->
+											<div class="col-sm-12 centered">
+												<button type="submit" class="btn btn-primary"
+													data-ng-click="addemployee()"
+													data-ng-disabled="add_employee.$invalid">Add
+													Teacher</button>
+											</div>
+										</div>
+
+									</form>
+								</div>
+							</div>
+						</div>
+						<!-- /Add Teacher details-->
+
+						<!--Manage Teacher-->
+						<div class="tab-pane fade" id="tab3">
+							<div data-ng-show="show_update">
+								<div class="container-fluid">
+									<div>
+										<a href="" data-ng-click="go_manage()"
+											class="btn btn-warning pull-right"><i class="fa fa-th">
+										</i><span>Go Back</span> </a>
+									</div>
+								</div>
+								<br />
+								<div class="panel panel-info">
+									<div style="padding-top: 30px" class="panel-body">
+										<form id="update_employee" name="update_employee"
+											class="form-horizontal" role="form">
+											<label for="u_employee_id">User ID</label>
+											<div style="margin-bottom: 25px" class="input-group"
+												data-ng-class="{'has-error':update_employee.employee_id.$invalid && !update_employee.employee_id.$pristine}">
+												<span class="input-group-addon"><i
+													class="glyphicon glyphicon-user"></i></span> <input
+													id="u_employee_id" type="text"
+													data-ng-model="u_employee_id" value="{{u_employee_id}}"
+													class="form-control" name="employee_id" required
+													placeholder="Employee ID">
+											</div>
+											<label for="u_name">Full Name</label>
+											<div style="margin-bottom: 25px" class="input-group"
+												data-ng-class="{'has-error':update_employee.name.$invalid && !update_employee.name.$pristine}">
+												<span class="input-group-addon"><i
+													class="glyphicon glyphicon-user"></i></span> <input id="u_name"
+													type="text" data-ng-model="u_name" value="{{u_name}}"
+													class="form-control" name="name" required
+													placeholder="Full Name">
+											</div>
+
+											<label for="u_name">Gender</label>
+											<div style="margin-bottom: 25px" class="input-group"
+												data-ng-class="{'has-error':update_employee.gender.$invalid && !update_employee.gender.$pristine}">
+												<span class="input-group-addon"><i
+													class="glyphicon glyphicon-gift"></i></span> <select id="u_gender"
+													data-ng-model="u_gender" value="{{u_gender}}"
+													class="form-control" required name="gender">
+
+													<option data-ng-disabled="true" data-ng-selected="true"
+														hidden>Choose Gender</option>
+													<option value="male">Male</option>
+													<option value="female">Female</option>
+												</select>
+											</div>
+											<label for="u_name">Biometric Type</label>
+											<div style="margin-bottom: 25px" class="input-group"
+												data-ng-class="{'has-error':update_employee.biometric_type.$invalid && !update_employee.biometric_type.$pristine}">
+												<span class="input-group-addon"><i
+													class="glyphicon glyphicon-gift"></i></span> <select id="u_biometric_type"
+													data-ng-model="u_biometric_type" value="{{u_biometric_type}}"
+													class="form-control" required name="biometric_type">
+													<option data-ng-disabled="true" data-ng-selected="true"
+														hidden>Choose Biometric</option>
+													<option value="face">Face</option>
+													<option value="finger">Finger</option>
+												</select>
+											</div>
+											<label for="u_mobile_number">Mobile Number</label>
+											<div style="margin-bottom: 25px" class="input-group"
+												data-ng-class="{'has-error':update_employee.mobile_number.$invalid && !update_employee.mobile_number.$pristine}">
+												<span class="input-group-addon"><i
+													class="glyphicon glyphicon-phone"></i></span> <input
+													id="u_mobile_number" type="text"
+													data-ng-model="u_mobile_number" value="{{u_mobile_number}}"
+													class="form-control" required name="mobile_number"
+													placeholder="Mobile Number">
+											</div>
+											<label for="u_email">Email</label>
+											<div style="margin-bottom: 25px" class="input-group"
+												data-ng-class="{'has-error':update_employee.email.$invalid && !update_employee.email.$pristine}">
+												<span class="input-group-addon"><i
+													class="glyphicon glyphicon-lock"></i></span> <input id="u_email"
+													type="email" data-ng-model="u_email" value="{{u_email}}"
+													class="form-control" name="email" required
+													placeholder="Email">
+											</div>
+											<p class="help-block"
+												data-ng-show="update_employee.email.$error.email">Email
+												is in invalid Form.</p>
+
+											<label for="u_address">Address</label>
+											<div style="margin-bottom: 25px" class="input-group"
+												data-ng-class="{'has-error':update_employee.address.$invalid && !update_employee.address.$pristine}">
+												<span class="input-group-addon"><i
+													class="glyphicon glyphicon-phone"></i></span> <input
+													id="u_address" type="text" data-ng-model="u_address"
+													value="{{u_address}}" class="form-control" required
+													name="address" placeholder="Address">
+											</div>
+											<label for="u_designation">Designation</label>
+											<div style="margin-bottom: 25px" class="input-group"
+												data-ng-class="{'has-error':update_employee.designation.$invalid && !update_employee.designation.$pristine}">
+												<span class="input-group-addon"><i
+													class="glyphicon glyphicon-gift"></i></span> <select
+													id="u_designation" data-ng-model="u_designation"
+													value="{{u_designation}}" class="form-control" required
+													name="gender">
+													<option data-ng-disabled="true" data-ng-selected="true"
+														hidden>Choose Designation</option>
+													<option value="Principal">Principal</option>
+													<option value="Teacher">Teacher</option>
+												</select>
+											</div>
+											<label for="u_ManageSite">Managing School</label>
+											<div style="margin-bottom: 25px" class="input-group"">
+												<span class="input-group-addon"><i
+													class="glyphicon glyphicon-gift"></i></span> <select
+													id="u_ManageSite" data-ng-model="u_ManageSite_All"
+													class="form-control" name="u_ManageSite"
+													data-ng-options="site for site in u_ManageSite track by site"
+													data-ng-required="checkDisabled()"
+													data-ng-disabled="!checkDisabled()">
+												</select>
+											</div>
+											<label for="all_site">Select School</label>
+											<div style="margin-bottom: 25px" class="input-group"
+												"
+												data-ng-class="{'has-error':update_employee.all_site.$invalid && !update_employee.all_site.$pristine}">
+												<span class="input-group-addon"><i
+													class="glyphicon glyphicon-gift"></i></span> <select id="all_site"
+													data-ng-model="all_site_of_org" class="form-control"
+													required name="all_site" data-ng-change="get_shift()"
+													data-ng-options="site for site in all_site track by site">
+												</select>
+											</div>
+											<label for="u_ManageShift">Managing Class</label>
+											<div style="margin-bottom: 25px" class="input-group">
+												<span class="input-group-addon"><i
+													class="glyphicon glyphicon-gift"></i></span> <select
+													id="u_ManageShift" data-ng-model="u_ManageShift_All"
+													class="form-control" name="u_ManageShift"
+													data-ng-options="shift for shift in u_ManageShift track by shift"
+													data-ng-required="!checkDisabled()"
+													data-ng-disabled="checkDisabled()">
+												</select>
+											</div>
+											<label for="all_shift">Select Class</label>
+											<div style="margin-bottom: 25px" class="input-group"
+												data-ng-class="{'has-error':update_employee.all_shift.$invalid && !update_employee.all_shift.$pristine}">
+												<span class="input-group-addon"><i
+													class="glyphicon glyphicon-gift"></i></span> <select
+													id="all_shift" data-ng-model="all_shift_of_site"
+													class="form-control" name="all_shift" required
+													data-ng-options="shift for shift in all_shift track by shift">
+												</select>
+											</div>
+
+											<div style="margin-top: 10px" class="form-group">
+												<!-- Button -->
+												<div class="col-sm-12 centered">
+													<button type="submit" class="btn btn-primary"
+														data-ng-click="updateemployee()"
+														data-ng-disabled="update_employee.$invalid">
+														Update Student</button>
+												</div>
+											</div>
+
+										</form>
+									</div>
+								</div>
+							</div>
+							<div data-ng-show="show_manage">
+								<div
+									class="input-group has-feedback has-feedback-left col-md-offset-10">
+									<input type="text" class="form-control"
+										placeholder="Type (eg, Name)" data-ng-model="searchemp" /> <span
+										class="glyphicon glyphicon-search form-control-feedback"></span>
+								</div>
+								<br />
+								<table
+									class="table table-hover table-responsive table-bordered table-striped table-no-more">
+									<thead>
+										<tr>
+											<th><a href=""
+												data-ng-click="orderByField='S_no';reverse = !reverse">S.no.</a>
+											</th>
+											<th><a href=""
+												data-ng-click="orderByField='employee_id';reverse = !reverse">Student
+													ID</a></th>
+											<th><a href=""
+												data-ng-click="orderByField='name';reverse = !reverse">Name</a>
+											</th>
+											<th><a href=""
+												data-ng-click="orderByField='gender';reverse = !reverse">Gender</a>
+											</th>
+											<th><a href=""
+												data-ng-click="orderByField='biometric';reverse = !reverse">Biometric
+													Type</a></th>
+											<th>
+											<th><a href=""
+												data-ng-click="orderByField='site';reverse = !reverse">School</a>
+											</th>
+											<th><a href=""
+												data-ng-click="orderByField='site';reverse = !reverse">Managing
+													School</a></th>
+											<th><a href=""
+												data-ng-click="orderByField='shift';reverse = !reverse">Shift</a>
+											</th>
+											<th><a href=""
+												data-ng-click="orderByField='shift';reverse = !reverse">Managing
+													Shift</a></th>
+											<th><a href=""
+												data-ng-click="orderByField='designation';reverse = !reverse">Designation</a>
+											</th>
+											<th><a href=""
+												data-ng-click="orderByField='mobile_number';reverse = !reverse">Mobile
+													Number </a></th>
+											<th><a href=""
+												data-ng-click="orderByField='email';reverse = !reverse">Email</a>
+											</th>
+											<th><a href="">Manage</a></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr
+											data-ng-repeat="emp in employees | filter:searchemp | orderBy:orderByField:reverseSort">
+											<td>{{$index+1}}</td>
+											<td>{{emp.employee_id}}</td>
+											<td>{{emp.name}}</td>
+											<td>{{emp.gender}}</td>
+											<td>{{emp.biometric_type}}</td>
+											<td>{{emp.siteName}}</td>
+											<td>{{emp.managingSite}}</td>
+											<td>{{emp.shiftName}}</td>
+											<td>{{emp.managingShift}}</td>
+											<td>{{emp.designation}}</td>
+											<td>{{emp.mobile_number}}</td>
+											<td>{{emp.email}}</td>
+											<td><a href=""
+												data-ng-click="del_emp($index,emp.websafeKey)"
+												class="btn btn-danger"> <span class="fa fa-trash-o"></span>
+											</a> <a href="" data-ng-click="manage_emp(emp)"
+												class="btn btn-info"> <span
+													class="glyphicon glyphicon-edit"> </span>
+											</a></td>
+										</tr>
+									</tbody>
+								</table>
+								<ul class="pagination" data-ng-show="employees.length > 0">
+									<li data-ng-class="{disabled: pagination.currentPage == 0 }"><a
+										data-ng-class="{disabled: pagination.currentPage == 0 }"
+										data-ng-click="pagination.isDisabled($event) || (pagination.currentPage = 0)">&lt&lt</a>
+									</li>
+									<li data-ng-class="{disabled: pagination.currentPage == 0 }"><a
+										data-ng-class="{disabled: pagination.currentPage == 0 }"
+										data-ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.currentPage - 1)">&lt</a>
+									</li>
+
+									<!-- data-ng-repeat creates a new scope. Need to specify the pagination.currentPage as $parent.pagination.currentPage -->
+									<li data-ng-repeat="page in pagination.pageArray()"
+										data-ng-class="{active: $parent.pagination.currentPage == page}"><a
+										data-ng-click="$parent.pagination.currentPage = page">{{page
+											+ 1}}</a></li>
+
+									<li
+										data-ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}">
+										<a
+										data-ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}"
+										data-ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.currentPage + 1)">&gt</a>
+									</li>
+									<li
+										data-ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}">
+										<a
+										data-ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}"
+										data-ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.numberOfPages() - 1)">&gt&gt</a>
+									</li>
+								</ul>
+							</div>
+							<!--/Manage Teacher-->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>

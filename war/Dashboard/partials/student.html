@@ -1,6 +1,6 @@
 <!-- Employee-->
 <div data-ng-controller="student_controller"
-	data-ng-init="get_emp_details()">
+	data-ng-init="get_student_details()">
 	<div class="container-fluid">
 		<section class="content-header">
 			<h1>
@@ -41,8 +41,8 @@
 											data-ng-click="orderByField='S_no';reverse = !reverse">S.no.</a>
 										</th>
 										<th><a href=""
-											data-ng-click="orderByField='employee_id';reverse = !reverse">Student ID</a>
-										</th>																				
+											data-ng-click="orderByField='employee_id';reverse = !reverse">Student
+												ID</a></th>
 										<th><a href=""
 											data-ng-click="orderByField='name';reverse = !reverse">Name</a>
 										</th>
@@ -50,17 +50,17 @@
 											data-ng-click="orderByField='gender';reverse = !reverse">Gender</a>
 										</th>
 										<th><a href=""
+											data-ng-click="orderByField='biometric';reverse = !reverse">Biometric
+												Type</a></th>
+										<th><a href=""
 											data-ng-click="orderByField='site';reverse = !reverse">Site</a>
 										</th>
-										<!-- <th><a href=""
-											data-ng-click="orderByField='site';reverse = !reverse">Managing School</a>
-										</th> -->
 										<th><a href=""
 											data-ng-click="orderByField='shift';reverse = !reverse">Class</a>
 										</th>
-										<!-- <th><a href=""
+										<th><a href=""
 											data-ng-click="orderByField='designation';reverse = !reverse">Designation</a>
-										</th> -->
+										</th>
 										<th><a href=""
 											data-ng-click="orderByField='mobile_number';reverse = !reverse">Mobile
 												Number </a></th>
@@ -73,45 +73,45 @@
 									<tr
 										data-ng-repeat="emp in employees | filter:search_emp | orderBy:orderByField:reverseSort">
 										<td>{{$index+1}}</td>
-										<td>{{emp.employee_id}}</td>																			
+										<td>{{emp.employee_id}}</td>
 										<td>{{emp.name}}</td>
 										<td>{{emp.gender}}</td>
+										<td>{{emp.biometric_type}}</td>
 										<td>{{emp.siteName}}</td>
-										<td>{{emp.managingSite}}</td>
 										<td>{{emp.shiftName}}</td>
-										<!-- <td>{{emp.designation}}</td> -->
+										<td>{{emp.designation}}</td>
 										<td>{{emp.mobile_number}}</td>
 										<td>{{emp.email}}</td>
 									</tr>
 								</tbody>
 							</table>
-							<ul class="pagination" ng-show="employees.length > 0">
-								<li ng-class="{disabled: pagination.currentPage == 0 }"><a
-									ng-class="{disabled: pagination.currentPage == 0 }"
-									ng-click="pagination.isDisabled($event) || (pagination.currentPage = 0)">&lt&lt</a>
+							<ul class="pagination" data-ng-show="employees.length > 0">
+								<li data-ng-class="{disabled: pagination.currentPage == 0 }"><a
+									data-ng-class="{disabled: pagination.currentPage == 0 }"
+									data-ng-click="pagination.isDisabled($event) || (pagination.currentPage = 0)">&lt&lt</a>
 								</li>
-								<li ng-class="{disabled: pagination.currentPage == 0 }"><a
-									ng-class="{disabled: pagination.currentPage == 0 }"
-									ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.currentPage - 1)">&lt</a>
+								<li data-ng-class="{disabled: pagination.currentPage == 0 }"><a
+									data-ng-class="{disabled: pagination.currentPage == 0 }"
+									data-ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.currentPage - 1)">&lt</a>
 								</li>
 
-								<!-- ng-repeat creates a new scope. Need to specify the pagination.currentPage as $parent.pagination.currentPage -->
-								<li ng-repeat="page in pagination.pageArray()"
-									ng-class="{active: $parent.pagination.currentPage == page}"><a
-									ng-click="$parent.pagination.currentPage = page">{{page +
-										1}}</a></li>
+								<!-- data-ng-repeat creates a new scope. Need to specify the pagination.currentPage as $parent.pagination.currentPage -->
+								<li data-ng-repeat="page in pagination.pageArray()"
+									data-ng-class="{active: $parent.pagination.currentPage == page}"><a
+									data-ng-click="$parent.pagination.currentPage = page">{{page
+										+ 1}}</a></li>
 
 								<li
-									ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}">
+									data-ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}">
 									<a
-									ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}"
-									ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.currentPage + 1)">&gt</a>
+									data-ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}"
+									data-ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.currentPage + 1)">&gt</a>
 								</li>
 								<li
-									ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}">
+									data-ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}">
 									<a
-									ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}"
-									ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.numberOfPages() - 1)">&gt&gt</a>
+									data-ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}"
+									data-ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.numberOfPages() - 1)">&gt&gt</a>
 								</li>
 							</ul>
 						</div>
@@ -146,22 +146,25 @@
 												class="glyphicon glyphicon-gift"></i></span> <select id="gender"
 												data-ng-model="gender" class="form-control" required
 												name="gender">
-
 												<option data-ng-disabled="true" data-ng-selected="true"
 													hidden>Choose Gender</option>
 												<option value="male">Male</option>
 												<option value="female">Female</option>
 											</select>
 										</div>
-										<!-- <label for="designation">Designation</label>
+										<label for="gender">Biometric Type</label>
 										<div style="margin-bottom: 25px" class="input-group"
-											data-ng-class="{'has-error':add_employee.designation.$invalid && !add_employee.designation.$pristine}">
+											data-ng-class="{'has-error':add_employee.biometric_type.$invalid && !add_employee.biometric_type.$pristine}">
 											<span class="input-group-addon"><i
-												class="glyphicon glyphicon-briefcase"></i></span> <input
-												id="designation" data-ng-model="designation" type="text"
-												class="form-control" required name="designation" value=""
-												placeholder="Designation">
-										</div> -->
+												class="glyphicon glyphicon-gift"></i></span> <select id="biometric_type"
+												data-ng-model="biometric_type" class="form-control" required
+												name="biometric_type">
+												<option data-ng-disabled="true" data-ng-selected="true"
+													hidden>Choose Biometric</option>
+												<option value="face">Face</option>
+												<option value="finger">Finger</option>
+											</select>
+										</div>
 										<label for="mobile_number">Mobile Number</label>
 										<div style="margin-bottom: 25px" class="input-group"
 											data-ng-class="{'has-error':add_employee.mobile_number.$invalid && !add_employee.mobile_number.$pristine}">
@@ -177,7 +180,7 @@
 											<span class="input-group-addon"><i
 												class="glyphicon glyphicon-lock"></i></span> <input id="email"
 												type="email" data-ng-model="email" class="form-control"
-												name="email" required placeholder="Email">
+												name="email" placeholder="Email">
 										</div>
 										<p class="help-block"
 											data-ng-show="add_employee.email.$error.email">Email is
@@ -190,17 +193,6 @@
 												type="text" data-ng-model="address" class="form-control"
 												required name="address" placeholder="Address">
 										</div>
-										<!-- <label for="siteManager">Is Teacher</label>
-										<div style="margin-bottom: 25px" class="input-group"
-											data-ng-class="{'has-error':add_employee.siteManager.$invalid && !add_employee.siteManager.$pristine}">
-											<span class="input-group-addon"><i
-												class="glyphicon glyphicon-gift"></i> </span> <select
-												id="siteManager" data-ng-model="siteManager"
-												class="form-control" required name="siteManager">
-												<option value="true">Yes</option>
-												<option value="false">No</option>
-											</select>
-										</div> -->
 										<label for="all_site">Select School</label>
 										<div style="margin-bottom: 25px" class="input-group"
 											data-ng-class="{'has-error':add_employee.all_site.$invalid && !add_employee.all_site.$pristine}">
@@ -246,7 +238,7 @@
 										<a href="" data-ng-click="go_manage()"
 											class="btn btn-warning pull-right"><i class="fa fa-th">
 										</i><span>Go Back</span> </a>
-									</div>									
+									</div>
 								</div>
 								<br />
 								<div class="panel panel-info">
@@ -272,7 +264,6 @@
 													class="form-control" name="name" required
 													placeholder="Full Name">
 											</div>
-
 											<label for="u_name">Gender</label>
 											<div style="margin-bottom: 25px" class="input-group"
 												data-ng-class="{'has-error':update_employee.gender.$invalid && !update_employee.gender.$pristine}">
@@ -280,38 +271,25 @@
 													class="glyphicon glyphicon-gift"></i></span> <select id="u_gender"
 													data-ng-model="u_gender" value="{{u_gender}}"
 													class="form-control" required name="gender">
-
 													<option data-ng-disabled="true" data-ng-selected="true"
 														hidden>Choose Gender</option>
 													<option value="male">Male</option>
 													<option value="female">Female</option>
 												</select>
 											</div>
-
-											<!-- <label for="u_designation">Designation</label>
+											<label for="u_name">Biometric Type</label>
 											<div style="margin-bottom: 25px" class="input-group"
-												data-ng-class="{'has-error':update_employee.designation.$invalid && !update_employee.designation.$pristine}">
+												data-ng-class="{'has-error':update_employee.biometric_type.$invalid && !update_employee.biometric_type.$pristine}">
 												<span class="input-group-addon"><i
-													class="glyphicon glyphicon-gift"></i></span> <select id="u_designation"
-													data-ng-model="u_designation" value="{{u_designation}}"
-													class="form-control" required name="gender">
-
+													class="glyphicon glyphicon-gift"></i></span> <select id="u_biometric_type"
+													data-ng-model="u_biometric_type" value="{{u_biometric_type}}"
+													class="form-control" required name="biometric_type">
 													<option data-ng-disabled="true" data-ng-selected="true"
-														hidden>Choose Designation</option>
-													<option value="principle">Principle</option>
-													<option value="teacher">Teacher</option>
-													<option value="student">Student</option>
+														hidden>Choose Biometric</option>
+													<option value="face">Face</option>
+													<option value="finger">Finger</option>
 												</select>
-											</div> -->
-											<!-- <div style="margin-bottom: 25px" class="input-group"
-												data-ng-class="{'has-error':update_employee.designation.$invalid && !update_employee.designation.$pristine}">
-												<span class="input-group-addon"><i
-													class="glyphicon glyphicon-briefcase"></i></span> <input
-													id="u_designation" data-ng-model="u_designation"
-													value="{{u_designation}}" type="text" class="form-control"
-													required name="designation" value=""
-													placeholder="Designation">
-											</div> -->
+											</div>
 											<label for="u_mobile_number">Mobile Number</label>
 											<div style="margin-bottom: 25px" class="input-group"
 												data-ng-class="{'has-error':update_employee.mobile_number.$invalid && !update_employee.mobile_number.$pristine}">
@@ -328,8 +306,7 @@
 												<span class="input-group-addon"><i
 													class="glyphicon glyphicon-lock"></i></span> <input id="u_email"
 													type="email" data-ng-model="u_email" value="{{u_email}}"
-													class="form-control" name="email" required
-													placeholder="Email">
+													class="form-control" name="email" placeholder="Email">
 											</div>
 											<p class="help-block"
 												data-ng-show="update_employee.email.$error.email">Email
@@ -343,30 +320,6 @@
 													id="u_address" type="text" data-ng-model="u_address"
 													value="{{u_address}}" class="form-control" required
 													name="address" placeholder="Address">
-											</div>
-
-											<!-- <label for="u_SiteManager">Is Teacher</label>
-											<div style="margin-bottom: 25px" class="input-group"
-												data-ng-class="{'has-error':update_employee.u_SiteManager.$invalid && !update_employee.u_SiteManager.$pristine}">
-												<span class="input-group-addon"><i
-													class="glyphicon glyphicon-gift"></i> </span> <select
-													id="u_SiteManager" data-ng-model="u_SiteManager"
-													class="form-control" required name="u_SiteManager"
-													data-ng-change="get_managingsite()">
-													<option data-ng-selected="true">Is SiteManager</option>
-													<option value="true">Yes</option>
-													<option value="false">No</option>
-												</select>
-											</div> -->
-											<label for="u_ManageSite">Managing School</label>
-											<div style="margin-bottom: 25px" class="input-group">
-												<span class="input-group-addon"><i
-													class="glyphicon glyphicon-gift"></i></span> <select
-													id="u_ManageSite" data-ng-model="u_ManageSite_All"
-													class="form-control" name="u_ManageSite"
-													data-ng-options="site for site in u_ManageSite track by site"
-													data-ng-disabled="checkDisabled()">
-												</select>
 											</div>
 											<label for="all_site">Select School</label>
 											<div style="margin-bottom: 25px" class="input-group"
@@ -424,22 +377,19 @@
 													ID</a></th>
 											<th><a href=""
 												data-ng-click="orderByField='name';reverse = !reverse">Name</a>
-											</th>																					
+											</th>
 											<th><a href=""
 												data-ng-click="orderByField='gender';reverse = !reverse">Gender</a>
 											</th>
 											<th><a href=""
-												data-ng-click="orderByField='site';reverse = !reverse">Site</a>
+												data-ng-click="orderByField='biometric';reverse = !reverse">Biometric
+													Type</a></th>
+											<th><a href=""
+												data-ng-click="orderByField='site';reverse = !reverse">School</a>
 											</th>
 											<th><a href=""
-												data-ng-click="orderByField='site';reverse = !reverse">Managing School</a>
+												data-ng-click="orderByField='shift';reverse = !reverse">Class</a>
 											</th>
-											<th><a href=""
-												data-ng-click="orderByField='shift';reverse = !reverse">Shift</a>
-											</th>
-											<!-- <th><a href=""
-												data-ng-click="orderByField='designation';reverse = !reverse">Designation</a>
-											</th> -->
 											<th><a href=""
 												data-ng-click="orderByField='mobile_number';reverse = !reverse">Mobile
 													Number </a></th>
@@ -454,52 +404,50 @@
 											data-ng-repeat="emp in employees | filter:searchemp | orderBy:orderByField:reverseSort">
 											<td>{{$index+1}}</td>
 											<td>{{emp.employee_id}}</td>
-											<td>{{emp.name}}</td>																						
+											<td>{{emp.name}}</td>
 											<td>{{emp.gender}}</td>
+											<td>{{emp.biometric_type}}</td>
 											<td>{{emp.siteName}}</td>
-											<td>{{emp.managingSite}}</td>
 											<td>{{emp.shiftName}}</td>
-											<!-- <td>{{emp.designation}}</td> -->
 											<td>{{emp.mobile_number}}</td>
 											<td>{{emp.email}}</td>
-											<td>
-											<a href="" data-ng-click="del_emp($index,emp.websafeKey)" class="btn btn-danger">
-											<span class="fa fa-trash-o"></span>
-											</a> 
-											<a href="" data-ng-click="manage_emp(emp)" class="btn btn-info">
-											<span class="glyphicon glyphicon-edit"> </span>
-											</a>
-											</td>
+											<td><a href=""
+												data-ng-click="del_emp($index,emp.websafeKey)"
+												class="btn btn-danger"> <span class="fa fa-trash-o"></span>
+											</a> <a href="" data-ng-click="manage_emp(emp)"
+												class="btn btn-info"> <span
+													class="glyphicon glyphicon-edit"> </span>
+											</a></td>
 										</tr>
 									</tbody>
 								</table>
-								<ul class="pagination" ng-show="employees.length > 0">
-									<li ng-class="{disabled: pagination.currentPage == 0 }"><a
-										ng-class="{disabled: pagination.currentPage == 0 }"
-										ng-click="pagination.isDisabled($event) || (pagination.currentPage = 0)">&lt&lt</a>
+								<ul class="pagination" data-ng-show="employees.length > 0">
+									<li data-ng-class="{disabled: pagination.currentPage == 0 }"><a
+										data-ng-class="{disabled: pagination.currentPage == 0 }"
+										data-ng-click="pagination.isDisabled($event) || (pagination.currentPage = 0)">&lt&lt</a>
 									</li>
-									<li ng-class="{disabled: pagination.currentPage == 0 }"><a
-										ng-class="{disabled: pagination.currentPage == 0 }"
-										ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.currentPage - 1)">&lt</a>
+									<li data-ng-class="{disabled: pagination.currentPage == 0 }"><a
+										data-ng-class="{disabled: pagination.currentPage == 0 }"
+										data-ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.currentPage - 1)">&lt</a>
 									</li>
 
-									<!-- ng-repeat creates a new scope. Need to specify the pagination.currentPage as $parent.pagination.currentPage -->
-									<li ng-repeat="page in pagination.pageArray()"
-										ng-class="{active: $parent.pagination.currentPage == page}"><a
-										ng-click="$parent.pagination.currentPage = page">{{page +
-											1}}</a></li>
+									<!-- data-ng-repeat creates a new scope. Need to specify the pagination.currentPage as $parent.pagination.currentPage -->
+									<li data-ng-repeat="page in pagination.pageArray()"
+										data-ng-class="{active: $parent.pagination.currentPage == page}"><a
+										data-ng-click="$parent.pagination.currentPage = page">{{page
+											+ 1}}</a></li>
 
 									<li
-										ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}">
+										data-ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}">
 										<a
-										ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}"
-										ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.currentPage + 1)">&gt</a>
+										data-ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}"
+										data-ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.currentPage + 1)">&gt</a>
 									</li>
 									<li
-										ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}">
+										data-ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}">
 										<a
-										ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}"
-										ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.numberOfPages() - 1)">&gt&gt</a>
+										data-ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}"
+										data-ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.numberOfPages() - 1)">&gt&gt</a>
 									</li>
 								</ul>
 							</div>

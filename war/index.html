@@ -555,7 +555,7 @@
 												<div class="f1-step-icon">
 													<i class="fa fa-user"></i>
 												</div>
-												<p>Site/Shift</p>
+												<p>School/Class</p>
 											</div>
 
 
@@ -640,9 +640,9 @@
 														Mobile Number</label>
 													<div class="col-md-9">
 														<input type="number" class="form-control"
-															ng-minlength="10" ng-maxlength="10" name="mobileNumber"
+															data-ng-minlength="10" data-ng-maxlength="10" name="mobileNumber"
 															id="mobile_number" placeholder="Mobile Number"
-															ng-model="user.phone" ng-required="true">
+															data-ng-model="user.phone" data-ng-required="true">
 													</div>
 													<br /> <br />
 												</div>
@@ -664,10 +664,10 @@
 														Mobile Number</label>
 													<div class="col-md-9">
 														<input type="number" class="form-control"
-															ng-minlength="10" ng-maxlength="10" name="mobileNumber"
+															data-ng-minlength="10" data-ng-maxlength="10" name="mobileNumber"
 															id="mobilenumber" placeholder="Mobile Number"
-															ng-model="user.phone" ng-required="true"
-															ng-class="{red: test.MyNumber.$invalid}">
+															data-ng-model="user.phone" data-ng-required="true"
+															data-ng-class="{red: test.MyNumber.$invalid}">
 													</div>
 													<br /> <br />
 												</div>
@@ -775,17 +775,17 @@
 										<!--Organisational Details-->
 										<fieldset>
 											<legend>
-												<h4>Fill Organisational Details</h4>
+												<h4>Fill Head Organisation Details</h4>
 											</legend>
 											<div id="org_success" class="alert alert-success hide">
 												<p>
-													<span><i class="glyphicon glyphicon-thumbs-up"></i></span>Organisational
+													<span><i class="glyphicon glyphicon-thumbs-up"></i></span>Organisation
 													Details Is Added Successfully
 												</p>
 											</div>
 											<div class="form-group row">
 												<label for="org_name" class="col-md-3 control-label">
-													Organisation Name</label>
+													Head Organisation Name</label>
 												<div class="col-md-9">
 													<input type="text" name="org_name"
 														placeholder="Organisation name..." class="form-control"
@@ -871,7 +871,7 @@
 													class="col-md-3 control-label"> Principal Email</label>
 												<div class="col-md-9">
 													<input type="text" name="site_manager_email"
-														placeholder="Manager Email..." class="form-control"
+														placeholder="Principal Email..." class="form-control"
 														id="site_manager_email">
 												</div>
 											</div>
@@ -927,7 +927,7 @@
 												onclick="add_site_shift()" id="add_site-shift" type="button">
 												Submit</button>
 											<div class="row hide" id="completed_form">
-												<p class="alert alert-success">You have Succesfully
+												<p class="alert alert-success">You have Successfully
 													Completed Your Registration.</p>
 												<br /> <br />
 											</div>

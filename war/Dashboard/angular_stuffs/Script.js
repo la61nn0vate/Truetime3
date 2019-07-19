@@ -424,7 +424,7 @@ app.controller("student_controller",['$scope','$timeout', function ($scope,$time
 	var site_websafekey="";
 	var org_key="";
 
-	$scope.get_emp_details = function () {
+	$scope.get_student_details = function () {
 		$scope.show_manage=true;
 		gapi.client.organisationApi.getAdminOrganisation({'token': sessionStorage.accessToken}).execute(function (response) {
 			$scope.$apply(function () {
@@ -585,7 +585,18 @@ app.controller("student_controller",['$scope','$timeout', function ($scope,$time
 				}
 
 			}
-			gapi.client.employeeApi.insertEmployeeDemographicNew({'token': sessionStorage.accessToken, 'shift_ws_key':shift_websafekey,'employee_id':$scope.employee_id,  'name': $scope.name, 'designation': $scope.designation, 'gender': $scope.gender, 'mobile_number': $scope.mobile_number, 'email': $scope.email, 'address': $scope.address, 'siteManager': $scope.siteManager }).execute(function (response) {
+			gapi.client.employeeApi.insertEmployeeDemographicNew({
+				'token': sessionStorage.accessToken, 
+				'shift_ws_key':shift_websafekey,
+				'employee_id':$scope.employee_id,  
+				'name': $scope.name, 
+				'designation': 'Student', 
+				'gender': $scope.gender, 
+				'mobile_number': $scope.mobile_number, 
+				'email': $scope.email, 
+				'address': $scope.address, 
+				'siteManager': 'false'
+				}).execute(function (response) {
 				$scope.$apply(function () {
 					if (!response.error) {
 						swal({
@@ -597,17 +608,17 @@ app.controller("student_controller",['$scope','$timeout', function ($scope,$time
 
 						$scope.employee_id=" ";
 						$scope.name=" ";
-						$scope.designation="Student";
+						//$scope.designation=" ";
 						$scope.gender="Choose Gender";
 						$scope.mobile_number=" ";
 						$scope.email="abc@xyz.com";
 						$scope.address=" ";
-						$scope.siteManager="Is SiteManager";
+						//$scope.siteManager="Is SiteManager";
 						$scope.all_site_of_org="Select Site";
 						$scope.all_shift_of_site="Select Shift";
-						$scope.get_emp_details(); 
+						$scope.get_student_details(); 
 						$scope.add_employee.$invalid=true;
-						$scope.get_emp_details();
+						$scope.get_student_details();
 					} 
 					else 
 					{
@@ -707,7 +718,7 @@ app.controller("student_controller",['$scope','$timeout', function ($scope,$time
 				$scope.$apply(function () {
 					if (!response.error) 
 					{
-						$scope.get_emp_details(); 
+						$scope.get_student_details(); 
 						$scope.show_manage=false;
 
 						swal({
@@ -738,7 +749,7 @@ app.controller("student_controller",['$scope','$timeout', function ($scope,$time
 					$scope.$apply(function () {
 						if (!response.error) 
 						{
-							$scope.get_emp_details(); 
+							$scope.get_student_details(); 
 							$scope.show_manage=false;
 							swal({
 								title: "Employee Updated Successfully",
@@ -1010,10 +1021,10 @@ app.controller("school_controller",['$scope','$timeout', function ($scope,$timeo
 
 	$scope.addsite=function()
 	{
-		gapi.client.organisationApi.getAdminOrganisation({'token': sessionStorage.accessToken}).execute(function (response){ //getting org_key from getAdminOrganisation() method of organisationApi 
+		gapi.client.organisationApi.getAdminOrganisation({'token': sessionStorage.accessToken}).execute(function (resp){ //getting org_key from getAdminOrganisation() method of organisationApi 
 			var org_key = response.websafeKey;
 			var currSiteount = response.numberOfSites + 1;	// Add ONE to current
-			if(!response.error)
+			if(!resp.error)
 			{						
 				//Adding Site to the datastore
 				gapi.client.siteApi.insert({'token': sessionStorage.accessToken, 
@@ -1112,7 +1123,7 @@ app.controller("school_controller",['$scope','$timeout', function ($scope,$timeo
 						});
 					});
 			}
-			else if (response.error)
+			else if (resp.error)
 			{
 				swal({
 					title: "Site & Shift Not Added",
@@ -2354,12 +2365,56 @@ app.controller("attendance_report_controller", function ($scope) {
 
 app.controller("teacher_controller", function ($scope) {
 	NProgress.start();
+	var data=[];
+	var site_websafekey="";
+	var org_key="";
+	
+	$scope.checkDisabled = function () {
+		if ($scope.u_designation != null )
+		{
+			if ($scope.u_designation == "Principal") {
+				return true;
+			}
+			else if ($scope.u_designation == "Teacher") {
+				return false;
+			}
+		}
+		
+		if ($scope.designation != null )
+		{
+			if ($scope.designation == "Principal") {
+				return true;
+			}
+			else if ($scope.designation == "Teacher") {
+				return false;
+			}
+		}
+	};
+	
+	$scope.get_teacher_and_site_manager_details = function () {
+		$scope.show_manage=true;
+		gapi.client.organisationApi.getAdminOrganisation({'token': sessionStorage.accessToken}).execute(function (response) {
+			$scope.$apply(function () {
+				org_key = response.websafeKey;
+				gapi.client.organisationApi.getAllSites({'token': sessionStorage.accessToken, 'org_key': org_key }).execute(function (response) {
+					$scope.$apply(function () {
+						data=response.items;
+						var get_site=[];
+						if (!response.error) { 
+							for(var i=0;i<response.items.length;i++){
+								get_site[i]=(response.items[i].site_name);
+							}
+							$scope.all_site=get_site;
+						}
+					});
+				});
+			});
+		});
 
-	$scope.get_site_manager_details=function(){
 		gapi.client.organisationApi.getAdminOrganisation({'token': sessionStorage.accessToken}).execute(function (response) {
 			$scope.$apply(function () {
 				var orgkey = response.websafeKey;
-				var site_manager=[],j=0;
+				var teachers_and_site_manager=[],j=0;
 				gapi.client.employeeApi.employeelist({'token': sessionStorage.accessToken, 'org_key':orgkey}).execute(function (response) {
 					$scope.$apply(function () {
 						if (!response.error) {
@@ -2367,11 +2422,12 @@ app.controller("teacher_controller", function ($scope) {
 							{
 								for(var i=0;i<response.items.length;i++)
 								{
-									if(response.items[i].siteManager){
-										site_manager[j] = response.items[i];
+									if(response.items[i].siteManager || response.items[i].designation.toLowerCase() == "principal"
+										|| response.items[i].designation.toLowerCase() == "teacher"){
+										teachers_and_site_manager[j] = response.items[i];
 										j++;
 									}
-									$scope.employees=site_manager;
+									$scope.employees=teachers_and_site_manager;
 									pagination();
 								}
 							}
@@ -2380,7 +2436,100 @@ app.controller("teacher_controller", function ($scope) {
 				});
 			});
 		});
-	}
+	};
+
+	$scope.get_managing_area = function () {
+
+		// Principal
+		if ($scope.u_designation == "Principal")
+		{
+			gapi.client.organisationApi.getAdminOrganisation({'token': sessionStorage.accessToken}).execute(function (response) {
+				$scope.$apply(function () {
+					var orgkey = response.websafeKey;
+
+					gapi.client.organisationApi.getAllSites({'token': sessionStorage.accessToken, 'org_key': orgkey}).execute(function (response){
+						$scope.$apply(function () {
+							data=response.items;
+							var get_managingsite=[];
+							if (!response.error) { 
+								for(var i=0;i<response.items.length;i++){
+									get_managingsite[i]=(response.items[i].site_name);
+								}
+								$scope.u_ManageSite=get_managingsite;
+								//$('#u_ManageSite').attr("required", "true");
+							}
+						});
+					});	
+				});
+			});
+		}
+		// Teacher
+		else if ($scope.u_designation == "Teacher")
+		{
+			$scope.u_ManageSite={ };
+			//$('#u_ManageSite').removeAttr("required");
+		}
+	};
+	
+	// Edit function
+	$scope.get_managingshift = function () {
+
+		if ($scope.u_SiteManager == "true")
+		{
+			gapi.client.organisationApi.getAdminOrganisation({'token': sessionStorage.accessToken}).execute(function (response) {
+				$scope.$apply(function () {
+					var orgkey = response.websafeKey;
+
+					gapi.client.organisationApi.getAllSites({'token': sessionStorage.accessToken, 'org_key': orgkey}).execute(function (response){
+						$scope.$apply(function () {
+							data=response.items;
+							var get_managingsite=[];
+							if (!response.error) { 
+								for(var i=0;i<response.items.length;i++){
+									get_managingsite[i]=(response.items[i].site_name);
+								}
+								$scope.u_ManageSite=get_managingsite;
+								//$('#u_ManageSite').attr("required", "true");
+							}
+						});
+					});	
+				});
+			});
+		}
+		else if ($scope.u_SiteManager == "false")
+		{
+			$scope.u_ManageSite={ };
+			//$('#u_ManageSite').removeAttr("required");
+		}
+	};
+
+	$scope.get_shift = function () {
+		var i=0;
+		var key;
+		for(i=0;i<data.length;i++)
+		{
+			if(data[i].site_name==$scope.all_site_of_org)
+			{
+				site_websafekey=data[i].websafeKey;
+				break;
+			}
+
+		}
+		gapi.client.shiftApi.getShiftBySite({'token': sessionStorage.accessToken, 'site_key': site_websafekey}).execute(function (response) {
+			$scope.$apply(function () {
+				var get_shift=[];
+
+				if (!response.error) {
+					for(var i=0;i<response.items.length;i++){
+						get_shift[i]=(response.items[i].name);
+
+					}
+
+					$scope.all_shift=get_shift;
+				}
+			});
+		});
+	};
 
 	var pagination=function(){
 		/**
@@ -2413,6 +2562,218 @@ app.controller("teacher_controller", function ($scope) {
 			return pages;
 		};
 	}
-	NProgress.done();
 
+	$scope.addemployee = function () {
+		gapi.client.shiftApi.getShiftBySite({'token': sessionStorage.accessToken, 'site_key': site_websafekey}).execute(function (response) {
+			var i=0;
+			var shift_websafekey="";
+			var key;
+			for(i=0;i<response.items.length;i++)
+			{  
+				if(response.items[i].name==$scope.all_shift_of_site)
+				{
+					shift_websafekey=response.items[i].websafeKey;
+					break;
+				}
+
+			}
+			gapi.client.employeeApi.insertEmployeeDemographicNew({
+				'token': sessionStorage.accessToken, 
+				'shift_ws_key':shift_websafekey,
+				'employee_id':$scope.employee_id,  
+				'name': $scope.name, 
+				'designation': 'Student', 
+				'gender': $scope.gender, 
+				'mobile_number': $scope.mobile_number, 
+				'email': $scope.email, 
+				'address': $scope.address, 
+				'siteManager': 'false'
+				}).execute(function (response) {
+				$scope.$apply(function () {
+					if (!response.error) {
+						swal({
+							title: "Employee Added Successfully",
+							type: "success",
+							timer: 3000,
+							showConfirmButton: false
+						});
+
+						$scope.employee_id=" ";
+						$scope.name=" ";
+						//$scope.designation=" ";
+						$scope.gender="Choose Gender";
+						$scope.mobile_number=" ";
+						$scope.email="abc@xyz.com";
+						$scope.address=" ";
+						//$scope.siteManager="Is SiteManager";
+						$scope.all_site_of_org="Select Site";
+						$scope.all_shift_of_site="Select Shift";
+						$scope.get_teacher_details(); 
+						$scope.add_employee.$invalid=true;
+						$scope.get_teacher_details();
+					} 
+					else 
+					{
+						swal({
+							title: "Employee Not Added",
+							text: response.message,
+							type: "error",
+							timer: 3000,
+							showConfirmButton: false
+						});
+					}
+				});
+			});
+		});
+	};
+
+	$scope.del_emp=function(index,key){
+		swal({
+			title: "Are you sure?",
+			text: "You will not be able to recover!",
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#DD6B55",
+			confirmButtonText: "Yes, delete it!",
+			closeOnConfirm: false
+		},
+		function(){
+			$scope.del_employee(index,key);				
+		});
+	}
+
+	$scope.del_employee=function(index,key){
+		gapi.client.employeeApi.remove({'token': sessionStorage.accessToken, 'emp_key':key}).execute(function(resp){
+			$scope.$apply(function () {
+				if(!resp.error)
+				{
+					$scope.employees.splice(index,1);
+					swal("Deleted!", "Employee data has been deleted.", "success");
+				}
+				else
+				{
+					swal("Error!", "Employee could not be deleted. " + resp.message, "error");
+				}
+			});
+
+		});
+	}
+
+
+	var emp_key="";
+	$scope.manage_emp=function(emp){
+		$scope.show_manage=false;
+		$scope.show_update=true;
+		$timeout(function () {
+			$scope.u_employee_id=emp.employee_id;
+			$scope.u_name=emp.name;
+			$scope.u_designation=emp.designation;
+			$scope.u_gender=emp.gender;
+			$scope.u_mobile_number=emp.mobile_number;
+			$scope.u_email=emp.email;
+			$scope.u_address=emp.address;
+			$scope.all_site_of_org=emp.siteName;			
+			$scope.get_shift();
+			$scope.all_shift_of_site=emp.shiftName;
+			console.log(emp);
+			$scope.u_SiteManager=(emp.siteManager).toString();
+			if(emp.siteManager)
+			{	
+				$scope.get_managingsite();
+				$scope.u_ManageSite_All=emp.managingSite;
+				$('#u_ManageSite').attr("required", "true");
+			}			
+			else
+			{
+				$scope.u_ManageSite={ };			
+				$('#u_ManageSite').removeAttr("required");
+			}
+			$scope.checkDisabled();
+
+			emp_key=emp.websafeKey;
+
+		},100);
+
+
+	};
+
+	$scope.go_manage=function(){
+		$scope.show_manage=true;
+		$scope.show_update=false;
+	};
+
+	$scope.updateemployee=function(){
+
+		if (($scope.u_SiteManager).toString() == "false")
+		{
+			gapi.client.employeeApi.update({'token': sessionStorage.accessToken, 'emp_key':emp_key,'employee_id':$scope.u_employee_id, 'name': $scope.u_name, 'designation': $scope.u_designation, 'gender': $scope.u_gender, 'mobile_number': $scope.u_mobile_number, 'email': $scope.u_email, 'address': $scope.u_address, 'siteManager': $scope.u_SiteManager, 'shiftName': $scope.all_shift_of_site, 'siteName': $scope.all_site_of_org}).execute(function (response) {
+				$scope.$apply(function () {
+					if (!response.error) 
+					{
+						$scope.get_teacher_details(); 
+						$scope.show_manage=false;
+
+						swal({
+							title: "Employee Updated Successfully",
+							type: "success",
+							timer: 3000,
+							showConfirmButton: false
+						});
+					} 
+					else 
+					{
+						swal({
+							title: "Employee Not Updated",
+							type: "error",
+							timer: 3000,
+							showConfirmButton: false
+						});
+					}
+				});
+			});
+		}
+
+		else if (($scope.u_SiteManager).toString() == "true")
+		{
+			if ($scope.u_ManageSite_All != null)
+			{
+				gapi.client.employeeApi.update({'token': sessionStorage.accessToken, 'emp_key':emp_key,'employee_id':$scope.u_employee_id, 'name': $scope.u_name, 'designation': $scope.u_designation, 'gender': $scope.u_gender, 'mobile_number': $scope.u_mobile_number, 'email': $scope.u_email, 'address': $scope.u_address, 'siteManager': $scope.u_SiteManager, 'managingSite': $scope.u_ManageSite_All, 'shiftName': $scope.all_shift_of_site, 'siteName': $scope.all_site_of_org}).execute(function (response) {
+					$scope.$apply(function () {
+						if (!response.error) 
+						{
+							$scope.get_teacher_details(); 
+							$scope.show_manage=false;
+							swal({
+								title: "Employee Updated Successfully",
+								type: "success",
+								timer: 3000,
+								showConfirmButton: false
+							});
+						} 
+						else 
+						{
+							swal({
+								title: "Employee Not Updated",
+								type: "error",
+								timer: 3000,
+								showConfirmButton: false
+							});
+						}
+					});
+				});
+			}
+			else if ($scope.u_ManageSite_All == null)
+			{
+				swal({
+					title: "Employee Not Updated",
+					type: "error",
+					timer: 3000,
+					showConfirmButton: false
+				});
+			}
+
+		}
+
+	};
+	NProgress.done();
 });

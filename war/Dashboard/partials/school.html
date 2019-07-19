@@ -75,33 +75,33 @@
 										</tr>
 									</tbody>
 								</table>
-								<ul class="pagination" ng-show="sites.length > 0">
-									<li ng-class="{disabled: pagination.currentPage == 0 }"><a
-										ng-class="{disabled: pagination.currentPage == 0 }"
-										ng-click="pagination.isDisabled($event) || (pagination.currentPage = 0)">&lt&lt</a>
+								<ul class="pagination" data-ng-show="sites.length > 0">
+									<li data-ng-class="{disabled: pagination.currentPage == 0 }"><a
+										data-ng-class="{disabled: pagination.currentPage == 0 }"
+										data-ng-click="pagination.isDisabled($event) || (pagination.currentPage = 0)">&lt&lt</a>
 									</li>
-									<li ng-class="{disabled: pagination.currentPage == 0 }"><a
-										ng-class="{disabled: pagination.currentPage == 0 }"
-										ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.currentPage - 1)">&lt</a>
+									<li data-ng-class="{disabled: pagination.currentPage == 0 }"><a
+										data-ng-class="{disabled: pagination.currentPage == 0 }"
+										data-ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.currentPage - 1)">&lt</a>
 									</li>
 
-									<!-- ng-repeat creates a new scope. Need to specify the pagination.currentPage as $parent.pagination.currentPage -->
-									<li ng-repeat="page in pagination.pageArray()"
-										ng-class="{active: $parent.pagination.currentPage == page}"><a
-										ng-click="$parent.pagination.currentPage = page">{{page +
+									<!-- data-ng-repeat creates a new scope. Need to specify the pagination.currentPage as $parent.pagination.currentPage -->
+									<li data-ng-repeat="page in pagination.pageArray()"
+										data-ng-class="{active: $parent.pagination.currentPage == page}"><a
+										data-ng-click="$parent.pagination.currentPage = page">{{page +
 											1}}</a></li>
 
 									<li
-										ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}">
+										data-ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}">
 										<a
-										ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}"
-										ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.currentPage + 1)">&gt</a>
+										data-ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}"
+										data-ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.currentPage + 1)">&gt</a>
 									</li>
 									<li
-										ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}">
+										data-ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}">
 										<a
-										ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}"
-										ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.numberOfPages() - 1)">&gt&gt</a>
+										data-ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}"
+										data-ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.numberOfPages() - 1)">&gt&gt</a>
 									</li>
 								</ul>
 							</div>
@@ -151,7 +151,7 @@
 												data-ng-click="orderByField='site';reverse = !reverse">Managing School</a>
 											</th>
 											<th><a href=""
-												data-ng-click="orderByField='shift';reverse = !reverse">Shift</a>
+												data-ng-click="orderByField='shift';reverse = !reverse">Class</a>
 											</th>
 											<th><a href=""
 												data-ng-click="orderByField='designation';reverse = !reverse">Designation</a>
@@ -180,33 +180,33 @@
 										</tr>
 									</tbody>
 								</table>
-								<ul class="pagination" ng-show="employees.length > 0">
-									<li ng-class="{disabled: pagination.currentPage == 0 }"><a
-										ng-class="{disabled: pagination.currentPage == 0 }"
-										ng-click="pagination.isDisabled($event) || (pagination.currentPage = 0)">&lt&lt</a>
+								<ul class="pagination" data-ng-show="employees.length > 0">
+									<li data-ng-class="{disabled: pagination.currentPage == 0 }"><a
+										data-ng-class="{disabled: pagination.currentPage == 0 }"
+										data-ng-click="pagination.isDisabled($event) || (pagination.currentPage = 0)">&lt&lt</a>
 									</li>
-									<li ng-class="{disabled: pagination.currentPage == 0 }"><a
-										ng-class="{disabled: pagination.currentPage == 0 }"
-										ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.currentPage - 1)">&lt</a>
+									<li data-ng-class="{disabled: pagination.currentPage == 0 }"><a
+										data-ng-class="{disabled: pagination.currentPage == 0 }"
+										data-ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.currentPage - 1)">&lt</a>
 									</li>
 
-									<!-- ng-repeat creates a new scope. Need to specify the pagination.currentPage as $parent.pagination.currentPage -->
-									<li ng-repeat="page in pagination.pageArray()"
-										ng-class="{active: $parent.pagination.currentPage == page}"><a
-										ng-click="$parent.pagination.currentPage = page">{{page +
+									<!-- data-ng-repeat creates a new scope. Need to specify the pagination.currentPage as $parent.pagination.currentPage -->
+									<li data-ng-repeat="page in pagination.pageArray()"
+										data-ng-class="{active: $parent.pagination.currentPage == page}"><a
+										data-ng-click="$parent.pagination.currentPage = page">{{page +
 											1}}</a></li>
 
 									<li
-										ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}">
+										data-ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}">
 										<a
-										ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}"
-										ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.currentPage + 1)">&gt</a>
+										data-ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}"
+										data-ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.currentPage + 1)">&gt</a>
 									</li>
 									<li
-										ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}">
+										data-ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}">
 										<a
-										ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}"
-										ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.numberOfPages() - 1)">&gt&gt</a>
+										data-ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}"
+										data-ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.numberOfPages() - 1)">&gt&gt</a>
 									</li>
 								</ul>
 
@@ -527,7 +527,6 @@
 										data-ng-repeat="site in sites | filter:search_site | orderBy:orderByField:reverseSort">
 										<tr>
 											<td>{{$index+1}}</td>
-
 											<td>{{site.site_name}}</td>
 											<td>{{site.site_location}}</td>
 											<td>{{site.number_of_shifts}}</td>
@@ -540,33 +539,33 @@
 										</tr>
 									</tbody>
 								</table>
-								<ul class="pagination" ng-show="sites.length > 0">
-									<li ng-class="{disabled: pagination.currentPage == 0 }"><a
-										ng-class="{disabled: pagination.currentPage == 0 }"
-										ng-click="pagination.isDisabled($event) || (pagination.currentPage = 0)">&lt&lt</a>
+								<ul class="pagination" data-ng-show="sites.length > 0">
+									<li data-ng-class="{disabled: pagination.currentPage == 0 }"><a
+										data-ng-class="{disabled: pagination.currentPage == 0 }"
+										data-ng-click="pagination.isDisabled($event) || (pagination.currentPage = 0)">&lt&lt</a>
 									</li>
-									<li ng-class="{disabled: pagination.currentPage == 0 }"><a
-										ng-class="{disabled: pagination.currentPage == 0 }"
-										ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.currentPage - 1)">&lt</a>
+									<li data-ng-class="{disabled: pagination.currentPage == 0 }"><a
+										data-ng-class="{disabled: pagination.currentPage == 0 }"
+										data-ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.currentPage - 1)">&lt</a>
 									</li>
 
 									<!-- ng-repeat creates a new scope. Need to specify the pagination.currentPage as $parent.pagination.currentPage -->
-									<li ng-repeat="page in pagination.pageArray()"
-										ng-class="{active: $parent.pagination.currentPage == page}"><a
-										ng-click="$parent.pagination.currentPage = page">{{page +
+									<li data-ng-repeat="page in pagination.pageArray()"
+										data-ng-class="{active: $parent.pagination.currentPage == page}"><a
+										data-ng-click="$parent.pagination.currentPage = page">{{page +
 											1}}</a></li>
 
 									<li
-										ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}">
+										data-ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}">
 										<a
-										ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}"
-										ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.currentPage + 1)">&gt</a>
+										data-ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}"
+										data-ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.currentPage + 1)">&gt</a>
 									</li>
 									<li
-										ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}">
+										data-ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}">
 										<a
-										ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}"
-										ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.numberOfPages() - 1)">&gt&gt</a>
+										data-ng-class="{disabled: pagination.currentPage == pagination.numberOfPages() - 1}"
+										data-ng-click="pagination.isDisabled($event) || (pagination.currentPage = pagination.numberOfPages() - 1)">&gt&gt</a>
 									</li>
 								</ul>
 							</div>

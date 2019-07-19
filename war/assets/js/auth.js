@@ -192,21 +192,14 @@ function signOut() {
 	});
 }
 
-/*function evaluateUser()
-{
-	gapi.client.accountsApi.get().execute(function(response){
-		var status=response.status;
-		if (status == 'ACTIVE' || status == 'TRIAL_STARTED') 
-		{
-			document.getElementById("dashboard_btn_xl").href="Dashboard/dashboard.html";
-		}
-		else
-		{			
-			alert("Please Buy a Plan or Start Trial to access DASHBOARD");
-			return false;
-		}
-	});
-}*/
+/*
+ * function evaluateUser() {
+ * gapi.client.accountsApi.get().execute(function(response){ var
+ * status=response.status; if (status == 'ACTIVE' || status == 'TRIAL_STARTED') {
+ * document.getElementById("dashboard_btn_xl").href="Dashboard/dashboard.html"; }
+ * else { alert("Please Buy a Plan or Start Trial to access DASHBOARD"); return
+ * false; } }); }
+ */
 
 function check_login_and_plan() {
 	var auth2 = gapi.auth2.getAuthInstance();
@@ -226,7 +219,8 @@ function check_login_and_plan() {
 	}
 }
 
-//checking if user is not login so he/she will not able to buy now or start trial
+// checking if user is not login so he/she will not able to buy now or start
+// trial
 function check_login_and_trial() {
 	var auth2 = gapi.auth2.getAuthInstance();
 	googleUser = auth2.currentUser.get();
@@ -255,7 +249,8 @@ function go_to_trial()
 	},1000);
 }
 
-//!checking if user is not login so he/she will not able to buy now or start trial
+// !checking if user is not login so he/she will not able to buy now or start
+// trial
 
 function choosed_trial() {
 
@@ -320,48 +315,36 @@ function choosed_trial() {
 }
 
 
-
-
-
 function add_org_details() {
-
 	if (v.form()) {
 		var $this = $("#add_org_process");
 		$this.prop('disabled', 'true');
-
-		gapi.client.organisationApi.insert({ 'token': sessionStorage.accessToken, 'name': $("#org_name").val(), 'location': $("#org_location").val(), 'city': $("#org_city").val(), 'numberOfSites': $("#org_number_of_Sites").val() }).execute(function (response) {
-
+		gapi.client.organisationApi.insert({ 'token': sessionStorage.accessToken, 'name': $("#org_name").val(), 'location': $("#org_location").val(), 'city': $("#org_city").val() }).execute(function (response) {
 			if (response.error) {
 				console.log(response.error);
 				if (response.code == 401) {
 					$("#googlesignin").modal("toggle");
 				}
 			} else {
+				num_of_site = $("#org_number_of_Sites").val()
 				$("#org_success").addClass("show");
 				$("#org_buttons").addClass("show");
-
 			}
-
 		});
-
 	}
-
-
 }
 
 
-
-//adding site and shift details to the datastore
+// adding site and shift details to the datastore
 var initial = 1;
+var num_of_site = 0;
 
 function add_site_shift() {
 	if (v.form()) {
-		gapi.client.organisationApi.getAdminOrganisation({'token': sessionStorage.accessToken}).execute(function (response) { //getting org_key from getAdminOrganisation() method of organisationApi
+		//getting org_key from getAdminOrganisation() method of organisationApi
+		gapi.client.organisationApi.getAdminOrganisation({'token': sessionStorage.accessToken}).execute(function (response) {
 			var org_key = response.websafeKey;
-			var num_of_site = response.numberOfSites;
-
-
-			if (!response.error) {  //Adding Site to the datastore
+			if (!response.error) {  // Adding Site to the datastore
 				gapi.client.siteApi.insert({ 'token': sessionStorage.accessToken, 'org_key': org_key, 'site_name': $("#site_name").val(), 'managerEmail': $("#site_manager_email").val(), 'number_of_shifts': $("#site_no_of_shifts option:selected").val(), 'site_location': $("#site_location").val(), 'address': $("#site_address").val(), 'cityOrTown': $("#site_city_town").val() }).execute(function (response) {
 					if (!response.error) {
 						var site_key = response.websafeKey;
@@ -370,13 +353,11 @@ function add_site_shift() {
 						initial++;
 						for (var i = 1; i <= num_of_shift; i++) {
 							gapi.client.shiftApi.insert({ 'token': sessionStorage.accessToken, 'site_key': site_key, 'name': $("#shift_name" + i).val(), 'time_from': $("#time_from" + i).val(), 'time_to': $("#time_to" + i).val() }).execute(function (response) {
-
 								if (response.error) {
 									if (response.code == 401) {
 										$("#googlesignin").modal("toggle");
 									}
 								}
-
 							});
 						}
 						if (initial > num_of_site) {
@@ -390,18 +371,14 @@ function add_site_shift() {
 											if (response.code == 401) {
 												$("#googlesignin").modal("toggle");
 											}
-
 										} else {
 											$("#add_site-shift").addClass("hide");
 											$("#completed_form").addClass("show");
 											window.location.replace(deployUrl.url + '/Dashboard/dashboard.html');
 										}
-
 									});
 								}
 							});
-
-
 						} else {
 
 							$("#site_name").val("");
@@ -421,24 +398,18 @@ function add_site_shift() {
 							$("#googlesignin").modal("toggle");
 						}
 					}
-
 				});
-
-
 			} else {
 				if (response.code == 401) {
 					$("#googlesignin").modal("toggle");
 				}
 			}
-
 		});
-
 	} 
-
 }
 
 
-//select number of shifts
+// select number of shifts
 $('#site_no_of_shifts').change(function () {
 	$("#shift_details").addClass("show");
 	var sel_value = $('#site_no_of_shifts option:selected').val();
@@ -451,7 +422,7 @@ $('#site_no_of_shifts').change(function () {
 			'display': 'none'
 		});
 	} else {
-		$("#shift_details").empty(); //Resetting Form
+		$("#shift_details").empty(); // Resetting Form
 		// Below Function Creates Input Fields Dynamically
 		create(sel_value);
 
@@ -463,16 +434,16 @@ function create(sel_value) {
 		$("div#shift_details").append($("#shift_details").append($("<div/>", {
 			id: 'head',
 			class: 'row'
-		}).append($("<h3/>").text("Shift " + i + " Details")), $("<div/>", { class: 'row form-group'
+		}).append($("<h3/>").text("Class " + i + " Details")), $("<div/>", { class: 'row form-group'
 
 
 		}).append($("<label/>", {
-			text: 'Shift Name',
+			text: 'Class Name',
 			class: 'col-md-3 control-label'
 
 		}), $("<input/>", {
 			type: 'text',
-			placeholder: 'Shift Name',
+			placeholder: 'Class Name',
 			id: 'shift_name' + i,
 			required: "required",
 			class: 'col-md-9 form-control'
@@ -505,10 +476,10 @@ function create(sel_value) {
 		})), $("<hr/>")))
 	}
 }
-//!select shift
+// !select shift
 
 
-//Choosing plan
+// Choosing plan
 $("input[type='radio']").change(function () {
 
 	$("#plan_ticked").addClass("show");
@@ -543,9 +514,9 @@ function choosed_plan(){
 }
 
 
-//!choosing Plan
+// !choosing Plan
 
-//payment Doing
+// payment Doing
 
 function payment_doing() {
 
